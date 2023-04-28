@@ -82,7 +82,7 @@
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
-      <string>网口</string>
+      <string>Net</string>
      </attribute>
      <widget class="QPushButton" name="pushButton_NetConnect">
       <property name="geometry">
