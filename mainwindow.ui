@@ -1,22 +1,280 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>800</width>
-    <height>600</height>
-   </rect>
-  </property>
-  <property name="windowTitle">
-   <string>MainWindow</string>
-  </property>
-  <widget class="QWidget" name="centralwidget"/>
-  <widget class="QMenuBar" name="menubar"/>
-  <widget class="QStatusBar" name="statusbar"/>
- </widget>
- <resources/>
- <connections/>
-</ui>
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>867</width>
+    <height>692</height>
+   </rect>
+  </property>
+  <property name="baseSize">
+   <size>
+    <width>0</width>
+    <height>100</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="documentMode">
+   <bool>false</bool>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QTabWidget" name="Communication">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>0</y>
+      <width>821</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="tab">
+     <attribute name="title">
+      <string>Serial</string>
+     </attribute>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>10</y>
+        <width>527</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPushButton" name="pushButton_SerialConnect">
+         <property name="text">
+          <string>连接</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboBox_SerialPortNo"/>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboBox_SerialBaudRate"/>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboBox_SerialDateBits"/>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboBox_SerialStopBits"/>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboBox_SerialParity"/>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboBox_SerialFlowCtrl"/>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_2">
+     <attribute name="title">
+      <string>网口</string>
+     </attribute>
+     <widget class="QPushButton" name="pushButton_NetConnect">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>75</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>连接</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_NetIP">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>10</y>
+        <width>113</width>
+        <height>21</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_NetPortNo">
+      <property name="geometry">
+       <rect>
+        <x>250</x>
+        <y>10</y>
+        <width>113</width>
+        <height>21</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_3">
+     <attribute name="title">
+      <string>CAN</string>
+     </attribute>
+     <widget class="QPushButton" name="pushButton_CanConnect">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>75</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>连接</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox_CanBaudRate">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>10</y>
+        <width>69</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QTextEdit" name="textEdit_RealTimeCommunicateData">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>450</y>
+      <width>811</width>
+      <height>161</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="listWidget_Device">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>51</width>
+      <height>611</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="tableWidget_ProtocolCmd">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>90</y>
+      <width>821</width>
+      <height>291</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_LockRealTimeWindows">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>420</y>
+      <width>75</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Lock</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_CleanRealTimeWindows">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>420</y>
+      <width>75</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Clear</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>867</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuDemo">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionImportJson"/>
+    <addaction name="separator"/>
+    <addaction name="actionImportProtocol"/>
+   </widget>
+   <addaction name="menuDemo"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actioninfo"/>
+   <addaction name="action_2"/>
+  </widget>
+  <action name="actionImportJson">
+   <property name="text">
+    <string>ImportJson</string>
+   </property>
+  </action>
+  <action name="actionImportProtocol">
+   <property name="text">
+    <string>ImportProtocol</string>
+   </property>
+  </action>
+  <action name="action_2">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normalon>icon/download.png</normalon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>导入</string>
+   </property>
+  </action>
+  <action name="actioninfo">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="applications-office">
+     <activeon>icon/info.jpg</activeon>
+     <selectedon>icon/info.jpg</selectedon>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>info</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
