@@ -1,4 +1,5 @@
 #include <QDateTime>
+#include <QTableWidget>
 #include <QFileDialog>
 #include <QSettings>
 #include <QMessageBox>
@@ -299,25 +300,30 @@ void MainWindow::on_listWidget_Device_itemSelectionChanged()
 {
     QString device_name = ui->listWidget_Device->currentItem()->text();
     qDebug()<<"index change"+device_name;
-    QTabWidget *protocolTabWidget = new QTabWidget();
-    protocolTabWidget->setGeometry(120, 120, 901, 281);
-
+//    QTabWidget *protocolTabWidget = new QTabWidget();
+//    protocolTabWidget->setGeometry(120, 120, 901, 281);
+//    protocolTabWidget->setMovable(true);
     QStringList keys = json_root.keys();
     for(auto key : keys){
         if(QString::compare("devicesInfo", key) == 0)
         {
-            QJsonValue value = json_root.value(key);
-//            QJsonObject json_device_info = jsonDocu.object();
+            QJsonValue devicesInfoValue = json_root.value(key);
 
-            if(value.isArray()){
-                QJsonArray arr = value.toArray();
-                for(int i = 0; i < arr.count(); ++i){
-                    QJsonObject subObj = arr.at(i).toObject();
-                    QStringList subKeys = subObj.keys();
-                    for(auto subKey : subKeys){
-                        QJsonValue subValue = subObj.value(subKey);
-                        if(QString::compare("groupInfoList", subKey) == 0){
-                            qDebug() << subKey <<": "<< subValue.toString();
+            if(devicesInfoValue.isArray()){
+                QJsonArray devicesInfoArr = devicesInfoValue.toArray();
+                for(int i = 0; i < devicesInfoArr.count(); ++i){
+                    QJsonObject deviceInfoObj = devicesInfoArr.at(i).toObject();
+                    QStringList deviceInfoKeys = deviceInfoObj.keys();
+                    for(auto deviceInfoKey : deviceInfoKeys){
+
+                        if(QString::compare("groupInfoList", deviceInfoKey) == 0){
+                            QJsonValue groupInfoListValue = deviceInfoObj.value(deviceInfoKey);
+                            QJsonArray groupInfoListArr = groupInfoListValue.toArray();
+                            for(int i = 0; i < groupInfoListArr.count(); ++i){
+                                qDebug() << deviceInfoKey <<": "<< groupInfoListArr.at(i).toString();
+//                                protocolTabWidget->addTab(groupInfoListArr.at(i).toString());
+                            }
+
                         }
                     }
                 }
@@ -327,6 +333,33 @@ void MainWindow::on_listWidget_Device_itemSelectionChanged()
 
     }
 
+
+}
+
+
+void MainWindow::on_pushButton_Save_clicked()
+{
+    QTabWidget *protocolTabWidget = new QTabWidget();
+    protocolTabWidget->setParent(this);
+    QWidget* empty = new QWidget(this);
+    QTableWidget *tab = new QTableWidget;
+//    protocolTabWidget->setMovable(true);
+    protocolTabWidget->setEnabled(true);
+    protocolTabWidget->addTab(tab,"tttt");
+//    protocolTabWidget->addTab(empty,"tttt2");
+//    protocolTabWidget->addTab(empty,"tttt3");
+//    protocolTabWidget->setTabText(0,"123d");
+    protocolTabWidget->setGeometry(120, 201, 900, 200);
+
+    protocolTabWidget->show();
+//    ui->tabWidget->setGeometry(120, 201, 900, 200);
+//    ui->tabWidget->addTab(empty,"tttt");
+
+//    QPushButton* buttonTest=new QPushButton();//动态创建按钮
+//    buttonTest->setText("手动添加1111111");
+//    buttonTest->setParent(this);//设置父控件，有此步骤不需show也可显示
+//    buttonTest->setGeometry(120, 201, 900, 200);
+//    buttonTest->show();//此步骤显示，如果不设父控件则是悬浮于桌面
 
 }
 

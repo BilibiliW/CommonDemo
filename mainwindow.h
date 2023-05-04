@@ -46,6 +46,8 @@ private slots:
 
     void on_listWidget_Device_itemSelectionChanged();
 
+    void on_pushButton_Save_clicked();
+
 private:
     Ui::MainWindow *ui;
     HardwareInterface hard_interface;
