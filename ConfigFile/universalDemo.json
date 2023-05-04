@@ -1,0 +1,2621 @@
+{
+    "DeviceList": [
+        "原子磁力计"
+    ],
+    "devicesInfo": [
+        {
+            "A0Order": [
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "int8_t",
+                            "int8_t",
+                            "int8_t"
+                        ],
+                        "parameterDesp": [
+                            "版本号第一位",
+                            "版本号第二位",
+                            "版本号第三位"
+                        ],
+                        "unit": [
+                            "\\",
+                            "\\",
+                            "\\"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                        ],
+                        "parameterDesp": [
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                        ]
+                    },
+                    "access": "R",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "系统指令",
+                    "lowLimit": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "mainOrder": 0,
+                    "name": "版本号查询",
+                    "subOrder": 1,
+                    "upperLimit": [
+                        0,
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "int8_t"
+                        ],
+                        "parameterDesp": [
+                            "指令状态"
+                        ],
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                        ],
+                        "parameterDesp": [
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                        ]
+                    },
+                    "access": "R",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "系统指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 0,
+                    "name": "握手",
+                    "subOrder": 2,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "int8_t"
+                        ],
+                        "parameterDesp": [
+                            "自检状态"
+                        ],
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                        ],
+                        "parameterDesp": [
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                        ]
+                    },
+                    "access": "R",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "系统指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 0,
+                    "name": "自检",
+                    "subOrder": 3,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "int8_t",
+                            "int8_t"
+                        ],
+                        "parameterDesp": [
+                            "整数位",
+                            "小数位"
+                        ],
+                        "unit": [
+                            "\\",
+                            "\\"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                        ],
+                        "parameterDesp": [
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                        ]
+                    },
+                    "access": "R",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "系统指令",
+                    "lowLimit": [
+                        0,
+                        0
+                    ],
+                    "mainOrder": 0,
+                    "name": "CPU温度",
+                    "subOrder": 4,
+                    "upperLimit": [
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "int8_t"
+                        ],
+                        "parameterDesp": [
+                            "模式"
+                        ],
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "int8_t"
+                        ],
+                        "parameterDesp": [
+                            "模式"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "系统指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 0,
+                    "name": "工作模式",
+                    "subOrder": 1,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "string"
+                        ],
+                        "parameterDesp": [
+                            "设备信息"
+                        ],
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "string"
+                        ],
+                        "parameterDesp": [
+                            "设备信息"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "系统指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 0,
+                    "name": "设备信息",
+                    "subOrder": 6,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                        ],
+                        "parameterDesp": [
+                        ],
+                        "unit": [
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "null"
+                        ],
+                        "parameterDesp": [
+                            "无"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "access": "W",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "系统指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 0,
+                    "name": "恢复默认参数",
+                    "subOrder": 7,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                        ],
+                        "parameterDesp": [
+                        ],
+                        "unit": [
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "null"
+                        ],
+                        "parameterDesp": [
+                            "无"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "access": "W",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "系统指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 0,
+                    "name": "保存参数到本地",
+                    "subOrder": 8,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                        ],
+                        "parameterDesp": [
+                        ],
+                        "unit": [
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "int8_t"
+                        ],
+                        "parameterDesp": [
+                            "设备"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "access": "W",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "系统指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 0,
+                    "name": "重启",
+                    "subOrder": 9,
+                    "upperLimit": [
+                        10
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                        ],
+                        "parameterDesp": [
+                        ],
+                        "unit": [
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "string"
+                        ],
+                        "parameterDesp": [
+                            "时间"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "access": "W",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "系统指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 0,
+                    "name": "对时",
+                    "subOrder": 10,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "温度"
+                        ],
+                        "unit": [
+                            "°C"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "温度"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "°C"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "激光指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 3,
+                    "name": "目标温度",
+                    "subOrder": 1,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "温度"
+                        ],
+                        "unit": [
+                            "°C"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                        ],
+                        "parameterDesp": [
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                        ]
+                    },
+                    "access": "R",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "激光指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 3,
+                    "name": "实际温度",
+                    "subOrder": 2,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "float",
+                            "float",
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "P",
+                            "I",
+                            "D"
+                        ],
+                        "unit": [
+                            "\\",
+                            "\\",
+                            "\\"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "float",
+                            "float",
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "P",
+                            "I",
+                            "D"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\",
+                            "\\",
+                            "\\"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "激光指令",
+                    "lowLimit": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "mainOrder": 3,
+                    "name": "PID",
+                    "subOrder": 3,
+                    "upperLimit": [
+                        0,
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "输出电压上限"
+                        ],
+                        "unit": [
+                            "V"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "输出电压上限"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "V"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "激光指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 3,
+                    "name": "加热输出上限",
+                    "subOrder": 4,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "double",
+                            "double"
+                        ],
+                        "parameterDesp": [
+                            "系数",
+                            "系数"
+                        ],
+                        "unit": [
+                            "\\",
+                            "\\"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "double",
+                            "double"
+                        ],
+                        "parameterDesp": [
+                            "系数",
+                            "系数"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\",
+                            "\\"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "激光指令",
+                    "lowLimit": [
+                        0,
+                        0
+                    ],
+                    "mainOrder": 3,
+                    "name": "滤波器系数",
+                    "subOrder": 5,
+                    "upperLimit": [
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "额定最大电流"
+                        ],
+                        "unit": [
+                            "mA"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "额定最大电流"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "mA"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "激光指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 3,
+                    "name": "额定电流",
+                    "subOrder": 6,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "直接设定当前输出电流"
+                        ],
+                        "unit": [
+                            "mA"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "直接设定当前输出电流"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "mA"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "激光指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 3,
+                    "name": "输出电流",
+                    "subOrder": 7,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "系数"
+                        ],
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "系数"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "激光指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 3,
+                    "name": "输出电流校准系数",
+                    "subOrder": 8,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "float",
+                            "float",
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "X轴FeildZero磁场强度",
+                            "Y轴FeildZero磁场强度",
+                            "Z轴FeildZero磁场强度"
+                        ],
+                        "unit": [
+                            "pt",
+                            "pt",
+                            "pt"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "float",
+                            "float",
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "X轴FeildZero磁场强度",
+                            "Y轴FeildZero磁场强度",
+                            "Z轴FeildZero磁场强度"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "pt",
+                            "pt",
+                            "pt"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "轴指令",
+                    "lowLimit": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "mainOrder": 4,
+                    "name": "补偿磁场",
+                    "subOrder": 1,
+                    "upperLimit": [
+                        0,
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "float",
+                            "float",
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "X轴FeildZero磁场电流校准系数",
+                            "Y轴FeildZero磁场电流校准系数",
+                            "Z轴FeildZero磁场电流校准系数"
+                        ],
+                        "unit": [
+                            "\\",
+                            "\\",
+                            "\\"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "float",
+                            "float",
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "X轴FeildZero磁场电流校准系数",
+                            "Y轴FeildZero磁场电流校准系数",
+                            "Z轴FeildZero磁场电流校准系数"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\",
+                            "\\",
+                            "\\"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "轴指令",
+                    "lowLimit": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "mainOrder": 4,
+                    "name": "补偿信号电流校准系数",
+                    "subOrder": 2,
+                    "upperLimit": [
+                        0,
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "float",
+                            "float",
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "X轴Calibrate磁场强度",
+                            "Y轴Calibrate磁场强度",
+                            "Z轴Calibrate磁场强度"
+                        ],
+                        "unit": [
+                            "pt",
+                            "pt",
+                            "pt"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "float",
+                            "float",
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "X轴Calibrate磁场强度",
+                            "Y轴Calibrate磁场强度",
+                            "Z轴Calibrate磁场强度"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "pt",
+                            "pt",
+                            "pt"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "轴指令",
+                    "lowLimit": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "mainOrder": 4,
+                    "name": "校准磁场",
+                    "subOrder": 3,
+                    "upperLimit": [
+                        0,
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "float",
+                            "float",
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "X轴Calibrate磁场电流校准系数\n",
+                            "Y轴Calibrate磁场电流校准系数\n",
+                            "Z轴Calibrate磁场电流校准系数\n"
+                        ],
+                        "unit": [
+                            "\\",
+                            "\\",
+                            "\\"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "float",
+                            "float",
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "X轴Calibrate磁场电流校准系数\n",
+                            "Y轴Calibrate磁场电流校准系数\n",
+                            "Z轴Calibrate磁场电流校准系数\n"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\",
+                            "\\",
+                            "\\"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "轴指令",
+                    "lowLimit": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "mainOrder": 4,
+                    "name": "校准信号电流校准系数",
+                    "subOrder": 4,
+                    "upperLimit": [
+                        0,
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "uint16_t",
+                            "uint16_t",
+                            "uint16_t"
+                        ],
+                        "parameterDesp": [
+                            "X轴Calibrate磁场频率",
+                            "Y轴Calibrate磁场频率",
+                            "Z轴Calibrate磁场频率"
+                        ],
+                        "unit": [
+                            "Hz",
+                            "Hz",
+                            "Hz"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "uint16_t",
+                            "uint16_t",
+                            "uint16_t"
+                        ],
+                        "parameterDesp": [
+                            "X轴Calibrate磁场频率",
+                            "Y轴Calibrate磁场频率",
+                            "Z轴Calibrate磁场频率"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "Hz",
+                            "Hz",
+                            "Hz"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "轴指令",
+                    "lowLimit": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "mainOrder": 4,
+                    "name": "校准磁场频率",
+                    "subOrder": 5,
+                    "upperLimit": [
+                        0,
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "float",
+                            "float",
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "X轴Modu磁场强度",
+                            "Y轴Modu磁场强度",
+                            "Z轴Modu磁场强度"
+                        ],
+                        "unit": [
+                            "pt",
+                            "pt",
+                            "pt"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "float",
+                            "float",
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "X轴Modu磁场强度",
+                            "Y轴Modu磁场强度",
+                            "Z轴Modu磁场强度"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "pt",
+                            "pt",
+                            "pt"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "轴指令",
+                    "lowLimit": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "mainOrder": 4,
+                    "name": "调制磁场",
+                    "subOrder": 6,
+                    "upperLimit": [
+                        0,
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "float",
+                            "float",
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "X轴Modu磁场电流校准系数",
+                            "Y轴Modu磁场电流校准系数",
+                            "Z轴Modu磁场电流校准系数"
+                        ],
+                        "unit": [
+                            "\\",
+                            "\\",
+                            "\\"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "float",
+                            "float",
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "X轴Modu磁场电流校准系数",
+                            "Y轴Modu磁场电流校准系数",
+                            "Z轴Modu磁场电流校准系数"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\",
+                            "\\",
+                            "\\"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "轴指令",
+                    "lowLimit": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "mainOrder": 4,
+                    "name": "调制信号电流校准系数",
+                    "subOrder": 7,
+                    "upperLimit": [
+                        0,
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "uint16_t",
+                            "uint16_t",
+                            "uint16_t"
+                        ],
+                        "parameterDesp": [
+                            "X轴Modu磁场频率",
+                            "Y轴Modu磁场频率",
+                            "Z轴Modu磁场频率"
+                        ],
+                        "unit": [
+                            "Hz",
+                            "Hz",
+                            "Hz"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "uint16_t",
+                            "uint16_t",
+                            "uint16_t"
+                        ],
+                        "parameterDesp": [
+                            "X轴Modu磁场频率",
+                            "Y轴Modu磁场频率",
+                            "Z轴Modu磁场频率"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "Hz",
+                            "Hz",
+                            "Hz"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "轴指令",
+                    "lowLimit": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "mainOrder": 4,
+                    "name": "调制磁场频率",
+                    "subOrder": 8,
+                    "upperLimit": [
+                        0,
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "uint16_t",
+                            "uint16_t",
+                            "uint16_t"
+                        ],
+                        "parameterDesp": [
+                            "X轴Modu磁场相位",
+                            "Y轴Modu磁场相位",
+                            "Z轴Modu磁场相位"
+                        ],
+                        "unit": [
+                            "°",
+                            "°",
+                            "°"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "uint16_t",
+                            "uint16_t",
+                            "uint16_t"
+                        ],
+                        "parameterDesp": [
+                            "X轴Modu磁场相位",
+                            "Y轴Modu磁场相位",
+                            "Z轴Modu磁场相位"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "°",
+                            "°",
+                            "°"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "轴指令",
+                    "lowLimit": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "mainOrder": 4,
+                    "name": "调制磁场相位",
+                    "subOrder": 9,
+                    "upperLimit": [
+                        0,
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "float",
+                            "float",
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "X线圈磁场系数",
+                            "Y线圈磁场系数",
+                            "Z线圈磁场系数"
+                        ],
+                        "unit": [
+                            "pt/mA",
+                            "pt/mA",
+                            "pt/mA"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "float",
+                            "float",
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "X线圈磁场系数",
+                            "Y线圈磁场系数",
+                            "Z线圈磁场系数"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "pt/mA",
+                            "pt/mA",
+                            "pt/mA"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "轴指令",
+                    "lowLimit": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "mainOrder": 4,
+                    "name": "线圈磁场系数",
+                    "subOrder": 10,
+                    "upperLimit": [
+                        0,
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "uint8_t",
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "设备号",
+                            "探头号"
+                        ],
+                        "unit": [
+                            "\\",
+                            "\\"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "uint8_t",
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "设备号",
+                            "探头号"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\",
+                            "\\"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "多通道指令",
+                    "lowLimit": [
+                        0,
+                        0
+                    ],
+                    "mainOrder": 5,
+                    "name": "探头ID",
+                    "subOrder": 1,
+                    "upperLimit": [
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "同步模式"
+                        ],
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "同步模式"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "多通道指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 5,
+                    "name": "同步模式",
+                    "subOrder": 2,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                        ],
+                        "parameterDesp": [
+                        ],
+                        "unit": [
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "流程开始/关闭"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "access": "W",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "流程控制指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 6,
+                    "name": "Auto Start",
+                    "subOrder": 1,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                        ],
+                        "parameterDesp": [
+                        ],
+                        "unit": [
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "流程开始/关闭"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "access": "W",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "流程控制指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 6,
+                    "name": "Start",
+                    "subOrder": 2,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                        ],
+                        "parameterDesp": [
+                        ],
+                        "unit": [
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "流程开始/关闭"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "access": "W",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "流程控制指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 6,
+                    "name": "SingleField Zero",
+                    "subOrder": 3,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                        ],
+                        "parameterDesp": [
+                        ],
+                        "unit": [
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "流程开始/关闭"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "access": "W",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "流程控制指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 6,
+                    "name": "Calibrate",
+                    "subOrder": 4,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                        ],
+                        "parameterDesp": [
+                        ],
+                        "unit": [
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "流程开始/关闭"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "access": "W",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "流程控制指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 6,
+                    "name": "Measurement",
+                    "subOrder": 5,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                        ],
+                        "parameterDesp": [
+                        ],
+                        "unit": [
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "uint8_t",
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "流程开始/关闭",
+                            "拟合轴选择"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\",
+                            "\\"
+                        ]
+                    },
+                    "access": "W",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "流程控制指令",
+                    "lowLimit": [
+                        0,
+                        0
+                    ],
+                    "mainOrder": 6,
+                    "name": "带宽拟合",
+                    "subOrder": 6,
+                    "upperLimit": [
+                        0,
+                        10
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                        ],
+                        "parameterDesp": [
+                        ],
+                        "unit": [
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "流程开始/关闭"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "access": "W",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "流程控制指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 6,
+                    "name": "Continue Field Zero",
+                    "subOrder": 7,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "暂停/恢复"
+                        ],
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "暂停/恢复"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "流程控制指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 6,
+                    "name": "激光锁定",
+                    "subOrder": 8,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "暂停/恢复"
+                        ],
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "暂停/恢复"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "流程控制指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 6,
+                    "name": "Field Zero暂停/恢复",
+                    "subOrder": 9,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                        ],
+                        "parameterDesp": [
+                        ],
+                        "unit": [
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "Field Zero复位"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "access": "W",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "流程控制指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 6,
+                    "name": "Field Zero复位",
+                    "subOrder": 10,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                        ],
+                        "parameterDesp": [
+                        ],
+                        "unit": [
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "Calibrate复位"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "access": "W",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "流程控制指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 6,
+                    "name": "Calibrate复位",
+                    "subOrder": 11,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                        ],
+                        "parameterDesp": [
+                        ],
+                        "unit": [
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "所有流程复位"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "access": "W",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "流程控制指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 6,
+                    "name": "系统复位",
+                    "subOrder": 12,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "调试模式开关"
+                        ],
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "调试模式开关"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "流程控制指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 6,
+                    "name": "调试模式开关",
+                    "subOrder": 13,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "时域数据上传开关"
+                        ],
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "时域数据上传开关"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "流程控制指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 6,
+                    "name": "时域上传开关",
+                    "subOrder": 14,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "频域数据上传开关"
+                        ],
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "频域数据上传开关"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "流程控制指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 6,
+                    "name": "频域上传开关",
+                    "subOrder": 15,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "补偿轴选择"
+                        ],
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "补偿轴选择"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "流程控制指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 6,
+                    "name": "补偿轴选择",
+                    "subOrder": 16,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "校准轴选择"
+                        ],
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "校准轴选择"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "流程控制指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 6,
+                    "name": "校准轴选择",
+                    "subOrder": 17,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "测量轴选择"
+                        ],
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "测量轴选择"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "流程控制指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 6,
+                    "name": "测量轴选择",
+                    "subOrder": 18,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "uint16_t",
+                            "uint16_t",
+                            "uint16_t",
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "起始频率",
+                            "截止频率",
+                            "频率步进",
+                            "拟合轴磁场"
+                        ],
+                        "unit": [
+                            "Hz",
+                            "Hz",
+                            "Hz",
+                            "pt"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "uint16_t",
+                            "uint16_t",
+                            "uint16_t",
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "起始频率",
+                            "截止频率",
+                            "频率步进",
+                            "拟合轴磁场"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "Hz",
+                            "Hz",
+                            "Hz",
+                            "pt"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "流程控制指令",
+                    "lowLimit": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "mainOrder": 6,
+                    "name": "带宽拟合设定",
+                    "subOrder": 19,
+                    "upperLimit": [
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                        ],
+                        "parameterDesp": [
+                        ],
+                        "unit": [
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "uint8_t",
+                            "uint8_t",
+                            "uint8_t",
+                            "uint8_t",
+                            "uint8_t",
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "Cell_T_Lock",
+                            "Laser_On",
+                            "Laser_Lock",
+                            "Field_Zero",
+                            "Calibrate",
+                            "流程错误码"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\",
+                            "\\",
+                            "\\",
+                            "\\",
+                            "\\",
+                            "\\"
+                        ]
+                    },
+                    "access": "O",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "主动上传指令",
+                    "lowLimit": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "mainOrder": 16,
+                    "name": "状态指示",
+                    "subOrder": 1,
+                    "upperLimit": [
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                        ],
+                        "parameterDesp": [
+                        ],
+                        "unit": [
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "uint8_t",
+                            "uint8_t"
+                        ],
+                        "parameterDesp": [
+                            "气室加热百分比",
+                            "激光加热百分比"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\",
+                            "\\"
+                        ]
+                    },
+                    "access": "O",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "主动上传指令",
+                    "lowLimit": [
+                        0,
+                        0
+                    ],
+                    "mainOrder": 16,
+                    "name": "加热进度条",
+                    "subOrder": 2,
+                    "upperLimit": [
+                        200,
+                        200
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                        ],
+                        "parameterDesp": [
+                        ],
+                        "unit": [
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "float",
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "激光电流值",
+                            "PD电压值"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "mA",
+                            "mV"
+                        ]
+                    },
+                    "access": "O",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "主动上传指令",
+                    "lowLimit": [
+                        0,
+                        0
+                    ],
+                    "mainOrder": 16,
+                    "name": "PD数据",
+                    "subOrder": 3,
+                    "upperLimit": [
+                        10,
+                        10
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                        ],
+                        "parameterDesp": [
+                        ],
+                        "unit": [
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "uint8_t",
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "FieldZero扫场轴",
+                            "FieldZero扫场数据"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\",
+                            "mV"
+                        ]
+                    },
+                    "access": "O",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "主动上传指令",
+                    "lowLimit": [
+                        0,
+                        0
+                    ],
+                    "mainOrder": 16,
+                    "name": "FieldZero扫场数据",
+                    "subOrder": 4,
+                    "upperLimit": [
+                        0,
+                        10
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                        ],
+                        "parameterDesp": [
+                        ],
+                        "unit": [
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "float",
+                            "float",
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "X轴补偿值",
+                            "Y轴补偿值",
+                            "Z轴补偿值"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "pt",
+                            "pt",
+                            "pt"
+                        ]
+                    },
+                    "access": "O",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "主动上传指令",
+                    "lowLimit": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "mainOrder": 16,
+                    "name": "SignalFieldZero补偿值",
+                    "subOrder": 5,
+                    "upperLimit": [
+                        10,
+                        10,
+                        10
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                        ],
+                        "parameterDesp": [
+                        ],
+                        "unit": [
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "float",
+                            "float",
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "X轴补偿值",
+                            "Y轴补偿值",
+                            "Z轴补偿值"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "pt",
+                            "pt",
+                            "pt"
+                        ]
+                    },
+                    "access": "O",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "主动上传指令",
+                    "lowLimit": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "mainOrder": 16,
+                    "name": "ContinueFieldZero补偿值",
+                    "subOrder": 6,
+                    "upperLimit": [
+                        10,
+                        10,
+                        10
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "温度"
+                        ],
+                        "unit": [
+                            "°C"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "温度"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "°C"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "气室指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 2,
+                    "name": "目标温度",
+                    "subOrder": 1,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "温度"
+                        ],
+                        "unit": [
+                            "°C"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                        ],
+                        "parameterDesp": [
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                        ]
+                    },
+                    "access": "R",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "气室指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 2,
+                    "name": "实际温度",
+                    "subOrder": 2,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "float",
+                            "float",
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "P",
+                            "I",
+                            "D"
+                        ],
+                        "unit": [
+                            "\\",
+                            "\\",
+                            "\\"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "float",
+                            "float",
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "P",
+                            "I",
+                            "D"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\",
+                            "\\",
+                            "\\"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "气室指令",
+                    "lowLimit": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "mainOrder": 2,
+                    "name": "PID",
+                    "subOrder": 3,
+                    "upperLimit": [
+                        0,
+                        0,
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "输出电压上限"
+                        ],
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "float"
+                        ],
+                        "parameterDesp": [
+                            "输出电压上限"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "气室指令",
+                    "lowLimit": [
+                        0
+                    ],
+                    "mainOrder": 2,
+                    "name": "加热输出上限",
+                    "subOrder": 4,
+                    "upperLimit": [
+                        0
+                    ]
+                },
+                {
+                    "Read": {
+                        "logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+                        "parameter": [
+                            "double",
+                            "double"
+                        ],
+                        "parameterDesp": [
+                            "系数",
+                            "系数"
+                        ],
+                        "unit": [
+                            "\\",
+                            "\\"
+                        ]
+                    },
+                    "Write": {
+                        "parameter": [
+                            "double",
+                            "double"
+                        ],
+                        "parameterDesp": [
+                            "系数",
+                            "系数"
+                        ],
+                        "storageLocation": "Flash",
+                        "unit": [
+                            "\\",
+                            "\\"
+                        ]
+                    },
+                    "access": "RW",
+                    "defaultValue": 0,
+                    "desp": "",
+                    "group": "气室指令",
+                    "lowLimit": [
+                        0,
+                        0
+                    ],
+                    "mainOrder": 2,
+                    "name": "滤波器系数",
+                    "subOrder": 5,
+                    "upperLimit": [
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "A3Protocol": {
+            },
+            "correspondence": {
+                "Serial": {
+					"BaudRate": 460800,
+					"DataBits": 8,
+					"StopBits": 0,
+					"Parity"  : "None",
+					"FlowCtrl":	"None",
+                },
+                "TCP": {
+                },
+                "USB": {
+                }
+            },
+            "deviceName": "原子磁力计",
+            "groupInfoList": [
+                "系统指令",
+                "气室指令",
+                "激光指令",
+                "轴指令",
+                "多通道指令",
+                "流程控制指令",
+                "主动上传指令"
+            ],
+            "orginAddress": 0,
+            "targetAddress": 1
+        }
+    ],
+    "projectName": "Demo"
+}

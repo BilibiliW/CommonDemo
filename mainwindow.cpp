@@ -1,4 +1,7 @@
 #include <QDateTime>
+#include <QFileDialog>
+#include <QSettings>
+#include <QMessageBox>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -207,5 +210,123 @@ void MainWindow::on_pushButton_LockRealTimeWindows_clicked()
 void MainWindow::on_pushButton_CleanRealTimeWindows_clicked()
 {
     ui->textEdit_RealTimeCommunicateData->setText("");
+}
+
+#include <QLabel>
+#include <QCheckBox>
+void MainWindow::on_actionImportJson_triggered()
+{
+    QSettings setting("./Setting.ini", QSettings::IniFormat);  //QSettings能记录一些程序中的信息，下次再打开时可以读取出来
+    QString lastPath = setting.value("LastFilePath").toString();  //获取上次的打开路径
+
+    QString fileName = QFileDialog::getOpenFileName(this, QStringLiteral("配置文件"), lastPath, QStringLiteral("json文件(*json);"));
+    qDebug()<<fileName;
+    if(!fileName.isEmpty())
+    {
+        setting.setValue("LastFilePath", fileName);  //记录路径到QSetting中保存
+    }
+
+    QFile file(fileName);
+    QByteArray jsonData;
+    if(file.open(QIODevice::ReadOnly)){
+        jsonData = file.readAll();
+        file.close();
+    }
+
+    QJsonDocument jsonDocu = QJsonDocument::fromJson(jsonData);
+    if(jsonDocu.isObject()){
+//        QJsonObject obj_root = jsonDocu.object();
+        json_root = jsonDocu.object();
+        QStringList keys = json_root.keys();
+        for(auto key : keys){
+            QJsonValue value = json_root.value(key);
+
+            if(QString::compare("DeviceList", key) == 0){
+
+                QJsonArray arr = value.toArray();
+                for(int i = 0; i < arr.count(); ++i){
+                    QListWidgetItem *item = new QListWidgetItem();
+                    ui->listWidget_Device->addItem(item);
+                    item->setText(arr.at(i).toString());
+//                    connect(item, SIGNAL(listItemClicked(int)), this, SLOT(clickedLeftItem(int)));
+                }
+            }
+            if(value.isString()){
+                qDebug() << key <<": "<< value.toString();
+
+//                if(qstrcmp("DeviceList", value.toString()) == 0){
+
+//                }
+            }
+            else if(value.isDouble()){
+                qDebug() << key <<": "<< value.toInt();
+            }
+            else if(value.isArray()){
+                QJsonArray arr = value.toArray();
+                for(int i = 0; i < arr.count(); ++i){
+                    if(arr.at(i).isString()){
+                        qDebug() << key <<": "<< arr.at(i).toString();
+                    }
+                    //这里就不判断是否为其它类型了，因为测试文件已知为字符串，要写也和上面类似，无限套娃
+                }
+            }
+            else if(value.isObject()){
+                QJsonObject subObj = value.toObject();
+                QStringList subKeys = subObj.keys();
+                for(auto subKey : subKeys){
+                    QJsonValue subValue = subObj.value(subKey);
+                    if(subValue.isString()){
+                        qDebug() << subKey <<": "<< subValue.toString();
+                    }
+                    //这里就不判断是否为其它类型了，因为测试文件已知为字符串，要写也和上面类似，无限套娃
+                }
+            }
+        }
+    }
+    else{
+        QMessageBox::question(this,
+                              tr("Info"),
+                              tr("Json文件格式异常，请检查！"),
+                              QMessageBox::Ok,
+                              QMessageBox::Ok);
+    }
+
+
+}
+
+
+void MainWindow::on_listWidget_Device_itemSelectionChanged()
+{
+    QString device_name = ui->listWidget_Device->currentItem()->text();
+    qDebug()<<"index change"+device_name;
+    QTabWidget *protocolTabWidget = new QTabWidget();
+    protocolTabWidget->setGeometry(120, 120, 901, 281);
+
+    QStringList keys = json_root.keys();
+    for(auto key : keys){
+        if(QString::compare("devicesInfo", key) == 0)
+        {
+            QJsonValue value = json_root.value(key);
+//            QJsonObject json_device_info = jsonDocu.object();
+
+            if(value.isArray()){
+                QJsonArray arr = value.toArray();
+                for(int i = 0; i < arr.count(); ++i){
+                    QJsonObject subObj = arr.at(i).toObject();
+                    QStringList subKeys = subObj.keys();
+                    for(auto subKey : subKeys){
+                        QJsonValue subValue = subObj.value(subKey);
+                        if(QString::compare("groupInfoList", subKey) == 0){
+                            qDebug() << subKey <<": "<< subValue.toString();
+                        }
+                    }
+                }
+            }
+
+        }
+
+    }
+
+
 }
 

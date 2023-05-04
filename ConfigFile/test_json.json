@@ -1,0 +1,180 @@
+{
+	"DeviceList": [
+        "原子磁力计"
+    ],
+	"devicesInfo": [
+		{
+			"A0Order": [
+				{
+					"Read": {
+						"logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+						"parameter": [
+							"float",
+							"float",
+							"float"
+						],
+						"parameterDesp": [
+							"P",
+							"I",
+							"D"
+						],
+						"unit": [
+							"\\",
+							"\\",
+							"\\"
+						]
+					},
+					"Write": {
+						"parameter": [
+							"float",
+							"float",
+							"float"
+						],
+						"parameterDesp": [
+							"P",
+							"I",
+							"D"
+						],
+						"storageLocation": "Flash",
+						"unit": [
+							"\\",
+							"\\",
+							"\\"
+						]
+					},
+					"access": "RW",
+					"defaultValue": 0,
+					"desp": "",
+					"group": "激光指令",
+					"lowLimit": [
+						0,
+						0,
+						0
+					],
+					"mainOrder": 3,
+					"name": "PID",
+					"subOrder": 3,
+					"upperLimit": [
+						0,
+						0,
+						0
+					]
+				},
+				{
+					"Read": {
+						"logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+						"parameter": [
+							"float"
+						],
+						"parameterDesp": [
+							"输出电压上限"
+						],
+						"unit": [
+							"V"
+						]
+					},
+					"Write": {
+						"parameter": [
+							"float"
+						],
+						"parameterDesp": [
+							"输出电压上限"
+						],
+						"storageLocation": "Flash",
+						"unit": [
+							"V"
+						]
+					},
+					"access": "RW",
+					"defaultValue": 0,
+					"desp": "",
+					"group": "激光指令",
+					"lowLimit": [
+						0
+					],
+					"mainOrder": 3,
+					"name": "加热输出上限",
+					"subOrder": 4,
+					"upperLimit": [
+						0
+					]
+				},
+				{
+					"Read": {
+						"logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
+						"parameter": [
+							"double",
+							"double"
+						],
+						"parameterDesp": [
+							"系数",
+							"系数"
+						],
+						"unit": [
+							"\\",
+							"\\"
+						]
+					},
+					"Write": {
+						"parameter": [
+							"double",
+							"double"
+						],
+						"parameterDesp": [
+							"系数",
+							"系数"
+						],
+						"storageLocation": "Flash",
+						"unit": [
+							"\\",
+							"\\"
+						]
+					},
+					"access": "RW",
+					"defaultValue": 0,
+					"desp": "",
+					"group": "激光指令",
+					"lowLimit": [
+						0,
+						0
+					],
+					"mainOrder": 3,
+					"name": "滤波器系数",
+					"subOrder": 5,
+					"upperLimit": [
+						0,
+						0
+					]
+				}
+			],
+			"A3Protocol": {
+            },
+            "correspondence": {
+                "Serial": {
+					"BaudRate": 460800,
+					"DataBits": 8,
+					"StopBits": 0,
+					"Parity"  : "None",
+					"FlowCtrl":	"None"
+                },
+                "TCP": {
+                },
+                "USB": {
+                }
+            },
+			"deviceName": "原子磁力计",
+			"groupInfoList": [
+				"系统指令",
+				"气室指令",
+				"激光指令",
+				"轴指令",
+				"多通道指令",
+				"流程控制指令",
+				"主动上传指令"
+			],
+			"orginAddress": 0,
+			"targetAddress": 1
+		}
+	],
+	"projectName": "Demo"
+}

@@ -3,6 +3,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 
 #include "./HardwareInterface/hardwareinterface.h"
 #include "./HardwareInterface/comm_serialport.h"
@@ -22,6 +25,8 @@ public:
 
     Comm_SerialPort *serial_comm;
 
+    QJsonObject json_root;
+
     bool realtime_show_lock;
 private slots:
     void CommTypeUpdate(QString);
@@ -35,9 +40,16 @@ private slots:
 
     void on_pushButton_CleanRealTimeWindows_clicked();
 
+    void on_actionImportJson_triggered();
+
+//signals:void listItemClicked(int);
+
+    void on_listWidget_Device_itemSelectionChanged();
+
 private:
     Ui::MainWindow *ui;
     HardwareInterface hard_interface;
+
 };
 
 #endif // MAINWINDOW_H
