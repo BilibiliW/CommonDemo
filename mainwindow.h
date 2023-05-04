@@ -9,6 +9,7 @@
 
 #include "./HardwareInterface/hardwareinterface.h"
 #include "./HardwareInterface/comm_serialport.h"
+#include "./Protocol/protocol.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,6 +29,7 @@ public:
     QJsonObject json_root;
 
     bool realtime_show_lock;
+    void CreateCmdModTable(QTableWidget *protocolTableCmdMod, QJsonObject deviceInfoObj, QString group_name);
 private slots:
     void CommTypeUpdate(QString);
 
@@ -51,6 +53,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     HardwareInterface hard_interface;
+    Protocol protocol;
 
 };
 

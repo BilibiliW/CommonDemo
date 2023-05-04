@@ -294,15 +294,63 @@ void MainWindow::on_actionImportJson_triggered()
 
 
 }
+void MainWindow::CreateCmdModTable(QTableWidget *protocolTabWidget, QJsonObject deviceInfoObj, QString group_name){
+    QStringList deviceInfoKeys = deviceInfoObj.keys();
+    for(auto deviceInfoKey : deviceInfoKeys){
+        if(QString::compare("A0Order", deviceInfoKey) == 0){
+            QJsonValue A0OrderValue = deviceInfoObj.value(deviceInfoKey);
+            QJsonArray A0OrderArr = A0OrderValue.toArray();
 
+//            QStringList A0OrderKeys = A0OrderObj.keys();
+
+            for(int i = 0; i < A0OrderArr.count(); ++i){
+                QJsonObject A0OrderSubObj = A0OrderArr.at(i).toObject();
+                QStringList A0OrderSubKeys = A0OrderSubObj.keys();
+                for(auto A0OrderSubKey : A0OrderSubKeys){
+
+                    if(QString::compare("group", A0OrderSubKey) == 0){
+                        if(QString::compare("group", group_name) == 0){
+                            qDebug() << A0OrderSubKey <<":CreateCmdModTable "<< A0OrderSubObj.value(A0OrderSubKey);
+                        }
+
+                    }
+                }
+//                if(QString::compare("group", A0OrderArr.at(i).toString()) == 0){
+//                    qDebug() << A0OrderArr <<":CreateCmdModTable "<< A0OrderArr.value(A0OrderKey);
+//                }
+            }
+
+//            for(auto A0OrderKey : A0OrderKeys){
+
+//                if(QString::compare("group", A0OrderKey) == 0){
+//                    if(QString::compare("group", group_name) == 0){
+
+//                    }
+//                    qDebug() << A0OrderKey <<":CreateCmdModTable "<< A0OrderObj.value(A0OrderKey);
+//                }
+//            }
+
+        }
+    }
+//    for(int i = 0; i < this->protocol.cmd_mod_table.count(); i++){
+////        protocolTabWidget->addTab(this->protocol.cmd_mod_table.at(i),"tttt");
+
+//    }
+}
 
 void MainWindow::on_listWidget_Device_itemSelectionChanged()
 {
     QString device_name = ui->listWidget_Device->currentItem()->text();
     qDebug()<<"index change"+device_name;
-//    QTabWidget *protocolTabWidget = new QTabWidget();
-//    protocolTabWidget->setGeometry(120, 120, 901, 281);
-//    protocolTabWidget->setMovable(true);
+    if(this->protocol.device_tab.isEmpty() != true){
+        qDebug()<<"index change"+device_name+"has already create, skip";
+        return;
+    }
+    QTabWidget *protocolTabWidget = new QTabWidget();
+    this->protocol.device_tab.append(protocolTabWidget);
+    protocolTabWidget->setParent(this);
+    protocolTabWidget->setGeometry(120, 200, 901, 281);
+    protocolTabWidget->setMovable(true);
     QStringList keys = json_root.keys();
     for(auto key : keys){
         if(QString::compare("devicesInfo", key) == 0)
@@ -321,6 +369,10 @@ void MainWindow::on_listWidget_Device_itemSelectionChanged()
                             QJsonArray groupInfoListArr = groupInfoListValue.toArray();
                             for(int i = 0; i < groupInfoListArr.count(); ++i){
                                 qDebug() << deviceInfoKey <<": "<< groupInfoListArr.at(i).toString();
+                                QTableWidget *tab = new QTableWidget;
+                                this->protocol.cmd_mod_table.append(tab);
+                                protocolTabWidget->addTab(tab, groupInfoListArr.at(i).toString());
+                                CreateCmdModTable(tab, deviceInfoObj, groupInfoListArr.at(i).toString());
 //                                protocolTabWidget->addTab(groupInfoListArr.at(i).toString());
                             }
 
@@ -333,6 +385,8 @@ void MainWindow::on_listWidget_Device_itemSelectionChanged()
 
     }
 
+    protocolTabWidget->show();
+
 
 }
 
@@ -341,13 +395,22 @@ void MainWindow::on_pushButton_Save_clicked()
 {
     QTabWidget *protocolTabWidget = new QTabWidget();
     protocolTabWidget->setParent(this);
-    QWidget* empty = new QWidget(this);
+//    QWidget* empty = new QWidget(this);
     QTableWidget *tab = new QTableWidget;
+    QTableWidget *tab2 = new QTableWidget;
+    QTableWidget *tab3 = new QTableWidget;
+    this->protocol.cmd_mod_table.append(tab);
+    this->protocol.cmd_mod_table.append(tab2);
+    this->protocol.cmd_mod_table.append(tab3);
 //    protocolTabWidget->setMovable(true);
     protocolTabWidget->setEnabled(true);
-    protocolTabWidget->addTab(tab,"tttt");
-//    protocolTabWidget->addTab(empty,"tttt2");
-//    protocolTabWidget->addTab(empty,"tttt3");
+    for(int i = 0; i < this->protocol.cmd_mod_table.count(); i++){
+        protocolTabWidget->addTab(this->protocol.cmd_mod_table.at(i),"tttt");
+
+    }
+//    protocolTabWidget->addTab(tab,"tttt");
+//    protocolTabWidget->addTab(tab2,"tttt2");
+//    protocolTabWidget->addTab(tab3,"tttt3");
 //    protocolTabWidget->setTabText(0,"123d");
     protocolTabWidget->setGeometry(120, 201, 900, 200);
 
