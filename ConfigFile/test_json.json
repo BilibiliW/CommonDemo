@@ -6,89 +6,85 @@
 		{
 			"A0Order": [
 				{
-
-					"parameter": [
+					"group": "激光指令",
+					"name": "PID",
+					"access": "RW",
+					"mainCmdID": 3,
+					"subCmdID": 3,
+					"desp": "",
+					"dataType": [
 						"float",
 						"float",
 						"float"
-					],
-					"parameterDesp": [
-						"P",
-						"I",
-						"D"
 					],
 					"unit": [
 						"\\",
 						"\\",
 						"\\"
 					],
-					"access": "RW",
-					"defaultValue": 0,
-					"desp": "",
-					"group": "激光指令",
+					"defaultValue":[
+						0,
+						0,
+						0
+					],
 					"lowLimit": [
 						0,
 						0,
 						0
 					],
-					"mainCmdID": 3,
-					"name": "PID",
-					"subCmdID": 3,
-					"upperLimit": [
+					"upLimit": [
 						0,
 						0,
 						0
 					]
 				},
 				{
-					"parameter": [
+					"group": "激光指令",
+					"name": "加热输出上限",
+					"access": "RW",					
+					"mainCmdID": 3,
+					"subCmdID": 4,
+					"desp": "",
+					"dataType": [
 						"float"
-					],
-					"parameterDesp": [
-						"输出电压上限"
 					],
 					"unit": [
 						"V"
 					],
-					"access": "RW",
-					"defaultValue": 0,
-					"desp": "",
-					"group": "激光指令",
+					"defaultValue": [
+						0
+					],
 					"lowLimit": [
 						0
 					],
-					"mainCmdID": 3,
-					"name": "加热输出上限",
-					"subCmdID": 4,
-					"upperLimit": [
+					"upLimit": [
 						0
 					]
 				},
 				{
-					"parameter": [
+					"group": "激光指令",
+					"name": "滤波器系数",
+					"access": "RW",
+					"mainCmdID": 3,
+					"subCmdID": 5,
+					"desp": "",
+					"dataType": [
 						"double",
 						"double"
-					],
-					"parameterDesp": [
-						"系数",
-						"系数"
 					],
 					"unit": [
 						"\\",
 						"\\"
-					]
-					"access": "RW",
-					"defaultValue": 0,
-					"desp": "",
-					"group": "激光指令",
+					],
+					"defaultValue":[
+						0,
+						0
+					],
 					"lowLimit": [
 						0,
 						0
 					],
-					"mainCmdID": 3,
-					"name": "滤波器系数",
-					"subCmdID": 5,
-					"upperLimit": [
+					"upLimit": [
 						0,
 						0
 					]

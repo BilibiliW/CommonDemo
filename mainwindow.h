@@ -30,6 +30,7 @@ public:
 
     bool realtime_show_lock;
     void CreateCmdModTable(QTableWidget *protocolTableCmdMod, QJsonObject deviceInfoObj);
+    void CreateCmdModTable(void);
 
     int32_t FilterCmdMod(QTableWidget *tableCmdMod, QJsonObject deviceInfoObj, QString group_name);
 

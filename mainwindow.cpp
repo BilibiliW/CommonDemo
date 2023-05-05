@@ -353,8 +353,6 @@ int32_t MainWindow::JsonObjGetParam(QJsonObject jsonObj, QJsonValue *value){
 
 
 
-
-
 void MainWindow::CreateCmdModTable(QTableWidget *tableCmdMod, QJsonObject deviceInfoObj){
     QJsonValue access;
     if(JsonObjGetValue(deviceInfoObj, "access", &access) < 0){
@@ -374,7 +372,27 @@ void MainWindow::CreateCmdModTable(QTableWidget *tableCmdMod, QJsonObject device
         QTableWidgetItem *item = new QTableWidgetItem("liu");
         tableCmdMod->setItem(rowCount+i, 12, item);
     }
+}
 
+void MainWindow::CreateCmdModTable(void){
+    QList<QString> keyList = tableMap.keys();//存放的就是QMap的key值
+    for(int i=0;i<keyList.size();i++)
+    {
+        QString groupName = keyList.at(i);
+        QTableWidget *tab = tableMap.value(groupName);
+        qDebug()<<"tableMap: "+groupName;
+        int rowCount = tab->rowCount();
+
+        QList<A0_CMD_t>* cmdGroup = (this->protocol.A0_CmdMod.value(groupName));
+
+        tab->setRowCount(rowCount+cmdGroup->count());
+        for(int i = 0; i < cmdGroup->count(); i++){
+
+            QTableWidgetItem *item = new QTableWidgetItem("Peter");
+            tab->setItem(rowCount+i, 12, item);
+        }
+
+    }
 }
 /****************************************************************
 *从deviceInfoObj中查找符合group_name的A0OrderMemberObj
@@ -590,6 +608,7 @@ int32_t MainWindow::AsignA0CmdFromJsonObj(QJsonObject A0_CmdObj, A0_CMD_t *A0_Cm
     }
     return 0;
 }
+
 int32_t MainWindow::ParseA0Cmd(QJsonValue jsonValue)
 {
     QJsonArray A0CmdMemberArr =  jsonValue.toArray();
@@ -601,27 +620,28 @@ int32_t MainWindow::ParseA0Cmd(QJsonValue jsonValue)
             return -1;
         }
 
-        if(JsonObjGetDirectChildMemberValue(A0_CmdObj, "orginAddress", &orginAddress) < 0){
-            qDebug() << "not find key group!";
-            return -1;
-        }
+//        if(JsonObjGetDirectChildMemberValue(A0_CmdObj, "orginAddress", &orginAddress) < 0){
+//            qDebug() << "not find key orginAddress!";
+//            return -1;
+//        }
 
-        if(JsonObjGetDirectChildMemberValue(A0_CmdObj, "targetAddress", &targetAddress) < 0){
-            qDebug() << "not find key group!";
-            return -1;
-        }
+//        if(JsonObjGetDirectChildMemberValue(A0_CmdObj, "targetAddress", &targetAddress) < 0){
+//            qDebug() << "not find key targetAddress!";
+//            return -1;
+//        }
 
         QString groupName = group.toString();
-        QList<A0_CMD_t> *cmdGroup = &(this->protocol.A0_CmdMod.value(groupName));
+        QList<A0_CMD_t>* cmdGroup = (this->protocol.A0_CmdMod.value(groupName));
 
         A0_CMD_t A0_CMD;
         A0_CMD.cmdGroup = groupName;
-        A0_CMD.originAddr = orginAddress.toInt();
-        A0_CMD.targetAddr = targetAddress.toInt();
+//        A0_CMD.originAddr = orginAddress.toInt();
+//        A0_CMD.targetAddr = targetAddress.toInt();
 
         AsignA0CmdFromJsonObj(A0_CmdObj, &A0_CMD);
 
         cmdGroup->append(A0_CMD);
+
     }
 }
 void MainWindow::on_listWidget_Device_doubleClicked(const QModelIndex &index)
@@ -648,16 +668,18 @@ void MainWindow::on_listWidget_Device_doubleClicked(const QModelIndex &index)
                 for(int i = 0; i < devicesInfoArr.count(); ++i){
                     QJsonObject deviceInfoObj = devicesInfoArr.at(i).toObject();
                     QStringList deviceInfoKeys = deviceInfoObj.keys();
+                    uint32_t groupCount;
                     for(auto deviceInfoKey : deviceInfoKeys){
 
                         if(QString::compare("groupInfoList", deviceInfoKey) == 0){
                             QJsonValue groupInfoListValue = deviceInfoObj.value(deviceInfoKey);
                             QJsonArray groupInfoListArr = groupInfoListValue.toArray();
+                            groupCount = groupInfoListArr.count();
                             for(int i = 0; i < groupInfoListArr.count(); ++i){
                                 QString groupMember = groupInfoListArr.at(i).toString();
                                 qDebug() << deviceInfoKey <<": "<< groupMember;
 
-                                QList<A0_CMD_t> A0_CMD;
+                                QList<A0_CMD_t> *A0_CmdList = new QList<A0_CMD_t>;
 
                                 QTableWidget *tab = new QTableWidget;
                                 this->protocol.cmd_mod_table.append(tab);
@@ -679,8 +701,14 @@ void MainWindow::on_listWidget_Device_doubleClicked(const QModelIndex &index)
                                     "}"
                                     );
 
+                                int rowCount = tab->rowCount();
+                                tab->setRowCount(rowCount+1);
+                                    QTableWidgetItem *item = new QTableWidgetItem("liu");
+                                    tab->setItem(rowCount+i, 12, item);
+
+
                                 //                                FilterCmdMod(tab, deviceInfoObj, groupInfoListArr.at(i).toString());
-                                this->protocol.A0_CmdMod.insert(groupMember, A0_CMD);
+                                this->protocol.A0_CmdMod.insert(groupMember, A0_CmdList);
                             }
                         }
                     }
@@ -690,6 +718,8 @@ void MainWindow::on_listWidget_Device_doubleClicked(const QModelIndex &index)
                             ParseA0Cmd(A0Order);
                         }
                     }
+                    CreateCmdModTable();
+
                 }
             }
 

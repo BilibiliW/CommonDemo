@@ -40,9 +40,9 @@ public:
     QList<QTabWidget*> device_tab;
 
     A0_CMD_t A0_CMD;
-    QList<A0_CMD_t> A0_CmdList;
+    QList<A0_CMD_t> *A0_CmdList;
 //    QList<A0_Cmd*> A0_CmdMod;
-    QMap<QString, QList<A0_CMD_t>> A0_CmdMod;
+    QMap<QString, QList<A0_CMD_t>*> A0_CmdMod;
 signals:
 
 };
