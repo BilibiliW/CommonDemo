@@ -6,42 +6,22 @@
 		{
 			"A0Order": [
 				{
-					"Read": {
-						"logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
-						"parameter": [
-							"float",
-							"float",
-							"float"
-						],
-						"parameterDesp": [
-							"P",
-							"I",
-							"D"
-						],
-						"unit": [
-							"\\",
-							"\\",
-							"\\"
-						]
-					},
-					"Write": {
-						"parameter": [
-							"float",
-							"float",
-							"float"
-						],
-						"parameterDesp": [
-							"P",
-							"I",
-							"D"
-						],
-						"storageLocation": "Flash",
-						"unit": [
-							"\\",
-							"\\",
-							"\\"
-						]
-					},
+
+					"parameter": [
+						"float",
+						"float",
+						"float"
+					],
+					"parameterDesp": [
+						"P",
+						"I",
+						"D"
+					],
+					"unit": [
+						"\\",
+						"\\",
+						"\\"
+					],
 					"access": "RW",
 					"defaultValue": 0,
 					"desp": "",
@@ -51,9 +31,9 @@
 						0,
 						0
 					],
-					"mainOrder": 3,
+					"mainCmdID": 3,
 					"name": "PID",
-					"subOrder": 3,
+					"subCmdID": 3,
 					"upperLimit": [
 						0,
 						0,
@@ -61,30 +41,15 @@
 					]
 				},
 				{
-					"Read": {
-						"logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
-						"parameter": [
-							"float"
-						],
-						"parameterDesp": [
-							"输出电压上限"
-						],
-						"unit": [
-							"V"
-						]
-					},
-					"Write": {
-						"parameter": [
-							"float"
-						],
-						"parameterDesp": [
-							"输出电压上限"
-						],
-						"storageLocation": "Flash",
-						"unit": [
-							"V"
-						]
-					},
+					"parameter": [
+						"float"
+					],
+					"parameterDesp": [
+						"输出电压上限"
+					],
+					"unit": [
+						"V"
+					],
 					"access": "RW",
 					"defaultValue": 0,
 					"desp": "",
@@ -92,44 +57,26 @@
 					"lowLimit": [
 						0
 					],
-					"mainOrder": 3,
+					"mainCmdID": 3,
 					"name": "加热输出上限",
-					"subOrder": 4,
+					"subCmdID": 4,
 					"upperLimit": [
 						0
 					]
 				},
 				{
-					"Read": {
-						"logDesp": "ADC校准-粗调斜率：%，截距：%，附加：%",
-						"parameter": [
-							"double",
-							"double"
-						],
-						"parameterDesp": [
-							"系数",
-							"系数"
-						],
-						"unit": [
-							"\\",
-							"\\"
-						]
-					},
-					"Write": {
-						"parameter": [
-							"double",
-							"double"
-						],
-						"parameterDesp": [
-							"系数",
-							"系数"
-						],
-						"storageLocation": "Flash",
-						"unit": [
-							"\\",
-							"\\"
-						]
-					},
+					"parameter": [
+						"double",
+						"double"
+					],
+					"parameterDesp": [
+						"系数",
+						"系数"
+					],
+					"unit": [
+						"\\",
+						"\\"
+					]
 					"access": "RW",
 					"defaultValue": 0,
 					"desp": "",
@@ -138,9 +85,9 @@
 						0,
 						0
 					],
-					"mainOrder": 3,
+					"mainCmdID": 3,
 					"name": "滤波器系数",
-					"subOrder": 5,
+					"subCmdID": 5,
 					"upperLimit": [
 						0,
 						0

@@ -29,7 +29,19 @@ public:
     QJsonObject json_root;
 
     bool realtime_show_lock;
-    void CreateCmdModTable(QTableWidget *protocolTableCmdMod, QJsonObject deviceInfoObj, QString group_name);
+    void CreateCmdModTable(QTableWidget *protocolTableCmdMod, QJsonObject deviceInfoObj);
+
+    int32_t FilterCmdMod(QTableWidget *tableCmdMod, QJsonObject deviceInfoObj, QString group_name);
+
+
+    int32_t JsonObjGetKey(QJsonObject jsonObj, QString keyName);
+    int32_t JsonObjGetValue(QJsonObject jsonObj, QString keyName, QJsonValue *value);
+    int32_t JsonArrGetValue(QJsonArray jsonArr, QString keyName, QJsonValue *value);
+    int32_t JsonObjGetParam(QJsonObject jsonObj, QJsonValue *value);
+
+    int32_t ParseA0Cmd(QJsonValue jsonValue);
+    int32_t JsonObjGetDirectChildMemberValue(QJsonObject jsonObj, QString keyName, QJsonValue *value);
+    int32_t AsignA0CmdFromJsonObj(QJsonObject A0_CmdObj, A0_CMD_t *A0_Cmd);
 private slots:
     void CommTypeUpdate(QString);
 
@@ -50,11 +62,13 @@ private slots:
 
     void on_pushButton_Save_clicked();
 
+    void on_listWidget_Device_doubleClicked(const QModelIndex &index);
+
 private:
     Ui::MainWindow *ui;
     HardwareInterface hard_interface;
     Protocol protocol;
-
+    QMap<QString, QTableWidget*> tableMap;
 };
 
 #endif // MAINWINDOW_H

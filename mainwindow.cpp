@@ -1,5 +1,6 @@
 #include <QDateTime>
 #include <QTableWidget>
+#include <QHeaderView>
 #include <QFileDialog>
 #include <QSettings>
 #include <QMessageBox>
@@ -213,8 +214,6 @@ void MainWindow::on_pushButton_CleanRealTimeWindows_clicked()
     ui->textEdit_RealTimeCommunicateData->setText("");
 }
 
-#include <QLabel>
-#include <QCheckBox>
 void MainWindow::on_actionImportJson_triggered()
 {
     QSettings setting("./Setting.ini", QSettings::IniFormat);  //QSettings能记录一些程序中的信息，下次再打开时可以读取出来
@@ -291,103 +290,195 @@ void MainWindow::on_actionImportJson_triggered()
                               QMessageBox::Ok,
                               QMessageBox::Ok);
     }
+}
 
+
+
+int32_t MainWindow::JsonObjGetValue(QJsonObject jsonObj, QString keyName, QJsonValue *value){
+    QStringList jsonObjKeys = jsonObj.keys();
+    for(auto jsonObjKey : jsonObjKeys){
+        if(QString::compare(keyName, jsonObjKey) == 0){
+            *value = jsonObj.value(jsonObjKey);
+            return 0;
+        }
+    }
+    return -1;
+
+//    QStringList jsonObjKeys = jsonObj.keys();
+//    for(auto jsonObjKey : jsonObjKeys){
+//        if(QString::compare(keyName, jsonObjKey) == 0){
+//            *value = jsonObj.value(jsonObjKey);
+//            return 0;
+//        }
+//    }
+    //    return -1;
+}
+
+int32_t MainWindow::JsonArrGetValue(QJsonArray jsonArr, QString keyName, QJsonValue *value)
+{
+    return 0;
+}
+
+int32_t MainWindow::JsonObjGetParam(QJsonObject jsonObj, QJsonValue *value){
+    QJsonValue access;
+    if(JsonObjGetValue(jsonObj, "access", &access) < 0){
+        qDebug() << "not find key access!";
+        return -1;
+    }
+
+    QString keyName;
+    if(QString::compare(access.toString(), "R") || QString::compare(access.toString(), "RW")){
+        keyName = "Read";
+    }
+    else{
+        keyName = "Write";
+    }
+
+    QJsonValue readOrWrite;
+
+    if(JsonObjGetValue(jsonObj, keyName, &readOrWrite) < 0){
+        qDebug() << "not find key readOrWrite!";
+        return -1;
+    }
+
+    QJsonValue parameter;
+    if(JsonObjGetValue(readOrWrite.toObject(), "parameter", &parameter) < 0){
+        qDebug() << "not find key parameter!";
+        return -1;
+    }
+    QJsonArray parameterArr = parameter.toArray();
+
+    return parameterArr.count();
+}
+
+
+
+
+
+void MainWindow::CreateCmdModTable(QTableWidget *tableCmdMod, QJsonObject deviceInfoObj){
+    QJsonValue access;
+    if(JsonObjGetValue(deviceInfoObj, "access", &access) < 0){
+        qDebug() << "not find key access!";
+        return;
+    }
+
+    QJsonValue parameter;
+    int parameterCount = JsonObjGetParam(deviceInfoObj, &parameter);
+    if(parameterCount <= 0){
+        qDebug() << "parameter count <= 0 !";
+        return;
+    }
+    int rowCount = tableCmdMod->rowCount();
+    tableCmdMod->setRowCount(rowCount+parameterCount);
+    for(int i = 0; i < parameterCount; i++){
+        QTableWidgetItem *item = new QTableWidgetItem("liu");
+        tableCmdMod->setItem(rowCount+i, 12, item);
+    }
 
 }
-void MainWindow::CreateCmdModTable(QTableWidget *protocolTabWidget, QJsonObject deviceInfoObj, QString group_name){
+/****************************************************************
+*从deviceInfoObj中查找符合group_name的A0OrderMemberObj
+*param deviceInfoObj->deviceInfo[i]
+*param tableCmdMod->主命令模块表格
+*param group_name->主命令模块名称
+****************************************************************/
+int32_t MainWindow::FilterCmdMod(QTableWidget *tableCmdMod, QJsonObject deviceInfoObj, QString group_name){
     QStringList deviceInfoKeys = deviceInfoObj.keys();
     for(auto deviceInfoKey : deviceInfoKeys){
         if(QString::compare("A0Order", deviceInfoKey) == 0){
             QJsonValue A0OrderValue = deviceInfoObj.value(deviceInfoKey);
             QJsonArray A0OrderArr = A0OrderValue.toArray();
 
-//            QStringList A0OrderKeys = A0OrderObj.keys();
-
             for(int i = 0; i < A0OrderArr.count(); ++i){
-                QJsonObject A0OrderSubObj = A0OrderArr.at(i).toObject();
-                QStringList A0OrderSubKeys = A0OrderSubObj.keys();
-                for(auto A0OrderSubKey : A0OrderSubKeys){
+                QJsonObject A0OrderMemberObj = A0OrderArr.at(i).toObject();
+                QStringList A0OrderMemberKeys = A0OrderMemberObj.keys();
+                for(auto A0OrderMemberKey : A0OrderMemberKeys){
 
-                    if(QString::compare("group", A0OrderSubKey) == 0){
-                        if(QString::compare("group", group_name) == 0){
-                            qDebug() << A0OrderSubKey <<":CreateCmdModTable "<< A0OrderSubObj.value(A0OrderSubKey);
+                    if(QString::compare("group", A0OrderMemberKey) == 0){
+                        QString modName= A0OrderMemberObj.value(A0OrderMemberKey).toString();
+                        if(QString::compare(group_name, modName) == 0){
+                            qDebug() << A0OrderMemberKey <<":CreateCmdModTable "<< modName;
+                            CreateCmdModTable(tableCmdMod, A0OrderMemberObj);
                         }
 
                     }
                 }
-//                if(QString::compare("group", A0OrderArr.at(i).toString()) == 0){
-//                    qDebug() << A0OrderArr <<":CreateCmdModTable "<< A0OrderArr.value(A0OrderKey);
-//                }
             }
+        }
+    }
+    return 0;
+}
+/****************************************************************
+*创建TabWidget, 根据添加Json文件中groupInfoList里的对应Tab
+*
+*
+****************************************************************/
+void MainWindow::on_listWidget_Device_itemSelectionChanged()
+{
+//    QString device_name = ui->listWidget_Device->currentItem()->text();
+//    qDebug()<<"index change"+device_name;
+//    if(this->protocol.device_tab.isEmpty() != true){
+//        qDebug()<<"index change"+device_name+"has already create, skip";
+//        return;
+//    }
+//    QTabWidget *protocolTabWidget = new QTabWidget();
+//    this->protocol.device_tab.append(protocolTabWidget);
+//    protocolTabWidget->setParent(this);
+//    protocolTabWidget->setGeometry(120, 180, 901, 281);
+//    protocolTabWidget->setMovable(true);
+//    QStringList keys = json_root.keys();
+//    for(auto key : keys){
+//        if(QString::compare("devicesInfo", key) == 0)
+//        {
+//            QJsonValue devicesInfoValue = json_root.value(key);
 
-//            for(auto A0OrderKey : A0OrderKeys){
+//            if(devicesInfoValue.isArray()){
+//                QJsonArray devicesInfoArr = devicesInfoValue.toArray();
+//                for(int i = 0; i < devicesInfoArr.count(); ++i){
+//                    QJsonObject deviceInfoObj = devicesInfoArr.at(i).toObject();
+//                    QStringList deviceInfoKeys = deviceInfoObj.keys();
+//                    for(auto deviceInfoKey : deviceInfoKeys){
 
-//                if(QString::compare("group", A0OrderKey) == 0){
-//                    if(QString::compare("group", group_name) == 0){
+//                        if(QString::compare("groupInfoList", deviceInfoKey) == 0){
+//                            QJsonValue groupInfoListValue = deviceInfoObj.value(deviceInfoKey);
+//                            QJsonArray groupInfoListArr = groupInfoListValue.toArray();
+//                            for(int i = 0; i < groupInfoListArr.count(); ++i){
+//                                qDebug() << deviceInfoKey <<": "<< groupInfoListArr.at(i).toString();
 
+//                                QList<A0_CMD_t> A0_CMD;
+
+//                                QTableWidget *tab = new QTableWidget;
+//                                this->protocol.cmd_mod_table.append(tab);
+//                                protocolTabWidget->addTab(tab, groupInfoListArr.at(i).toString());
+
+//                                QStringList tableHeadStrList = {"指令名称","指令类型","长度", "源地址", "目的地址", "主命令", "子命令", "类型", "值", "单位", "操作", "说明"};
+//                                tab->setColumnCount(12);
+//                                tab->setHorizontalHeaderLabels(tableHeadStrList);
+//                                tab->horizontalHeader()->setStyleSheet(
+//                                    "QHeaderView::section{"
+//                                    "border-top:0px solid #E5E5E5;"
+//                                    "border-left:0px solid #E5E5E5;"
+//                                    "border-right:0.5px solid #E5E5E5;"
+//                                    "border-bottom: 0.5px solid #E5E5E5;"
+//                                    "background-color:white;"
+//                                    "padding:4px;"
+//                                    "}"
+//                                    );
+
+////                                FilterCmdMod(tab, deviceInfoObj, groupInfoListArr.at(i).toString());
+//                                this->protocol.A0_CmdMod.insert(groupInfoListArr.at(i).toString(), A0_CMD);
+//                            }
+
+//                        }
 //                    }
-//                    qDebug() << A0OrderKey <<":CreateCmdModTable "<< A0OrderObj.value(A0OrderKey);
 //                }
 //            }
 
-        }
-    }
-//    for(int i = 0; i < this->protocol.cmd_mod_table.count(); i++){
-////        protocolTabWidget->addTab(this->protocol.cmd_mod_table.at(i),"tttt");
+//        }
 
 //    }
-}
 
-void MainWindow::on_listWidget_Device_itemSelectionChanged()
-{
-    QString device_name = ui->listWidget_Device->currentItem()->text();
-    qDebug()<<"index change"+device_name;
-    if(this->protocol.device_tab.isEmpty() != true){
-        qDebug()<<"index change"+device_name+"has already create, skip";
-        return;
-    }
-    QTabWidget *protocolTabWidget = new QTabWidget();
-    this->protocol.device_tab.append(protocolTabWidget);
-    protocolTabWidget->setParent(this);
-    protocolTabWidget->setGeometry(120, 200, 901, 281);
-    protocolTabWidget->setMovable(true);
-    QStringList keys = json_root.keys();
-    for(auto key : keys){
-        if(QString::compare("devicesInfo", key) == 0)
-        {
-            QJsonValue devicesInfoValue = json_root.value(key);
-
-            if(devicesInfoValue.isArray()){
-                QJsonArray devicesInfoArr = devicesInfoValue.toArray();
-                for(int i = 0; i < devicesInfoArr.count(); ++i){
-                    QJsonObject deviceInfoObj = devicesInfoArr.at(i).toObject();
-                    QStringList deviceInfoKeys = deviceInfoObj.keys();
-                    for(auto deviceInfoKey : deviceInfoKeys){
-
-                        if(QString::compare("groupInfoList", deviceInfoKey) == 0){
-                            QJsonValue groupInfoListValue = deviceInfoObj.value(deviceInfoKey);
-                            QJsonArray groupInfoListArr = groupInfoListValue.toArray();
-                            for(int i = 0; i < groupInfoListArr.count(); ++i){
-                                qDebug() << deviceInfoKey <<": "<< groupInfoListArr.at(i).toString();
-                                QTableWidget *tab = new QTableWidget;
-                                this->protocol.cmd_mod_table.append(tab);
-                                protocolTabWidget->addTab(tab, groupInfoListArr.at(i).toString());
-                                CreateCmdModTable(tab, deviceInfoObj, groupInfoListArr.at(i).toString());
-//                                protocolTabWidget->addTab(groupInfoListArr.at(i).toString());
-                            }
-
-                        }
-                    }
-                }
-            }
-
-        }
-
-    }
-
-    protocolTabWidget->show();
-
-
+//    protocolTabWidget->show();
 }
 
 
@@ -424,5 +515,188 @@ void MainWindow::on_pushButton_Save_clicked()
 //    buttonTest->setGeometry(120, 201, 900, 200);
 //    buttonTest->show();//此步骤显示，如果不设父控件则是悬浮于桌面
 
+}
+
+int32_t MainWindow::JsonObjGetDirectChildMemberValue(QJsonObject jsonObj, QString keyName, QJsonValue *value)
+{
+    QStringList jsonObjKeys = jsonObj.keys();
+    for(auto jsonObjKey : jsonObjKeys){
+        if(QString::compare(keyName, jsonObjKey) == 0){
+            *value = jsonObj.value(jsonObjKey);
+            return 0;
+        }
+    }
+    return -1;
+}
+
+int32_t MainWindow::AsignA0CmdFromJsonObj(QJsonObject A0_CmdObj, A0_CMD_t *A0_Cmd){
+    QStringList A0_CmdKeys = A0_CmdObj.keys();
+    for(auto A0_CmdKey : A0_CmdKeys){
+//        if(QString::compare("group", A0_CmdKey) == 0){
+//            A0_Cmd->cmdGroup = A0_CmdObj.value(A0_CmdKey);
+//        }
+        if(QString::compare("name", A0_CmdKey) == 0){
+            A0_Cmd->cmdName = A0_CmdObj.value(A0_CmdKey).toString();
+        }
+        else if(QString::compare("access", A0_CmdKey) == 0){
+            A0_Cmd->access = A0_CmdObj.value(A0_CmdKey).toString();
+        }
+        else if(QString::compare("mainCmdID", A0_CmdKey) == 0){
+            A0_Cmd->mainCmdID = A0_CmdObj.value(A0_CmdKey).toInt();
+        }
+        else if(QString::compare("subCmdID", A0_CmdKey) == 0){
+            A0_Cmd->subCmdID = A0_CmdObj.value(A0_CmdKey).toInt();
+        }
+        else if(QString::compare("desp", A0_CmdKey) == 0){
+            A0_Cmd->descrip = A0_CmdObj.value(A0_CmdKey).toString();
+        }
+        else if(QString::compare("dataType", A0_CmdKey) == 0){
+            QJsonArray dataTypeArr = A0_CmdObj.value(A0_CmdKey).toArray();
+            QStringList dataTypeList;
+            for(int i = 0; i < dataTypeArr.count(); i++){
+                QString str = dataTypeArr.at(i).toString();
+                dataTypeList.append(str);
+            }
+            A0_Cmd->dataType = dataTypeList;
+            A0_Cmd->dataCount = dataTypeArr.count();
+        }
+        else if(QString::compare("unit", A0_CmdKey) == 0){
+            QJsonArray unitArr = A0_CmdObj.value(A0_CmdKey).toArray();
+            QStringList unitList;
+            for(int i = 0; i < unitArr.count(); i++){
+                QString str = unitArr.at(i).toString();
+                unitList.append(str);
+            }
+            A0_Cmd->unit = unitList;
+        }
+        else if(QString::compare("lowLimit", A0_CmdKey) == 0){
+            QJsonArray lowLimitArr = A0_CmdObj.value(A0_CmdKey).toArray();
+            QStringList lowLimitList;
+            for(int i = 0; i < lowLimitArr.count(); i++){
+                QString str = lowLimitArr.at(i).toString();
+                lowLimitList.append(str);
+            }
+            A0_Cmd->lowLimit = lowLimitList;
+        }
+        else if(QString::compare("upLimit", A0_CmdKey) == 0){
+            QJsonArray upLimitArr = A0_CmdObj.value(A0_CmdKey).toArray();
+            QStringList upLimitList;
+            for(int i = 0; i < upLimitArr.count(); i++){
+                QString str = upLimitArr.at(i).toString();
+                upLimitList.append(str);
+            }
+            A0_Cmd->upLimit = upLimitList;
+        }
+    }
+    return 0;
+}
+int32_t MainWindow::ParseA0Cmd(QJsonValue jsonValue)
+{
+    QJsonArray A0CmdMemberArr =  jsonValue.toArray();
+    for(int i = 0; i < A0CmdMemberArr.count(); i++){
+        QJsonObject A0_CmdObj = A0CmdMemberArr.at(i).toObject();
+        QJsonValue group, orginAddress, targetAddress;
+        if(JsonObjGetDirectChildMemberValue(A0_CmdObj, "group", &group) < 0){
+            qDebug() << "not find key group!";
+            return -1;
+        }
+
+        if(JsonObjGetDirectChildMemberValue(A0_CmdObj, "orginAddress", &orginAddress) < 0){
+            qDebug() << "not find key group!";
+            return -1;
+        }
+
+        if(JsonObjGetDirectChildMemberValue(A0_CmdObj, "targetAddress", &targetAddress) < 0){
+            qDebug() << "not find key group!";
+            return -1;
+        }
+
+        QString groupName = group.toString();
+        QList<A0_CMD_t> *cmdGroup = &(this->protocol.A0_CmdMod.value(groupName));
+
+        A0_CMD_t A0_CMD;
+        A0_CMD.cmdGroup = groupName;
+        A0_CMD.originAddr = orginAddress.toInt();
+        A0_CMD.targetAddr = targetAddress.toInt();
+
+        AsignA0CmdFromJsonObj(A0_CmdObj, &A0_CMD);
+
+        cmdGroup->append(A0_CMD);
+    }
+}
+void MainWindow::on_listWidget_Device_doubleClicked(const QModelIndex &index)
+{
+    QString device_name = ui->listWidget_Device->currentItem()->text();
+    qDebug()<<"index change"+device_name;
+    if(this->protocol.device_tab.isEmpty() != true){
+        qDebug()<<"index change"+device_name+"has already create, skip";
+        return;
+    }
+    QTabWidget *protocolTabWidget = new QTabWidget();
+    this->protocol.device_tab.append(protocolTabWidget);
+    protocolTabWidget->setParent(this);
+    protocolTabWidget->setGeometry(120, 180, 901, 281);
+    protocolTabWidget->setMovable(true);
+    QStringList keys = json_root.keys();
+    for(auto key : keys){
+        if(QString::compare("devicesInfo", key) == 0)
+        {
+            QJsonValue devicesInfoValue = json_root.value(key);
+
+            if(devicesInfoValue.isArray()){
+                QJsonArray devicesInfoArr = devicesInfoValue.toArray();
+                for(int i = 0; i < devicesInfoArr.count(); ++i){
+                    QJsonObject deviceInfoObj = devicesInfoArr.at(i).toObject();
+                    QStringList deviceInfoKeys = deviceInfoObj.keys();
+                    for(auto deviceInfoKey : deviceInfoKeys){
+
+                        if(QString::compare("groupInfoList", deviceInfoKey) == 0){
+                            QJsonValue groupInfoListValue = deviceInfoObj.value(deviceInfoKey);
+                            QJsonArray groupInfoListArr = groupInfoListValue.toArray();
+                            for(int i = 0; i < groupInfoListArr.count(); ++i){
+                                QString groupMember = groupInfoListArr.at(i).toString();
+                                qDebug() << deviceInfoKey <<": "<< groupMember;
+
+                                QList<A0_CMD_t> A0_CMD;
+
+                                QTableWidget *tab = new QTableWidget;
+                                this->protocol.cmd_mod_table.append(tab);
+                                protocolTabWidget->addTab(tab, groupMember);
+
+                                tableMap.insert(groupMember, tab);
+
+                                QStringList tableHeadStrList = {"指令名称","指令类型","长度", "源地址", "目的地址", "主命令", "子命令", "类型", "值", "单位", "操作", "说明"};
+                                tab->setColumnCount(12);
+                                tab->setHorizontalHeaderLabels(tableHeadStrList);
+                                tab->horizontalHeader()->setStyleSheet(
+                                    "QHeaderView::section{"
+                                    "border-top:0px solid #E5E5E5;"
+                                    "border-left:0px solid #E5E5E5;"
+                                    "border-right:0.5px solid #E5E5E5;"
+                                    "border-bottom: 0.5px solid #E5E5E5;"
+                                    "background-color:white;"
+                                    "padding:4px;"
+                                    "}"
+                                    );
+
+                                //                                FilterCmdMod(tab, deviceInfoObj, groupInfoListArr.at(i).toString());
+                                this->protocol.A0_CmdMod.insert(groupMember, A0_CMD);
+                            }
+                        }
+                    }
+                    for(auto deviceInfoKey : deviceInfoKeys){
+                        if(QString::compare("A0Order", deviceInfoKey) == 0){
+                            QJsonValue A0Order = deviceInfoObj.value(deviceInfoKey);
+                            ParseA0Cmd(A0Order);
+                        }
+                    }
+                }
+            }
+
+        }
+
+    }
+
+    protocolTabWidget->show();
 }
 
