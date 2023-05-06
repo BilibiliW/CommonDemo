@@ -381,15 +381,64 @@ void MainWindow::CreateCmdModTable(void){
         QString groupName = keyList.at(i);
         QTableWidget *tab = tableMap.value(groupName);
         qDebug()<<"tableMap: "+groupName;
-        int rowCount = tab->rowCount();
+
 
         QList<A0_CMD_t>* cmdGroup = (this->protocol.A0_CmdMod.value(groupName));
 
-        tab->setRowCount(rowCount+cmdGroup->count());
+
         for(int i = 0; i < cmdGroup->count(); i++){
 
-            QTableWidgetItem *item = new QTableWidgetItem("Peter");
-            tab->setItem(rowCount+i, 12, item);
+            A0_CMD_t A0_Cmd = cmdGroup->at(i);
+            int rowCount = tab->rowCount();
+            tab->setRowCount(rowCount + A0_Cmd.dataCount);
+
+            QTableWidgetItem *item = new QTableWidgetItem(cmdGroup->at(i).cmdName);
+            tab->setItem(rowCount, 0, item);
+            tab->setSpan(rowCount, 0, A0_Cmd.dataCount, 1);
+
+            QComboBox *comboBoxCmdType = new QComboBox();
+            QStringList cmdTypeList = {"A0", "A1", "A2", "A3"};
+            comboBoxCmdType->addItems(cmdTypeList);
+            tab->setCellWidget(rowCount, 1, comboBoxCmdType);
+            tab->setSpan(rowCount, 1, A0_Cmd.dataCount, 1);
+
+            QTableWidgetItem *item2 = new QTableWidgetItem(QString::number(cmdGroup->at(i).len));
+            tab->setItem(rowCount, 2, item2);
+            tab->setSpan(rowCount, 2, A0_Cmd.dataCount, 1);
+
+            QTableWidgetItem *item3 = new QTableWidgetItem(QString::number(cmdGroup->at(i).originAddr));
+            tab->setItem(rowCount, 3, item3);
+            tab->setSpan(rowCount, 3, A0_Cmd.dataCount, 1);
+
+            qDebug()<<"originAddr:"+(QString::number(cmdGroup->at(i).originAddr));
+
+            QTableWidgetItem *item4 = new QTableWidgetItem(QString::number(cmdGroup->at(i).targetAddr));
+            tab->setItem(rowCount, 4, item4);
+            tab->setSpan(rowCount, 4, A0_Cmd.dataCount, 1);
+
+            QTableWidgetItem *item5 = new QTableWidgetItem(QString::number(cmdGroup->at(i).mainCmdID));
+            tab->setItem(rowCount, 5, item5);
+            tab->setSpan(rowCount, 5, A0_Cmd.dataCount, 1);
+
+            QTableWidgetItem *item6 = new QTableWidgetItem(QString::number(cmdGroup->at(i).subCmdID));
+            tab->setItem(rowCount, 6, item6);
+            tab->setSpan(rowCount, 6, A0_Cmd.dataCount, 1);
+
+            for(int i = 0; i < A0_Cmd.unit.count(); i++){
+                QComboBox *comboBoxDataType = new QComboBox();
+                QStringList dataTypeList = {"bool", "uint8_t", "int8_t", "uint16_t", "int16_t", "uint32_t", "int32_t", "uint64_t", "int64_t", "float", "double", "string"};
+                comboBoxDataType->addItems(dataTypeList);
+                tab->setCellWidget(rowCount + i, 7, comboBoxDataType);
+
+                QString str = A0_Cmd.unit.at(i);
+                qDebug()<<"A0_Cmd.unit :"+str;
+                QTableWidgetItem *itemDataValue = new QTableWidgetItem("");
+                tab->setItem(rowCount + i, 8, itemDataValue);
+
+                QTableWidgetItem *itemUnit = new QTableWidgetItem(A0_Cmd.unit.at(i));
+                tab->setItem(rowCount + i, 9, itemUnit);
+            }
+
         }
 
     }
@@ -426,79 +475,6 @@ int32_t MainWindow::FilterCmdMod(QTableWidget *tableCmdMod, QJsonObject deviceIn
     }
     return 0;
 }
-/****************************************************************
-*创建TabWidget, 根据添加Json文件中groupInfoList里的对应Tab
-*
-*
-****************************************************************/
-void MainWindow::on_listWidget_Device_itemSelectionChanged()
-{
-//    QString device_name = ui->listWidget_Device->currentItem()->text();
-//    qDebug()<<"index change"+device_name;
-//    if(this->protocol.device_tab.isEmpty() != true){
-//        qDebug()<<"index change"+device_name+"has already create, skip";
-//        return;
-//    }
-//    QTabWidget *protocolTabWidget = new QTabWidget();
-//    this->protocol.device_tab.append(protocolTabWidget);
-//    protocolTabWidget->setParent(this);
-//    protocolTabWidget->setGeometry(120, 180, 901, 281);
-//    protocolTabWidget->setMovable(true);
-//    QStringList keys = json_root.keys();
-//    for(auto key : keys){
-//        if(QString::compare("devicesInfo", key) == 0)
-//        {
-//            QJsonValue devicesInfoValue = json_root.value(key);
-
-//            if(devicesInfoValue.isArray()){
-//                QJsonArray devicesInfoArr = devicesInfoValue.toArray();
-//                for(int i = 0; i < devicesInfoArr.count(); ++i){
-//                    QJsonObject deviceInfoObj = devicesInfoArr.at(i).toObject();
-//                    QStringList deviceInfoKeys = deviceInfoObj.keys();
-//                    for(auto deviceInfoKey : deviceInfoKeys){
-
-//                        if(QString::compare("groupInfoList", deviceInfoKey) == 0){
-//                            QJsonValue groupInfoListValue = deviceInfoObj.value(deviceInfoKey);
-//                            QJsonArray groupInfoListArr = groupInfoListValue.toArray();
-//                            for(int i = 0; i < groupInfoListArr.count(); ++i){
-//                                qDebug() << deviceInfoKey <<": "<< groupInfoListArr.at(i).toString();
-
-//                                QList<A0_CMD_t> A0_CMD;
-
-//                                QTableWidget *tab = new QTableWidget;
-//                                this->protocol.cmd_mod_table.append(tab);
-//                                protocolTabWidget->addTab(tab, groupInfoListArr.at(i).toString());
-
-//                                QStringList tableHeadStrList = {"指令名称","指令类型","长度", "源地址", "目的地址", "主命令", "子命令", "类型", "值", "单位", "操作", "说明"};
-//                                tab->setColumnCount(12);
-//                                tab->setHorizontalHeaderLabels(tableHeadStrList);
-//                                tab->horizontalHeader()->setStyleSheet(
-//                                    "QHeaderView::section{"
-//                                    "border-top:0px solid #E5E5E5;"
-//                                    "border-left:0px solid #E5E5E5;"
-//                                    "border-right:0.5px solid #E5E5E5;"
-//                                    "border-bottom: 0.5px solid #E5E5E5;"
-//                                    "background-color:white;"
-//                                    "padding:4px;"
-//                                    "}"
-//                                    );
-
-////                                FilterCmdMod(tab, deviceInfoObj, groupInfoListArr.at(i).toString());
-//                                this->protocol.A0_CmdMod.insert(groupInfoListArr.at(i).toString(), A0_CMD);
-//                            }
-
-//                        }
-//                    }
-//                }
-//            }
-
-//        }
-
-//    }
-
-//    protocolTabWidget->show();
-}
-
 
 void MainWindow::on_pushButton_Save_clicked()
 {
@@ -614,29 +590,19 @@ int32_t MainWindow::ParseA0Cmd(QJsonValue jsonValue)
     QJsonArray A0CmdMemberArr =  jsonValue.toArray();
     for(int i = 0; i < A0CmdMemberArr.count(); i++){
         QJsonObject A0_CmdObj = A0CmdMemberArr.at(i).toObject();
-        QJsonValue group, orginAddress, targetAddress;
+        QJsonValue group;
         if(JsonObjGetDirectChildMemberValue(A0_CmdObj, "group", &group) < 0){
             qDebug() << "not find key group!";
             return -1;
         }
-
-//        if(JsonObjGetDirectChildMemberValue(A0_CmdObj, "orginAddress", &orginAddress) < 0){
-//            qDebug() << "not find key orginAddress!";
-//            return -1;
-//        }
-
-//        if(JsonObjGetDirectChildMemberValue(A0_CmdObj, "targetAddress", &targetAddress) < 0){
-//            qDebug() << "not find key targetAddress!";
-//            return -1;
-//        }
 
         QString groupName = group.toString();
         QList<A0_CMD_t>* cmdGroup = (this->protocol.A0_CmdMod.value(groupName));
 
         A0_CMD_t A0_CMD;
         A0_CMD.cmdGroup = groupName;
-//        A0_CMD.originAddr = orginAddress.toInt();
-//        A0_CMD.targetAddr = targetAddress.toInt();
+        A0_CMD.originAddr = this->protocol.device.originAddr;
+        A0_CMD.targetAddr = this->protocol.device.targetAddr;
 
         AsignA0CmdFromJsonObj(A0_CmdObj, &A0_CMD);
 
@@ -701,17 +667,20 @@ void MainWindow::on_listWidget_Device_doubleClicked(const QModelIndex &index)
                                     "}"
                                     );
 
-                                int rowCount = tab->rowCount();
-                                tab->setRowCount(rowCount+1);
-                                    QTableWidgetItem *item = new QTableWidgetItem("liu");
-                                    tab->setItem(rowCount+i, 12, item);
-
-
                                 //                                FilterCmdMod(tab, deviceInfoObj, groupInfoListArr.at(i).toString());
                                 this->protocol.A0_CmdMod.insert(groupMember, A0_CmdList);
                             }
                         }
+                        else if(QString::compare("originAddress", deviceInfoKey) == 0){
+                            QJsonValue originAddressValue = deviceInfoObj.value(deviceInfoKey);
+                            this->protocol.device.originAddr = originAddressValue.toInt();
+                        }
+                        else if(QString::compare("targetAddress", deviceInfoKey) == 0){
+                            QJsonValue targetAddressValue = deviceInfoObj.value(deviceInfoKey);
+                            this->protocol.device.targetAddr = targetAddressValue.toInt();
+                        }
                     }
+
                     for(auto deviceInfoKey : deviceInfoKeys){
                         if(QString::compare("A0Order", deviceInfoKey) == 0){
                             QJsonValue A0Order = deviceInfoObj.value(deviceInfoKey);

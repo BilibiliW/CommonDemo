@@ -57,10 +57,6 @@ private slots:
 
     void on_actionImportJson_triggered();
 
-//signals:void listItemClicked(int);
-
-    void on_listWidget_Device_itemSelectionChanged();
-
     void on_pushButton_Save_clicked();
 
     void on_listWidget_Device_doubleClicked(const QModelIndex &index);

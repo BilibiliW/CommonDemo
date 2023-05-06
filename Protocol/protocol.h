@@ -28,9 +28,19 @@ typedef struct{
 }A0_CMD_t;
 
 typedef struct{
-    QString cmdName;
+    QString boardName;
+    uint16_t originAddr;
+    uint16_t targetAddr;
+    QStringList cmdGroup;
+    QMap<QString, QList<A0_CMD_t>*> A0_CmdMod;
+    QString communicate;
+}board_t;
 
-}A0_CMD_MOD_t;
+typedef struct{
+    uint32_t originAddr;
+    uint32_t targetAddr;
+}device_t;
+
 class Protocol : public QWidget
 {
     Q_OBJECT
@@ -39,10 +49,16 @@ public:
     QList<QTableWidget*> cmd_mod_table;
     QList<QTabWidget*> device_tab;
 
-    A0_CMD_t A0_CMD;
-    QList<A0_CMD_t> *A0_CmdList;
+
+    device_t device;
+
+//    A0_CMD_t A0_CMD;
+//    QList<A0_CMD_t> *A0_CmdList;
 //    QList<A0_Cmd*> A0_CmdMod;
     QMap<QString, QList<A0_CMD_t>*> A0_CmdMod;
+
+
+
 signals:
 
 };

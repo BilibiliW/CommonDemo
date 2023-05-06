@@ -18,9 +18,9 @@
 						"float"
 					],
 					"unit": [
-						"\\",
-						"\\",
-						"\\"
+						"null",
+						"null",
+						"null"
 					],
 					"defaultValue":[
 						0,
@@ -73,8 +73,8 @@
 						"double"
 					],
 					"unit": [
-						"\\",
-						"\\"
+						"null",
+						"null"
 					],
 					"defaultValue":[
 						0,
@@ -115,7 +115,7 @@
 				"流程控制指令",
 				"主动上传指令"
 			],
-			"orginAddress": 0,
+			"originAddress": 0,
 			"targetAddress": 1
 		}
 	],
