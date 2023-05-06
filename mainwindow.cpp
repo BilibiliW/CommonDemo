@@ -170,6 +170,12 @@ void MainWindow::on_pushButton_SerialConnect_clicked()
     }
 }
 
+/***********************************************************************************
+ * @brief 实时数据窗口
+ * @par
+ * None
+ * @retval
+ **********************************************************************************/
 void MainWindow::RecvData()
 {    
     QByteArray str_arr = serial_comm->serial_port->readAll();
@@ -192,11 +198,14 @@ void MainWindow::RecvData()
     ui->textEdit_RealTimeCommunicateData->insertPlainText(current_date + ": " + str + '\n');
 }
 
-
+/***********************************************************************************
+ * @brief 实时数据窗口内容锁定和解锁
+ * @par
+ * None
+ * @retval
+ **********************************************************************************/
 void MainWindow::on_pushButton_LockRealTimeWindows_clicked()
 {
-    static bool connected = false;
-
     if(realtime_show_lock == false){
         realtime_show_lock = true;
         ui->pushButton_LockRealTimeWindows->setText("Unlock");
@@ -205,91 +214,17 @@ void MainWindow::on_pushButton_LockRealTimeWindows_clicked()
         realtime_show_lock = false;
         ui->pushButton_LockRealTimeWindows->setText("Lock");
     }
-
 }
 
-
+/***********************************************************************************
+ * @brief 清空实时数据窗口数据
+ * @par
+ * None
+ * @retval
+ **********************************************************************************/
 void MainWindow::on_pushButton_CleanRealTimeWindows_clicked()
 {
     ui->textEdit_RealTimeCommunicateData->setText("");
-}
-
-void MainWindow::on_actionImportJson_triggered()
-{
-    QSettings setting("./Setting.ini", QSettings::IniFormat);  //QSettings能记录一些程序中的信息，下次再打开时可以读取出来
-    QString lastPath = setting.value("LastFilePath").toString();  //获取上次的打开路径
-
-    QString fileName = QFileDialog::getOpenFileName(this, QStringLiteral("配置文件"), lastPath, QStringLiteral("json文件(*json);"));
-    qDebug()<<fileName;
-    if(!fileName.isEmpty())
-    {
-        setting.setValue("LastFilePath", fileName);  //记录路径到QSetting中保存
-    }
-
-    QFile file(fileName);
-    QByteArray jsonData;
-    if(file.open(QIODevice::ReadOnly)){
-        jsonData = file.readAll();
-        file.close();
-    }
-
-    QJsonDocument jsonDocu = QJsonDocument::fromJson(jsonData);
-    if(jsonDocu.isObject()){
-//        QJsonObject obj_root = jsonDocu.object();
-        json_root = jsonDocu.object();
-        QStringList keys = json_root.keys();
-        for(auto key : keys){
-            QJsonValue value = json_root.value(key);
-
-            if(QString::compare("DeviceList", key) == 0){
-
-                QJsonArray arr = value.toArray();
-                for(int i = 0; i < arr.count(); ++i){
-                    QListWidgetItem *item = new QListWidgetItem();
-                    ui->listWidget_Device->addItem(item);
-                    item->setText(arr.at(i).toString());
-//                    connect(item, SIGNAL(listItemClicked(int)), this, SLOT(clickedLeftItem(int)));
-                }
-            }
-            if(value.isString()){
-                qDebug() << key <<": "<< value.toString();
-
-//                if(qstrcmp("DeviceList", value.toString()) == 0){
-
-//                }
-            }
-            else if(value.isDouble()){
-                qDebug() << key <<": "<< value.toInt();
-            }
-            else if(value.isArray()){
-                QJsonArray arr = value.toArray();
-                for(int i = 0; i < arr.count(); ++i){
-                    if(arr.at(i).isString()){
-                        qDebug() << key <<": "<< arr.at(i).toString();
-                    }
-                    //这里就不判断是否为其它类型了，因为测试文件已知为字符串，要写也和上面类似，无限套娃
-                }
-            }
-            else if(value.isObject()){
-                QJsonObject subObj = value.toObject();
-                QStringList subKeys = subObj.keys();
-                for(auto subKey : subKeys){
-                    QJsonValue subValue = subObj.value(subKey);
-                    if(subValue.isString()){
-                        qDebug() << subKey <<": "<< subValue.toString();
-                    }
-                    //这里就不判断是否为其它类型了，因为测试文件已知为字符串，要写也和上面类似，无限套娃
-                }
-            }
-        }
-    }
-    else{
-        QMessageBox::question(this,
-                              tr("Info"),
-                              tr("Json文件格式异常，请检查！"),
-                              QMessageBox::Ok,
-                              QMessageBox::Ok);
-    }
 }
 
 
@@ -374,6 +309,16 @@ void MainWindow::CreateCmdModTable(QTableWidget *tableCmdMod, QJsonObject device
     }
 }
 
+int32_t MainWindow::TableWidgetSetComboBox(QComboBox* comboBox, QString comboBoxText){
+    for(int i = 0; i < comboBox->count(); i++){
+        if(QString::compare(comboBox->itemText(i), comboBoxText) == 0){
+            comboBox->setCurrentIndex(i);
+        }
+    }
+
+    return 0;
+}
+
 void MainWindow::CreateCmdModTable(void){
     QList<QString> keyList = tableMap.keys();//存放的就是QMap的key值
     for(int i=0;i<keyList.size();i++)
@@ -382,99 +327,83 @@ void MainWindow::CreateCmdModTable(void){
         QTableWidget *tab = tableMap.value(groupName);
         qDebug()<<"tableMap: "+groupName;
 
+        QList<A0_CMD_t>* cmdGroupList = (this->protocol.A0_CmdMod.value(groupName));
 
-        QList<A0_CMD_t>* cmdGroup = (this->protocol.A0_CmdMod.value(groupName));
+        for(int i = 0; i < cmdGroupList->count(); i++){
 
-
-        for(int i = 0; i < cmdGroup->count(); i++){
-
-            A0_CMD_t A0_Cmd = cmdGroup->at(i);
+            A0_CMD_t A0Cmd = cmdGroupList->at(i);
             int rowCount = tab->rowCount();
-            tab->setRowCount(rowCount + A0_Cmd.dataCount);
+            tab->setRowCount(rowCount + A0Cmd.dataCount);
 
-            QTableWidgetItem *item = new QTableWidgetItem(cmdGroup->at(i).cmdName);
+            QTableWidgetItem *item = new QTableWidgetItem(A0Cmd.cmdName);
             tab->setItem(rowCount, 0, item);
-            tab->setSpan(rowCount, 0, A0_Cmd.dataCount, 1);
+            tab->setSpan(rowCount, 0, A0Cmd.dataCount, 1);
 
             QComboBox *comboBoxCmdType = new QComboBox();
             QStringList cmdTypeList = {"A0", "A1", "A2", "A3"};
             comboBoxCmdType->addItems(cmdTypeList);
             tab->setCellWidget(rowCount, 1, comboBoxCmdType);
-            tab->setSpan(rowCount, 1, A0_Cmd.dataCount, 1);
+            tab->setSpan(rowCount, 1, A0Cmd.dataCount, 1);
+            TableWidgetSetComboBox(comboBoxCmdType, A0Cmd.cmdType);
 
-            QTableWidgetItem *item2 = new QTableWidgetItem(QString::number(cmdGroup->at(i).len));
+            QTableWidgetItem *item2 = new QTableWidgetItem(QString::number(A0Cmd.len));
             tab->setItem(rowCount, 2, item2);
-            tab->setSpan(rowCount, 2, A0_Cmd.dataCount, 1);
+            tab->setSpan(rowCount, 2, A0Cmd.dataCount, 1);
 
-            QTableWidgetItem *item3 = new QTableWidgetItem(QString::number(cmdGroup->at(i).originAddr));
+            QTableWidgetItem *item3 = new QTableWidgetItem(QString::number(A0Cmd.originAddr));
             tab->setItem(rowCount, 3, item3);
-            tab->setSpan(rowCount, 3, A0_Cmd.dataCount, 1);
+            tab->setSpan(rowCount, 3, A0Cmd.dataCount, 1);
 
-            qDebug()<<"originAddr:"+(QString::number(cmdGroup->at(i).originAddr));
+            qDebug()<<"originAddr:"+(QString::number(A0Cmd.originAddr));
 
-            QTableWidgetItem *item4 = new QTableWidgetItem(QString::number(cmdGroup->at(i).targetAddr));
+            QTableWidgetItem *item4 = new QTableWidgetItem(QString::number(A0Cmd.targetAddr));
             tab->setItem(rowCount, 4, item4);
-            tab->setSpan(rowCount, 4, A0_Cmd.dataCount, 1);
+            tab->setSpan(rowCount, 4, A0Cmd.dataCount, 1);
 
-            QTableWidgetItem *item5 = new QTableWidgetItem(QString::number(cmdGroup->at(i).mainCmdID));
+            QTableWidgetItem *item5 = new QTableWidgetItem(QString::number(A0Cmd.mainCmdID));
             tab->setItem(rowCount, 5, item5);
-            tab->setSpan(rowCount, 5, A0_Cmd.dataCount, 1);
+            tab->setSpan(rowCount, 5, A0Cmd.dataCount, 1);
 
-            QTableWidgetItem *item6 = new QTableWidgetItem(QString::number(cmdGroup->at(i).subCmdID));
+            QTableWidgetItem *item6 = new QTableWidgetItem(QString::number(A0Cmd.subCmdID));
             tab->setItem(rowCount, 6, item6);
-            tab->setSpan(rowCount, 6, A0_Cmd.dataCount, 1);
+            tab->setSpan(rowCount, 6, A0Cmd.dataCount, 1);
 
-            for(int i = 0; i < A0_Cmd.unit.count(); i++){
+            for(int i = 0; i < A0Cmd.unit.count(); i++){
                 QComboBox *comboBoxDataType = new QComboBox();
                 QStringList dataTypeList = {"bool", "uint8_t", "int8_t", "uint16_t", "int16_t", "uint32_t", "int32_t", "uint64_t", "int64_t", "float", "double", "string"};
                 comboBoxDataType->addItems(dataTypeList);
                 tab->setCellWidget(rowCount + i, 7, comboBoxDataType);
+                TableWidgetSetComboBox(comboBoxDataType, A0Cmd.dataType.at(i));
 
-                QString str = A0_Cmd.unit.at(i);
-                qDebug()<<"A0_Cmd.unit :"+str;
+                QString str = A0Cmd.unit.at(i);
+                qDebug()<<"A0Cmd.unit :"+str;
                 QTableWidgetItem *itemDataValue = new QTableWidgetItem("");
                 tab->setItem(rowCount + i, 8, itemDataValue);
 
-                QTableWidgetItem *itemUnit = new QTableWidgetItem(A0_Cmd.unit.at(i));
+                QTableWidgetItem *itemUnit = new QTableWidgetItem(A0Cmd.unit.at(i));
                 tab->setItem(rowCount + i, 9, itemUnit);
             }
 
+//            QPushButton *btnRead = new QPushButton("读");
+//            tab->setCellWidget(rowCount, 10, btnRead);
+
+            QPushButton *btnRead = new QPushButton("读");
+            QPushButton *btnWrite = new QPushButton("写");
+
+            QWidget *widgetReadWrite = new QWidget();
+            QHBoxLayout *layoutReadWrite = new QHBoxLayout(widgetReadWrite);
+            layoutReadWrite->addWidget(btnRead);
+            layoutReadWrite->addWidget(btnWrite);
+            layoutReadWrite->sizeHint();
+
+            tab->setCellWidget(rowCount, 10, widgetReadWrite);
+            tab->setSpan(rowCount, 10, A0Cmd.dataCount, 1);
+
         }
 
     }
 }
-/****************************************************************
-*从deviceInfoObj中查找符合group_name的A0OrderMemberObj
-*param deviceInfoObj->deviceInfo[i]
-*param tableCmdMod->主命令模块表格
-*param group_name->主命令模块名称
-****************************************************************/
-int32_t MainWindow::FilterCmdMod(QTableWidget *tableCmdMod, QJsonObject deviceInfoObj, QString group_name){
-    QStringList deviceInfoKeys = deviceInfoObj.keys();
-    for(auto deviceInfoKey : deviceInfoKeys){
-        if(QString::compare("A0Order", deviceInfoKey) == 0){
-            QJsonValue A0OrderValue = deviceInfoObj.value(deviceInfoKey);
-            QJsonArray A0OrderArr = A0OrderValue.toArray();
 
-            for(int i = 0; i < A0OrderArr.count(); ++i){
-                QJsonObject A0OrderMemberObj = A0OrderArr.at(i).toObject();
-                QStringList A0OrderMemberKeys = A0OrderMemberObj.keys();
-                for(auto A0OrderMemberKey : A0OrderMemberKeys){
-
-                    if(QString::compare("group", A0OrderMemberKey) == 0){
-                        QString modName= A0OrderMemberObj.value(A0OrderMemberKey).toString();
-                        if(QString::compare(group_name, modName) == 0){
-                            qDebug() << A0OrderMemberKey <<":CreateCmdModTable "<< modName;
-                            CreateCmdModTable(tableCmdMod, A0OrderMemberObj);
-                        }
-
-                    }
-                }
-            }
-        }
-    }
-    return 0;
-}
 
 void MainWindow::on_pushButton_Save_clicked()
 {
@@ -510,7 +439,16 @@ void MainWindow::on_pushButton_Save_clicked()
 //    buttonTest->show();//此步骤显示，如果不设父控件则是悬浮于桌面
 
 }
-
+/***********************************************************************************
+ * @brief 根据Key名查找QJsonObject第一级对应成员，并赋值给*value
+ * @par jsonObj
+ * None
+ * @par keyName
+ * None
+ * @par *value
+ * None
+ * @retval
+ **********************************************************************************/
 int32_t MainWindow::JsonObjGetDirectChildMemberValue(QJsonObject jsonObj, QString keyName, QJsonValue *value)
 {
     QStringList jsonObjKeys = jsonObj.keys();
@@ -522,15 +460,28 @@ int32_t MainWindow::JsonObjGetDirectChildMemberValue(QJsonObject jsonObj, QStrin
     }
     return -1;
 }
-
+/***********************************************************************************
+ * @brief 解析A0Cmd QJsonObject并赋值到*A0_Cmd中
+ * @par A0_CmdObj
+ * None
+ * @par *A0_Cmd
+ * None
+ * @retval
+ **********************************************************************************/
 int32_t MainWindow::AsignA0CmdFromJsonObj(QJsonObject A0_CmdObj, A0_CMD_t *A0_Cmd){
+    A0_Cmd->originAddr = this->protocol.board.originAddr;
+    A0_Cmd->targetAddr = this->protocol.board.targetAddr;
+
     QStringList A0_CmdKeys = A0_CmdObj.keys();
     for(auto A0_CmdKey : A0_CmdKeys){
 //        if(QString::compare("group", A0_CmdKey) == 0){
 //            A0_Cmd->cmdGroup = A0_CmdObj.value(A0_CmdKey);
 //        }
-        if(QString::compare("name", A0_CmdKey) == 0){
+        if(QString::compare("cmdName", A0_CmdKey) == 0){
             A0_Cmd->cmdName = A0_CmdObj.value(A0_CmdKey).toString();
+        }
+        else if(QString::compare("cmdType", A0_CmdKey) == 0){
+            A0_Cmd->cmdType = A0_CmdObj.value(A0_CmdKey).toString();
         }
         else if(QString::compare("access", A0_CmdKey) == 0){
             A0_Cmd->access = A0_CmdObj.value(A0_CmdKey).toString();
@@ -584,118 +535,170 @@ int32_t MainWindow::AsignA0CmdFromJsonObj(QJsonObject A0_CmdObj, A0_CMD_t *A0_Cm
     }
     return 0;
 }
-
-int32_t MainWindow::ParseA0Cmd(QJsonValue jsonValue)
+/***********************************************************************************
+ * @brief 解析A0Cmd数组里的CmdObj成员，将每个CmdObj解析后的数据赋值给A0_CMD_t，
+ *        并插入A0_CmdMod->A0CmdGroupList中
+ * @par
+ * None
+ * @retval
+ **********************************************************************************/
+int32_t MainWindow::ParseA0Cmd(QJsonValue A0CmdArrValue)
 {
-    QJsonArray A0CmdMemberArr =  jsonValue.toArray();
-    for(int i = 0; i < A0CmdMemberArr.count(); i++){
-        QJsonObject A0_CmdObj = A0CmdMemberArr.at(i).toObject();
-        QJsonValue group;
-        if(JsonObjGetDirectChildMemberValue(A0_CmdObj, "group", &group) < 0){
-            qDebug() << "not find key group!";
+    QJsonArray A0CmdArr =  A0CmdArrValue.toArray();
+    for(int i = 0; i < A0CmdArr.count(); i++){
+        QJsonObject A0CmdObj = A0CmdArr.at(i).toObject();
+        QJsonValue groupNameValue;
+        if(JsonObjGetDirectChildMemberValue(A0CmdObj, "groupName", &groupNameValue) < 0){
+            qDebug() << "not find key groupName!";
             return -1;
         }
 
-        QString groupName = group.toString();
-        QList<A0_CMD_t>* cmdGroup = (this->protocol.A0_CmdMod.value(groupName));
+        QString strGroupName = groupNameValue.toString();
+        QList<A0_CMD_t>* A0CmdGroupList = this->protocol.A0_CmdMod.value(strGroupName);
 
-        A0_CMD_t A0_CMD;
-        A0_CMD.cmdGroup = groupName;
-        A0_CMD.originAddr = this->protocol.device.originAddr;
-        A0_CMD.targetAddr = this->protocol.device.targetAddr;
+        A0_CMD_t A0Cmd;
+        A0Cmd.cmdGroup = strGroupName;
+        A0Cmd.originAddr = this->protocol.board.originAddr;
+        A0Cmd.targetAddr = this->protocol.board.targetAddr;
 
-        AsignA0CmdFromJsonObj(A0_CmdObj, &A0_CMD);
+        AsignA0CmdFromJsonObj(A0CmdObj, &A0Cmd);
 
-        cmdGroup->append(A0_CMD);
+        A0CmdGroupList->append(A0Cmd);
 
     }
 }
+/***********************************************************************************
+ * @brief 双击QListWidget里的板卡名生成QTabWidget协议表
+ * @par
+ * None
+ * @retval
+ **********************************************************************************/
 void MainWindow::on_listWidget_Device_doubleClicked(const QModelIndex &index)
 {
     QString device_name = ui->listWidget_Device->currentItem()->text();
     qDebug()<<"index change"+device_name;
-    if(this->protocol.device_tab.isEmpty() != true){
+    if(this->protocol.boardTab.isEmpty() != true){
         qDebug()<<"index change"+device_name+"has already create, skip";
         return;
     }
     QTabWidget *protocolTabWidget = new QTabWidget();
-    this->protocol.device_tab.append(protocolTabWidget);
+    this->protocol.boardTab.append(protocolTabWidget);
     protocolTabWidget->setParent(this);
     protocolTabWidget->setGeometry(120, 180, 901, 281);
     protocolTabWidget->setMovable(true);
     QStringList keys = json_root.keys();
-    for(auto key : keys){
-        if(QString::compare("devicesInfo", key) == 0)
-        {
-            QJsonValue devicesInfoValue = json_root.value(key);
 
-            if(devicesInfoValue.isArray()){
-                QJsonArray devicesInfoArr = devicesInfoValue.toArray();
-                for(int i = 0; i < devicesInfoArr.count(); ++i){
-                    QJsonObject deviceInfoObj = devicesInfoArr.at(i).toObject();
-                    QStringList deviceInfoKeys = deviceInfoObj.keys();
-                    uint32_t groupCount;
-                    for(auto deviceInfoKey : deviceInfoKeys){
-
-                        if(QString::compare("groupInfoList", deviceInfoKey) == 0){
-                            QJsonValue groupInfoListValue = deviceInfoObj.value(deviceInfoKey);
-                            QJsonArray groupInfoListArr = groupInfoListValue.toArray();
-                            groupCount = groupInfoListArr.count();
-                            for(int i = 0; i < groupInfoListArr.count(); ++i){
-                                QString groupMember = groupInfoListArr.at(i).toString();
-                                qDebug() << deviceInfoKey <<": "<< groupMember;
-
-                                QList<A0_CMD_t> *A0_CmdList = new QList<A0_CMD_t>;
-
-                                QTableWidget *tab = new QTableWidget;
-                                this->protocol.cmd_mod_table.append(tab);
-                                protocolTabWidget->addTab(tab, groupMember);
-
-                                tableMap.insert(groupMember, tab);
-
-                                QStringList tableHeadStrList = {"指令名称","指令类型","长度", "源地址", "目的地址", "主命令", "子命令", "类型", "值", "单位", "操作", "说明"};
-                                tab->setColumnCount(12);
-                                tab->setHorizontalHeaderLabels(tableHeadStrList);
-                                tab->horizontalHeader()->setStyleSheet(
-                                    "QHeaderView::section{"
-                                    "border-top:0px solid #E5E5E5;"
-                                    "border-left:0px solid #E5E5E5;"
-                                    "border-right:0.5px solid #E5E5E5;"
-                                    "border-bottom: 0.5px solid #E5E5E5;"
-                                    "background-color:white;"
-                                    "padding:4px;"
-                                    "}"
-                                    );
-
-                                //                                FilterCmdMod(tab, deviceInfoObj, groupInfoListArr.at(i).toString());
-                                this->protocol.A0_CmdMod.insert(groupMember, A0_CmdList);
-                            }
-                        }
-                        else if(QString::compare("originAddress", deviceInfoKey) == 0){
-                            QJsonValue originAddressValue = deviceInfoObj.value(deviceInfoKey);
-                            this->protocol.device.originAddr = originAddressValue.toInt();
-                        }
-                        else if(QString::compare("targetAddress", deviceInfoKey) == 0){
-                            QJsonValue targetAddressValue = deviceInfoObj.value(deviceInfoKey);
-                            this->protocol.device.targetAddr = targetAddressValue.toInt();
-                        }
-                    }
-
-                    for(auto deviceInfoKey : deviceInfoKeys){
-                        if(QString::compare("A0Order", deviceInfoKey) == 0){
-                            QJsonValue A0Order = deviceInfoObj.value(deviceInfoKey);
-                            ParseA0Cmd(A0Order);
-                        }
-                    }
-                    CreateCmdModTable();
-
-                }
-            }
-
-        }
-
+    QJsonValue cmdGroup;
+    if(JsonObjGetDirectChildMemberValue(json_root, "cmdGroup", &cmdGroup)<0){
+        qDebug()<<"not found cmdGroup";
+        return;
     }
+
+    QJsonArray cmdGroupArr = cmdGroup.toArray();
+    for(int i = 0; i < cmdGroupArr.count(); ++i){
+        QString cmdGroupMember = cmdGroupArr.at(i).toString();
+        this->protocol.board.cmdGroup.append(cmdGroupMember);
+        qDebug() <<"cmdGroupMember: "+cmdGroupMember;
+
+        QTableWidget *tab = new QTableWidget;
+        this->protocol.cmd_mod_table.append(tab);
+        protocolTabWidget->addTab(tab, cmdGroupMember);
+        QStringList tableHeadStrList = {"指令名称","指令类型","长度", "源地址", "目的地址", "主命令", "子命令", "类型", "值", "单位", "操作", "说明"};
+        tab->setColumnCount(12);
+        tab->setHorizontalHeaderLabels(tableHeadStrList);
+        tab->horizontalHeader()->setStyleSheet(
+            "QHeaderView::section{"
+            "border-top:0px solid #E5E5E5;"
+            "border-left:0px solid #E5E5E5;"
+            "border-right:0.5px solid #E5E5E5;"
+            "border-bottom: 0.5px solid #E5E5E5;"
+            "background-color:white;"
+            "padding:4px;"
+            "}"
+            );
+        tableMap.insert(cmdGroupMember, tab);
+
+        QList<A0_CMD_t> *A0_CmdList = new QList<A0_CMD_t>;
+        this->protocol.A0_CmdMod.insert(cmdGroupMember, A0_CmdList);
+    }
+
+    QJsonValue A0CmdValue;
+    if(JsonObjGetDirectChildMemberValue(json_root, "A0Cmd", &A0CmdValue)<0){
+        qDebug()<<"not found A0Cmd";
+        return;
+    }
+
+    ParseA0Cmd(A0CmdValue);
+    CreateCmdModTable();
 
     protocolTabWidget->show();
 }
 
+/***********************************************************************************
+ * @brief 加载Json文件
+ *        在QListWidget里根据板卡名新增一行板卡记录
+ * @par
+ * None
+ * @retval
+ **********************************************************************************/
+void MainWindow::on_actionImportJson_triggered()
+{
+    QSettings setting("./Setting.ini", QSettings::IniFormat);  //QSettings能记录一些程序中的信息，下次再打开时可以读取出来
+    QString lastPath = setting.value("LastFilePath").toString();  //获取上次的打开路径
+
+    QString fileName = QFileDialog::getOpenFileName(this, QStringLiteral("配置文件"), lastPath, QStringLiteral("json文件(*json);"));
+    qDebug()<<fileName;
+    if(!fileName.isEmpty())
+    {
+        setting.setValue("LastFilePath", fileName);  //记录路径到QSetting中保存
+    }
+
+    QFile file(fileName);
+    QByteArray jsonData;
+    if(file.open(QIODevice::ReadOnly)){
+        jsonData = file.readAll();
+        file.close();
+    }
+
+    QJsonDocument jsonDocu = QJsonDocument::fromJson(jsonData);
+    if(jsonDocu.isObject()){
+        json_root = jsonDocu.object();
+        QJsonValue boardName;
+        if(JsonObjGetDirectChildMemberValue(json_root, "boardName", &boardName)<0){
+            QMessageBox::question(this,
+                                  tr("Info"),
+                                  tr("Json文件加载异常，未找到boardName，请检查！"),
+                                  QMessageBox::Ok,
+                                  QMessageBox::Ok);
+        }
+        this->protocol.board.boardName = boardName.toString();
+
+        QJsonValue originAddress;
+        if(JsonObjGetDirectChildMemberValue(json_root, "originAddress", &originAddress)<0){
+            qDebug()<<"not found originAddress";
+        }
+        this->protocol.board.originAddr = originAddress.toInt();
+
+        QJsonValue targetAddress;
+        if(JsonObjGetDirectChildMemberValue(json_root, "targetAddress", &targetAddress)<0){
+            qDebug()<<"not found targetAddress";
+        }
+        this->protocol.board.targetAddr = targetAddress.toInt();
+
+//        QJsonValue cmdGroup;
+//        if(JsonObjGetDirectChildMemberValue(json_root, "cmdGroup", &cmdGroup)<0){
+//            qDebug()<<"not found cmdGroup";
+//        }
+
+        QListWidgetItem *itemBoard = new QListWidgetItem();
+        ui->listWidget_Device->addItem(itemBoard);
+        itemBoard->setText(boardName.toString());
+    }
+    else{
+        QMessageBox::question(this,
+                              tr("Info"),
+                              tr("Json文件格式异常，请检查！"),
+                              QMessageBox::Ok,
+                              QMessageBox::Ok);
+    }
+}

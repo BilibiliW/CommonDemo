@@ -1,112 +1,8 @@
 {
-	"DeviceList": [
-        "原子磁力计"
-    ],
-	"devicesInfo": [
-		{
-			"A0Order": [
-				{
-					"group": "激光指令",
-					"name": "PID",
-					"access": "RW",
-					"mainCmdID": 3,
-					"subCmdID": 3,
-					"desp": "",
-					"dataType": [
-						"float",
-						"float",
-						"float"
-					],
-					"unit": [
-						"null",
-						"null",
-						"null"
-					],
-					"defaultValue":[
-						0,
-						0,
-						0
-					],
-					"lowLimit": [
-						0,
-						0,
-						0
-					],
-					"upLimit": [
-						0,
-						0,
-						0
-					]
-				},
-				{
-					"group": "激光指令",
-					"name": "加热输出上限",
-					"access": "RW",					
-					"mainCmdID": 3,
-					"subCmdID": 4,
-					"desp": "",
-					"dataType": [
-						"float"
-					],
-					"unit": [
-						"V"
-					],
-					"defaultValue": [
-						0
-					],
-					"lowLimit": [
-						0
-					],
-					"upLimit": [
-						0
-					]
-				},
-				{
-					"group": "激光指令",
-					"name": "滤波器系数",
-					"access": "RW",
-					"mainCmdID": 3,
-					"subCmdID": 5,
-					"desp": "",
-					"dataType": [
-						"double",
-						"double"
-					],
-					"unit": [
-						"null",
-						"null"
-					],
-					"defaultValue":[
-						0,
-						0
-					],
-					"lowLimit": [
-						0,
-						0
-					],
-					"upLimit": [
-						0,
-						0
-					]
-				}
-			],
-			"A3Protocol": {
-            },
-            "correspondence": {
-                "Serial": {
-					"BaudRate": 460800,
-					"DataBits": 8,
-					"StopBits": 0,
-					"Parity"  : "None",
-					"FlowCtrl":	"None"
-                },
-                "TCP": {
-                },
-                "USB": {
-                }
-            },
-			"deviceName": "原子磁力计",
-			"groupInfoList": [
+	"boardName": "原子磁力计",
+	"originAddress": 0,
+	"targetAddress": 1,
+	"cmdGroup": [
 				"系统指令",
 				"气室指令",
 				"激光指令",
@@ -114,10 +10,178 @@
 				"多通道指令",
 				"流程控制指令",
 				"主动上传指令"
+	],
+	"correspondence": {
+		"Serial": {
+			"BaudRate": 460800,
+			"DataBits": 8,
+			"StopBits": 0,
+			"Parity"  : "None",
+			"FlowCtrl":	"None"
+		},
+		"TCP": {
+		},
+		"USB": {
+		}
+	},
+	"A0Cmd": [
+		{
+			"groupName": "激光指令",
+			"cmdName": "PID",
+			"cmdType": "A0",
+			"access": "RW",
+			"mainCmdID": 3,
+			"subCmdID": 3,
+			"desp": "",
+			"dataType": [
+				"float",
+				"uint8_t",
+				"float"
 			],
-			"originAddress": 0,
-			"targetAddress": 1
+			"unit": [
+				"null",
+				"null",
+				"null"
+			],
+			"defaultValue":[
+				0,
+				0,
+				0
+			],
+			"lowLimit": [
+				0,
+				0,
+				0
+			],
+			"upLimit": [
+				0,
+				0,
+				0
+			]
+		},
+		{
+			"groupName": "激光指令",
+			"cmdName": "加热输出上限",
+			"cmdType": "A2",
+			"access": "RW",					
+			"mainCmdID": 3,
+			"subCmdID": 4,
+			"desp": "",
+			"dataType": [
+				"float"
+			],
+			"unit": [
+				"V"
+			],
+			"defaultValue": [
+				0
+			],
+			"lowLimit": [
+				0
+			],
+			"upLimit": [
+				0
+			]
+		},
+		{
+			"groupName": "激光指令",
+			"cmdName": "滤波器系数",
+			"cmdType": "A0",
+			"access": "RW",
+			"mainCmdID": 3,
+			"subCmdID": 5,
+			"desp": "",
+			"dataType": [
+				"double",
+				"bool"
+			],
+			"unit": [
+				"null",
+				"null"
+			],
+			"defaultValue":[
+				0,
+				0
+			],
+			"lowLimit": [
+				0,
+				0
+			],
+			"upLimit": [
+				0,
+				0
+			]
+		},
+		{
+			"groupName": "流程控制指令",
+			"cmdName": "开始",
+			"cmdType": "A0",
+			"access": "RW",
+			"mainCmdID": 4,
+			"subCmdID": 1,
+			"desp": "",
+			"dataType": [
+				"float",
+				"uint8_t",
+				"float"
+			],
+			"unit": [
+				"null",
+				"null",
+				"null"
+			],
+			"defaultValue":[
+				0,
+				0,
+				0
+			],
+			"lowLimit": [
+				0,
+				0,
+				0
+			],
+			"upLimit": [
+				0,
+				0,
+				0
+			]
+		},
+		{
+			"groupName": "流程控制指令",
+			"cmdName": "暂停",
+			"cmdType": "A3",
+			"access": "RW",
+			"mainCmdID": 4,
+			"subCmdID": 2,
+			"desp": "",
+			"dataType": [
+				"float",
+				"uint8_t",
+				"float"
+			],
+			"unit": [
+				"null",
+				"null",
+				"null"
+			],
+			"defaultValue":[
+				0,
+				0,
+				0
+			],
+			"lowLimit": [
+				0,
+				0,
+				0
+			],
+			"upLimit": [
+				0,
+				0,
+				0
+			]
 		}
 	],
-	"projectName": "Demo"
+	"A3Cmd": {
+	}
+
 }

@@ -3,6 +3,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QComboBox>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
@@ -32,8 +33,6 @@ public:
     void CreateCmdModTable(QTableWidget *protocolTableCmdMod, QJsonObject deviceInfoObj);
     void CreateCmdModTable(void);
 
-    int32_t FilterCmdMod(QTableWidget *tableCmdMod, QJsonObject deviceInfoObj, QString group_name);
-
 
     int32_t JsonObjGetKey(QJsonObject jsonObj, QString keyName);
     int32_t JsonObjGetValue(QJsonObject jsonObj, QString keyName, QJsonValue *value);
@@ -43,6 +42,8 @@ public:
     int32_t ParseA0Cmd(QJsonValue jsonValue);
     int32_t JsonObjGetDirectChildMemberValue(QJsonObject jsonObj, QString keyName, QJsonValue *value);
     int32_t AsignA0CmdFromJsonObj(QJsonObject A0_CmdObj, A0_CMD_t *A0_Cmd);
+    int32_t TableWidgetSetComboBox(QComboBox* comboBox, QString comboBoxText);
+
 private slots:
     void CommTypeUpdate(QString);
 

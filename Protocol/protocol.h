@@ -47,10 +47,10 @@ class Protocol : public QWidget
 public:
     explicit Protocol(QWidget *parent = nullptr);
     QList<QTableWidget*> cmd_mod_table;
-    QList<QTabWidget*> device_tab;
+    QList<QTabWidget*> boardTab;
 
 
-    device_t device;
+    board_t board;
 
 //    A0_CMD_t A0_CMD;
 //    QList<A0_CMD_t> *A0_CmdList;
