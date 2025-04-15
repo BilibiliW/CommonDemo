@@ -9,11 +9,13 @@
 typedef struct{
     QString cmdName;
     QString cmdType;
+    uint16_t head;
     uint16_t len;
     uint16_t originAddr;
     uint16_t targetAddr;
     uint16_t mainCmdID;
     uint16_t subCmdID;
+    uint8_t  cmd_RW_Type;
     QStringList dataType;
     QStringList unit;
     QStringList dataValue;
@@ -21,10 +23,11 @@ typedef struct{
     QStringList upLimit;
     QStringList defaultValue;
     QString descrip;
-
+    char* data;
     uint16_t dataCount;
     QString cmdGroup;
     QString access;
+    uint16_t crc;
 }A0_CMD_t;
 
 typedef struct{

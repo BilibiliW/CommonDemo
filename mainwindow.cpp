@@ -8,12 +8,15 @@
 #include "ui_mainwindow.h"
 
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
+    ui->radioButton_current_Close->setChecked(true);
+    ui->comboBox_multi_sel->setCurrentText("ch_all");
     serial_comm = NULL;
     realtime_show_lock = false;
 
@@ -22,7 +25,11 @@ MainWindow::MainWindow(QWidget *parent)
     qDebug("Communication:%d", index);
     qDebug()<<tab_text;
     hard_interface.comm_type = tab_text;
+
+    connect(this, SIGNAL(Ads8326Read(A0_CMD_t*)), this, SLOT(UpdateAds8326Vol(A0_CMD_t*)));
+    connect(this, SIGNAL(DialSwRead(A0_CMD_t*)),  this, SLOT(UpdateDialSwVol(A0_CMD_t*)));
     CommTypeUpdate(tab_text);
+
 
 }
 
@@ -57,17 +64,20 @@ void MainWindow::CommTypeUpdate(QString tabName)
         ui->comboBox_SerialBaudRate->addItem(QStringLiteral("19200"), QSerialPort::Baud19200);
         ui->comboBox_SerialBaudRate->addItem(QStringLiteral("115200"), QSerialPort::Baud115200);
         ui->comboBox_SerialBaudRate->addItem(QStringLiteral("460800"), QSerialPort::Baud460800);
+        ui->comboBox_SerialBaudRate->setCurrentText("115200");
 
         ui->comboBox_SerialDateBits->clear();
         ui->comboBox_SerialDateBits->addItem(QStringLiteral("5"), QSerialPort::Data5);
         ui->comboBox_SerialDateBits->addItem(QStringLiteral("6"), QSerialPort::Data6);
         ui->comboBox_SerialDateBits->addItem(QStringLiteral("7"), QSerialPort::Data7);
         ui->comboBox_SerialDateBits->addItem(QStringLiteral("8"), QSerialPort::Data8);
+        ui->comboBox_SerialDateBits->setCurrentText("8");
 
         ui->comboBox_SerialStopBits->clear();
         ui->comboBox_SerialStopBits->addItem(QStringLiteral("1"), QSerialPort::OneStop);
         ui->comboBox_SerialStopBits->addItem(QStringLiteral("1.5"), QSerialPort::OneAndHalfStop);
         ui->comboBox_SerialStopBits->addItem(QStringLiteral("2"), QSerialPort::TwoStop);
+        ui->comboBox_SerialStopBits->setCurrentText("1");
 
         ui->comboBox_SerialParity->clear();
         ui->comboBox_SerialParity->addItem(QStringLiteral("None"), QSerialPort::NoParity);
@@ -75,11 +85,13 @@ void MainWindow::CommTypeUpdate(QString tabName)
         ui->comboBox_SerialParity->addItem(QStringLiteral("Even"), QSerialPort::EvenParity);
         ui->comboBox_SerialParity->addItem(QStringLiteral("Space"), QSerialPort::SpaceParity);
         ui->comboBox_SerialParity->addItem(QStringLiteral("Mark"), QSerialPort::MarkParity);
+        ui->comboBox_SerialParity->setCurrentText("None");
 
         ui->comboBox_SerialFlowCtrl->clear();
         ui->comboBox_SerialFlowCtrl->addItem(QStringLiteral("None"), QSerialPort::NoFlowControl);
         ui->comboBox_SerialFlowCtrl->addItem(QStringLiteral("Hardware"), QSerialPort::HardwareControl);
         ui->comboBox_SerialFlowCtrl->addItem(QStringLiteral("Software"), QSerialPort::SoftwareControl);
+        ui->comboBox_SerialFlowCtrl->setCurrentText("None");
     }
     else if(QString::compare(tabName, "CAN") == 0){
 
@@ -169,19 +181,98 @@ void MainWindow::on_pushButton_SerialConnect_clicked()
         qDebug("CurrentConnected\nDisconnect now");
     }
 }
+int32_t MainWindow::ProtocolAnalyse(){
+    int len = RecvQueue.size();
+    int index = 0;
+    bool get_frame_head = false;
+    uint8_t data;
+    uint8_t cmd_len;
+    QByteArray frame_arr;
+    A0_CMD_t* frame_A0 = (A0_CMD_t*)malloc(sizeof(A0_CMD_t));
+    if(frame_A0 == NULL){
+        return -1;
+    }
 
-/***********************************************************************************
- * @brief 实时数据窗口
- * @par
- * None
- * @retval
- **********************************************************************************/
-void MainWindow::RecvData()
-{    
-    QByteArray str_arr = serial_comm->serial_port->readAll();
+    int i = 0;
+    for (i = 0; i < len; i++) {
+        if(RecvQueue.at(i) != 0xA0){
+            data = RecvQueue.dequeue();
+        }
+        else{
+            get_frame_head = true;
+            break;
+        }
+        // qDebug() << QString::number(data, 16).toUpper();
+    }
 
-    if(realtime_show_lock == true)
-        return;
+    if(get_frame_head == true){
+        if((i + 1) >= len){
+            return 0;
+        }
+        cmd_len = RecvQueue.at(i + 1);
+        if((i + cmd_len + 2) >= len){
+            return 0;
+        }
+
+        for(int j = 0; j < cmd_len + 2; j++){
+            data = RecvQueue.dequeue();
+            frame_arr.append(data);
+            // qDebug() << QString::number(data, 16).toUpper();
+        }
+
+        if(this->check.Crc16_Rtu_Verification((unsigned char*)frame_arr.data(), cmd_len + 2, 0) == 0){
+            free(frame_A0);
+            return -1;
+        }
+
+        frame_A0->head        = frame_arr.at(0);
+        frame_A0->len         = frame_arr.at(1);
+        frame_A0->originAddr  = frame_arr.at(2);
+        frame_A0->targetAddr  = frame_arr.at(3);
+        frame_A0->cmd_RW_Type = frame_arr.at(4);
+        frame_A0->mainCmdID   = frame_arr.at(5);
+        frame_A0->subCmdID    = frame_arr.at(6);
+        frame_A0->data        = frame_arr.data() + 7;
+
+        QDateTime current_date_time =QDateTime::currentDateTime();
+        QString current_date =current_date_time.toString("hh:mm:ss.zzz");
+
+        switch(frame_A0->subCmdID){
+            case 0x03:
+                if(frame_A0->len == 0x47){
+                    frame_A0->dataCount = 16;
+                }
+                else if(frame_A0->len == 0x0B){
+                    frame_A0->dataCount = 1;
+                }
+                else{
+                    break;
+                }
+
+                qDebug()<< current_date + ": arrived emit adsAds8326Read";
+                emit Ads8326Read(frame_A0);
+
+                break;
+            case 0x04:
+                emit DialSwRead(frame_A0);
+                break;
+            default:
+                free(frame_A0);
+                break;
+        }
+    }
+    return 0;
+}
+
+void MainWindow::UpdateTextLine(QByteArray str_arr, bool isRx)
+{
+    QString TxRx;
+    if(isRx){
+        TxRx = " Rx: ";
+    }
+    else{
+        TxRx = " Tx: ";
+    }
 
     QString str = str_arr.toHex().toUpper();
     uint32_t n = str.length();
@@ -195,7 +286,33 @@ void MainWindow::RecvData()
     QTextCursor cursor=ui->textEdit_RealTimeCommunicateData->textCursor();
     cursor.movePosition(QTextCursor::End);
     ui->textEdit_RealTimeCommunicateData->setTextCursor(cursor);
-    ui->textEdit_RealTimeCommunicateData->insertPlainText(current_date + ": " + str + '\n');
+    ui->textEdit_RealTimeCommunicateData->insertPlainText(current_date + TxRx + str + '\n');
+}
+/***********************************************************************************
+ * @brief 实时数据窗口
+ * @par
+ * None
+ * @retval
+ **********************************************************************************/
+void MainWindow::RecvData()
+{    
+    QByteArray str_arr = serial_comm->serial_port->readAll();
+
+    if(realtime_show_lock == true)
+        return;
+
+
+
+    for(QByteArray::const_iterator it = str_arr.constBegin(); it != str_arr.constEnd(); ++it){
+        RecvQueue.enqueue(*it);
+    }
+
+    QDateTime current_date_time =QDateTime::currentDateTime();
+    QString current_date =current_date_time.toString("hh:mm:ss.zzz");
+    qDebug()<< current_date + ": ProtocolAnalyse";
+    ProtocolAnalyse();
+
+    UpdateTextLine(str_arr, true);
 }
 
 /***********************************************************************************
@@ -634,6 +751,50 @@ void MainWindow::on_listWidget_Device_doubleClicked(const QModelIndex &index)
     protocolTabWidget->show();
 }
 
+void MainWindow::UpdateDialSwVol(A0_CMD_t* cmd)
+{
+    float sw0_vol;
+    float sw1_vol;
+
+    memcpy(&sw0_vol, cmd->data,     sizeof(float));
+    memcpy(&sw1_vol, cmd->data + 4, sizeof(float));
+
+    this->ui->lineEdit_sw0->clear();
+    this->ui->lineEdit_sw1->clear();
+    this->ui->lineEdit_sw0->setText(QString::number(sw0_vol));
+    this->ui->lineEdit_sw1->setText(QString::number(sw1_vol));
+
+    free(cmd);
+}
+
+void MainWindow::UpdateAds8326Vol(A0_CMD_t* cmd)
+{
+    float vol;
+    QString str = NULL;
+    QDateTime current_date_time =QDateTime::currentDateTime();
+    QString current_date =current_date_time.toString("hh:mm:ss.zzz");
+    qDebug()<< current_date + ": UpdateAds8326Vol";
+    this->ui->textEdit_ads8326->clear();
+
+    if(cmd->dataCount == 16){
+        for(int i = 0; i < 16; i++){
+            memcpy(&vol, cmd->data + 4*i, sizeof(float));
+            str += "ch" + QString("%1").arg(i, 2, 10, QLatin1Char('0')) + ":" + QString::number(vol) + "  ";
+            if(i%4 == 3){
+                str += "\r";
+            }
+        }
+    }
+    else{
+        uint8_t ch = ui->comboBox_multi_sel->currentIndex();
+        memcpy(&vol, cmd->data, sizeof(float));
+        str = "ch" + QString("%1").arg(ch, 2, 10, QLatin1Char('0')) + ":" + QString::number(vol) + "  ";
+    }
+    this->ui->textEdit_ads8326->setText(str);
+
+    free(cmd);
+}
+
 /***********************************************************************************
  * @brief 加载Json文件
  *        在QListWidget里根据板卡名新增一行板卡记录
@@ -702,3 +863,248 @@ void MainWindow::on_actionImportJson_triggered()
                               QMessageBox::Ok);
     }
 }
+
+void MainWindow::on_pushButton_dial_sw_get_clicked()
+{
+    A0_CMD_t* frame_A0 = (A0_CMD_t*)malloc(sizeof(A0_CMD_t));
+    if(frame_A0 == NULL){
+        return;
+    }
+
+    frame_A0->head        = 0xA0;
+    frame_A0->len         = 7;
+    frame_A0->originAddr  = 0x01;
+    frame_A0->targetAddr  = 0x02;
+    frame_A0->cmd_RW_Type = 0x53;
+    frame_A0->mainCmdID   = 0xCC;
+    frame_A0->subCmdID    = 0x04;
+    // frame_A0->data        = NULL;
+
+    QByteArray frame_arr;
+
+    frame_arr.append(frame_A0->head);
+    frame_arr.append(frame_A0->len);
+    frame_arr.append(frame_A0->originAddr);
+    frame_arr.append(frame_A0->targetAddr);
+    frame_arr.append(frame_A0->cmd_RW_Type);
+    frame_arr.append(frame_A0->mainCmdID);
+    frame_arr.append(frame_A0->subCmdID);
+    frame_arr.append(char(0x00));
+    frame_arr.append(char(0x00));
+
+    this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
+
+    serial_comm->serial_port->write(frame_arr);
+
+    UpdateTextLine(frame_arr, false);
+    free(frame_A0);
+}
+
+
+void MainWindow::on_pushButton_3_clicked()
+{
+    qDebug()<< "123456";
+}
+
+
+void MainWindow::on_pushButton_DAC8571_Set_clicked()
+{
+    A0_CMD_t* frame_A0 = (A0_CMD_t*)malloc(sizeof(A0_CMD_t));
+    if(frame_A0 == NULL){
+        return;
+    }
+
+    uint8_t ch = 0;
+    if(ui->checkBox_DAC8571_A->checkState() == Qt::Checked){
+        ch |= 0x01;
+    }
+    if(ui->checkBox_DAC8571_B->checkState() == Qt::Checked){
+        ch |= 0x02;
+    }
+
+    float vol = ui->lineEdit_DAC8571->text().toFloat();
+    frame_A0->head        = 0xA0;
+    frame_A0->len         = 7 + 1 + 4;
+    frame_A0->originAddr  = 0x01;
+    frame_A0->targetAddr  = 0x02;
+    frame_A0->cmd_RW_Type = 0x53;
+    frame_A0->mainCmdID   = 0xCC;
+    frame_A0->subCmdID    = 0x02;
+    // frame_A0->data        = (char*)&ch;
+    char* pvol = (char*)&vol;
+
+    QByteArray frame_arr;
+
+    frame_arr.append(frame_A0->head);
+    frame_arr.append(frame_A0->len);
+    frame_arr.append(frame_A0->originAddr);
+    frame_arr.append(frame_A0->targetAddr);
+    frame_arr.append(frame_A0->cmd_RW_Type);
+    frame_arr.append(frame_A0->mainCmdID);
+    frame_arr.append(frame_A0->subCmdID);
+    frame_arr.append(ch);
+    frame_arr.append(*pvol);
+    frame_arr.append(*(pvol + 1));
+    frame_arr.append(*(pvol + 2));
+    frame_arr.append(*(pvol + 3));
+    frame_arr.append(char(0x00));
+    frame_arr.append(char(0x00));
+
+    this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
+
+    serial_comm->serial_port->write(frame_arr);
+
+    UpdateTextLine(frame_arr, false);
+    free(frame_A0);
+}
+
+
+void MainWindow::on_pushButton_MAX5719_Set_clicked()
+{
+    A0_CMD_t* frame_A0 = (A0_CMD_t*)malloc(sizeof(A0_CMD_t));
+    if(frame_A0 == NULL){
+        return;
+    }
+
+    uint8_t ch = 0;
+    if(ui->checkBox_MAX5719_A->checkState() == Qt::Checked){
+        ch |= 0x01;
+    }
+    if(ui->checkBox_MAX5719_B->checkState() == Qt::Checked){
+        ch |= 0x02;
+    }
+
+    float vol = ui->lineEdit_MAX5719->text().toFloat();
+    frame_A0->head        = 0xA0;
+    frame_A0->len         = 7 + 1 + 4;
+    frame_A0->originAddr  = 0x01;
+    frame_A0->targetAddr  = 0x02;
+    frame_A0->cmd_RW_Type = 0x53;
+    frame_A0->mainCmdID   = 0xCC;
+    frame_A0->subCmdID    = 0x01;
+    // frame_A0->data        = (char*)&ch;
+    char* pvol = (char*)&vol;
+
+    QByteArray frame_arr;
+
+    frame_arr.append(frame_A0->head);
+    frame_arr.append(frame_A0->len);
+    frame_arr.append(frame_A0->originAddr);
+    frame_arr.append(frame_A0->targetAddr);
+    frame_arr.append(frame_A0->cmd_RW_Type);
+    frame_arr.append(frame_A0->mainCmdID);
+    frame_arr.append(frame_A0->subCmdID);
+    frame_arr.append(ch);
+    frame_arr.append(*pvol);
+    frame_arr.append(*(pvol + 1));
+    frame_arr.append(*(pvol + 2));
+    frame_arr.append(*(pvol + 3));
+    frame_arr.append(char(0x00));
+    frame_arr.append(char(0x00));
+
+    this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
+
+    serial_comm->serial_port->write(frame_arr);
+
+    UpdateTextLine(frame_arr, false);
+    free(frame_A0);
+}
+
+
+void MainWindow::on_pushButton_current_Set_clicked()
+{
+    A0_CMD_t* frame_A0 = (A0_CMD_t*)malloc(sizeof(A0_CMD_t));
+    if(frame_A0 == NULL){
+        return;
+    }
+
+    uint8_t ch = 0;
+    if(ui->checkBox_current_A->checkState() == Qt::Checked){
+        ch |= 0x01;
+    }
+    if(ui->checkBox_current_B->checkState() == Qt::Checked){
+        ch |= 0x02;
+    }
+
+    uint8_t current_out = 0;
+    if(ui->radioButton_current_Pos->isChecked() == true){
+        current_out = 0x01;
+    }
+    else if(ui->radioButton_current_Neg->isChecked() == true){
+        current_out = 0x02;
+    }
+    else{
+        current_out = 0x00;
+    }
+
+
+    frame_A0->head        = 0xA0;
+    frame_A0->len         = 7 + 1 + 1;
+    frame_A0->originAddr  = 0x01;
+    frame_A0->targetAddr  = 0x02;
+    frame_A0->cmd_RW_Type = 0x53;
+    frame_A0->mainCmdID   = 0xCC;
+    frame_A0->subCmdID    = 0x05;
+    // frame_A0->data        = (char*)&ch;
+
+    QByteArray frame_arr;
+
+    frame_arr.append(frame_A0->head);
+    frame_arr.append(frame_A0->len);
+    frame_arr.append(frame_A0->originAddr);
+    frame_arr.append(frame_A0->targetAddr);
+    frame_arr.append(frame_A0->cmd_RW_Type);
+    frame_arr.append(frame_A0->mainCmdID);
+    frame_arr.append(frame_A0->subCmdID);
+    frame_arr.append(ch);
+    frame_arr.append(current_out);
+    frame_arr.append(char(0x00));
+    frame_arr.append(char(0x00));
+
+    this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
+
+    serial_comm->serial_port->write(frame_arr);
+
+    UpdateTextLine(frame_arr, false);
+    free(frame_A0);
+}
+
+
+void MainWindow::on_pushButton_multi_Set_clicked()
+{
+    A0_CMD_t* frame_A0 = (A0_CMD_t*)malloc(sizeof(A0_CMD_t));
+    if(frame_A0 == NULL){
+        return;
+    }
+
+    uint8_t ch = ui->comboBox_multi_sel->currentIndex();
+    frame_A0->head        = 0xA0;
+    frame_A0->len         = 7 + 1;
+    frame_A0->originAddr  = 0x01;
+    frame_A0->targetAddr  = 0x02;
+    frame_A0->cmd_RW_Type = 0x53;
+    frame_A0->mainCmdID   = 0xCC;
+    frame_A0->subCmdID    = 0x03;
+    // frame_A0->data        = (char*)&ch;
+
+    QByteArray frame_arr;
+
+    frame_arr.append(frame_A0->head);
+    frame_arr.append(frame_A0->len);
+    frame_arr.append(frame_A0->originAddr);
+    frame_arr.append(frame_A0->targetAddr);
+    frame_arr.append(frame_A0->cmd_RW_Type);
+    frame_arr.append(frame_A0->mainCmdID);
+    frame_arr.append(frame_A0->subCmdID);
+    frame_arr.append(ch);
+    frame_arr.append(char(0x00));
+    frame_arr.append(char(0x00));
+
+    this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
+
+    serial_comm->serial_port->write(frame_arr);
+
+    UpdateTextLine(frame_arr, false);
+    free(frame_A0);
+}
+

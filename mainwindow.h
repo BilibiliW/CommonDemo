@@ -7,15 +7,19 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
-
+#include <QQueue>
+#include <stdint.h>
 #include "./HardwareInterface/hardwareinterface.h"
 #include "./HardwareInterface/comm_serialport.h"
 #include "./Protocol/protocol.h"
+#include "./Protocol/Check/data_check.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+// QQueue<uint8_t> RecvQueue;
 class MainWindow : public QMainWindow
 
 {
@@ -27,6 +31,7 @@ public:
 
     Comm_SerialPort *serial_comm;
 
+    data_check check;
     QJsonObject json_root;
 
     bool realtime_show_lock;
@@ -44,6 +49,11 @@ public:
     int32_t AsignA0CmdFromJsonObj(QJsonObject A0_CmdObj, A0_CMD_t *A0_Cmd);
     int32_t TableWidgetSetComboBox(QComboBox* comboBox, QString comboBoxText);
 
+    QQueue<uint8_t> RecvQueue;
+
+    int32_t ProtocolAnalyse(void);
+
+    void UpdateTextLine(QByteArray, bool isRx);
 private slots:
     void CommTypeUpdate(QString);
 
@@ -61,6 +71,24 @@ private slots:
     void on_pushButton_Save_clicked();
 
     void on_listWidget_Device_doubleClicked(const QModelIndex &index);
+
+    void on_pushButton_dial_sw_get_clicked();
+
+    void UpdateDialSwVol(A0_CMD_t*);
+    void UpdateAds8326Vol(A0_CMD_t*);
+    void on_pushButton_3_clicked();
+
+    void on_pushButton_DAC8571_Set_clicked();
+
+    void on_pushButton_MAX5719_Set_clicked();
+
+    void on_pushButton_current_Set_clicked();
+
+    void on_pushButton_multi_Set_clicked();
+
+signals:
+    void DialSwRead(A0_CMD_t*);
+    void Ads8326Read(A0_CMD_t*);
 
 private:
     Ui::MainWindow *ui;
