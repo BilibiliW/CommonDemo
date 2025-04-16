@@ -26,11 +26,20 @@ MainWindow::MainWindow(QWidget *parent)
     qDebug()<<tab_text;
     hard_interface.comm_type = tab_text;
 
-    connect(this, SIGNAL(Ads8326Read(A0_CMD_t*)), this, SLOT(UpdateAds8326Vol(A0_CMD_t*)));
-    connect(this, SIGNAL(DialSwRead(A0_CMD_t*)),  this, SLOT(UpdateDialSwVol(A0_CMD_t*)));
+    // connect(this, SIGNAL(Ads8326Read(A0_CMD_t*)), this, SLOT(UpdateAds8326Vol(A0_CMD_t*)));
+    // connect(this, SIGNAL(DialSwRead(A0_CMD_t*)),  this, SLOT(UpdateDialSwVol(A0_CMD_t*)),Qt::DirectConnection);
     CommTypeUpdate(tab_text);
 
+    subThread =  new QThread;
+    protocol = new Protocol;
 
+
+    // connect(ui->pushButton,&QPushButton::clicked,protocol,&Protocol::SubThreadRun());
+    connect(subThread, SIGNAL(started()), protocol, SLOT(SubThreadRun()), Qt::DirectConnection);
+    connect(protocol, SIGNAL(Ads8326Read(A0_CMD_t*)), this, SLOT(UpdateAds8326Vol(A0_CMD_t*)));
+    connect(protocol, SIGNAL(DialSwRead(A0_CMD_t*)), this, SLOT(UpdateDialSwVol(A0_CMD_t*)));
+    protocol->moveToThread(subThread);
+    subThread->start();
 }
 
 MainWindow::~MainWindow()
@@ -181,88 +190,88 @@ void MainWindow::on_pushButton_SerialConnect_clicked()
         qDebug("CurrentConnected\nDisconnect now");
     }
 }
-int32_t MainWindow::ProtocolAnalyse(){
-    int len = RecvQueue.size();
-    int index = 0;
-    bool get_frame_head = false;
-    uint8_t data;
-    uint8_t cmd_len;
-    QByteArray frame_arr;
-    A0_CMD_t* frame_A0 = (A0_CMD_t*)malloc(sizeof(A0_CMD_t));
-    if(frame_A0 == NULL){
-        return -1;
-    }
+// int32_t MainWindow::ProtocolAnalyse(){
+//     int len = RecvQueue.size();
+//     int index = 0;
+//     bool get_frame_head = false;
+//     uint8_t data;
+//     uint8_t cmd_len;
+//     QByteArray frame_arr;
+//     A0_CMD_t* frame_A0 = (A0_CMD_t*)malloc(sizeof(A0_CMD_t));
+//     if(frame_A0 == NULL){
+//         return -1;
+//     }
 
-    int i = 0;
-    for (i = 0; i < len; i++) {
-        if(RecvQueue.at(i) != 0xA0){
-            data = RecvQueue.dequeue();
-        }
-        else{
-            get_frame_head = true;
-            break;
-        }
-        // qDebug() << QString::number(data, 16).toUpper();
-    }
+//     int i = 0;
+//     for (i = 0; i < len; i++) {
+//         if(RecvQueue.at(i) != 0xA0){
+//             data = RecvQueue.dequeue();
+//         }
+//         else{
+//             get_frame_head = true;
+//             break;
+//         }
+//         // qDebug() << QString::number(data, 16).toUpper();
+//     }
 
-    if(get_frame_head == true){
-        if((i + 1) >= len){
-            return 0;
-        }
-        cmd_len = RecvQueue.at(i + 1);
-        if((i + cmd_len + 2) >= len){
-            return 0;
-        }
+//     if(get_frame_head == true){
+//         if((i + 1) >= len){
+//             return 0;
+//         }
+//         cmd_len = RecvQueue.at(i + 1);
+//         if((i + cmd_len + 2) >= len){
+//             return 0;
+//         }
 
-        for(int j = 0; j < cmd_len + 2; j++){
-            data = RecvQueue.dequeue();
-            frame_arr.append(data);
-            // qDebug() << QString::number(data, 16).toUpper();
-        }
+//         for(int j = 0; j < cmd_len + 2; j++){
+//             data = RecvQueue.dequeue();
+//             frame_arr.append(data);
+//             // qDebug() << QString::number(data, 16).toUpper();
+//         }
 
-        if(this->check.Crc16_Rtu_Verification((unsigned char*)frame_arr.data(), cmd_len + 2, 0) == 0){
-            free(frame_A0);
-            return -1;
-        }
+//         if(this->check.Crc16_Rtu_Verification((unsigned char*)frame_arr.data(), cmd_len + 2, 0) == 0){
+//             free(frame_A0);
+//             return -1;
+//         }
 
-        frame_A0->head        = frame_arr.at(0);
-        frame_A0->len         = frame_arr.at(1);
-        frame_A0->originAddr  = frame_arr.at(2);
-        frame_A0->targetAddr  = frame_arr.at(3);
-        frame_A0->cmd_RW_Type = frame_arr.at(4);
-        frame_A0->mainCmdID   = frame_arr.at(5);
-        frame_A0->subCmdID    = frame_arr.at(6);
-        frame_A0->data        = frame_arr.data() + 7;
+//         frame_A0->head        = frame_arr.at(0);
+//         frame_A0->len         = frame_arr.at(1);
+//         frame_A0->originAddr  = frame_arr.at(2);
+//         frame_A0->targetAddr  = frame_arr.at(3);
+//         frame_A0->cmd_RW_Type = frame_arr.at(4);
+//         frame_A0->mainCmdID   = frame_arr.at(5);
+//         frame_A0->subCmdID    = frame_arr.at(6);
+//         frame_A0->data        = frame_arr.data() + 7;
 
-        QDateTime current_date_time =QDateTime::currentDateTime();
-        QString current_date =current_date_time.toString("hh:mm:ss.zzz");
+//         QDateTime current_date_time =QDateTime::currentDateTime();
+//         QString current_date =current_date_time.toString("hh:mm:ss.zzz");
 
-        switch(frame_A0->subCmdID){
-            case 0x03:
-                if(frame_A0->len == 0x47){
-                    frame_A0->dataCount = 16;
-                }
-                else if(frame_A0->len == 0x0B){
-                    frame_A0->dataCount = 1;
-                }
-                else{
-                    break;
-                }
+//         switch(frame_A0->subCmdID){
+//             case 0x03:
+//                 if(frame_A0->len == 0x47){
+//                     frame_A0->dataCount = 16;
+//                 }
+//                 else if(frame_A0->len == 0x0B){
+//                     frame_A0->dataCount = 1;
+//                 }
+//                 else{
+//                     break;
+//                 }
 
-                qDebug()<< current_date + ": arrived emit adsAds8326Read";
-                emit Ads8326Read(frame_A0);
+//                 qDebug()<< current_date + ": arrived emit adsAds8326Read";
+//                 emit Ads8326Read(frame_A0);
 
-                break;
-            case 0x04:
-                emit DialSwRead(frame_A0);
-                break;
-            default:
-                free(frame_A0);
-                break;
-        }
-    }
-    return 0;
-}
+//                 break;
+//             case 0x04:
+//                 emit DialSwRead(frame_A0);
+//                 break;
+//             default:
+//                 free(frame_A0);
+//                 break;
+//         }
+//     }
+//     return 0;
+// }
 
 void MainWindow::UpdateTextLine(QByteArray str_arr, bool isRx)
 {
@@ -310,7 +319,7 @@ void MainWindow::RecvData()
     QDateTime current_date_time =QDateTime::currentDateTime();
     QString current_date =current_date_time.toString("hh:mm:ss.zzz");
     qDebug()<< current_date + ": ProtocolAnalyse";
-    ProtocolAnalyse();
+    // ProtocolAnalyse();
 
     UpdateTextLine(str_arr, true);
 }
@@ -444,7 +453,7 @@ void MainWindow::CreateCmdModTable(void){
         QTableWidget *tab = tableMap.value(groupName);
         qDebug()<<"tableMap: "+groupName;
 
-        QList<A0_CMD_t>* cmdGroupList = (this->protocol.A0_CmdMod.value(groupName));
+        QList<A0_CMD_t>* cmdGroupList = (this->protocol->A0_CmdMod.value(groupName));
 
         for(int i = 0; i < cmdGroupList->count(); i++){
 
@@ -530,13 +539,13 @@ void MainWindow::on_pushButton_Save_clicked()
     QTableWidget *tab = new QTableWidget;
     QTableWidget *tab2 = new QTableWidget;
     QTableWidget *tab3 = new QTableWidget;
-    this->protocol.cmd_mod_table.append(tab);
-    this->protocol.cmd_mod_table.append(tab2);
-    this->protocol.cmd_mod_table.append(tab3);
+    this->protocol->cmd_mod_table.append(tab);
+    this->protocol->cmd_mod_table.append(tab2);
+    this->protocol->cmd_mod_table.append(tab3);
 //    protocolTabWidget->setMovable(true);
     protocolTabWidget->setEnabled(true);
-    for(int i = 0; i < this->protocol.cmd_mod_table.count(); i++){
-        protocolTabWidget->addTab(this->protocol.cmd_mod_table.at(i),"tttt");
+    for(int i = 0; i < this->protocol->cmd_mod_table.count(); i++){
+        protocolTabWidget->addTab(this->protocol->cmd_mod_table.at(i),"tttt");
 
     }
 //    protocolTabWidget->addTab(tab,"tttt");
@@ -586,8 +595,8 @@ int32_t MainWindow::JsonObjGetDirectChildMemberValue(QJsonObject jsonObj, QStrin
  * @retval
  **********************************************************************************/
 int32_t MainWindow::AsignA0CmdFromJsonObj(QJsonObject A0_CmdObj, A0_CMD_t *A0_Cmd){
-    A0_Cmd->originAddr = this->protocol.board.originAddr;
-    A0_Cmd->targetAddr = this->protocol.board.targetAddr;
+    A0_Cmd->originAddr = this->protocol->board.originAddr;
+    A0_Cmd->targetAddr = this->protocol->board.targetAddr;
 
     QStringList A0_CmdKeys = A0_CmdObj.keys();
     for(auto A0_CmdKey : A0_CmdKeys){
@@ -671,12 +680,12 @@ int32_t MainWindow::ParseA0Cmd(QJsonValue A0CmdArrValue)
         }
 
         QString strGroupName = groupNameValue.toString();
-        QList<A0_CMD_t>* A0CmdGroupList = this->protocol.A0_CmdMod.value(strGroupName);
+        QList<A0_CMD_t>* A0CmdGroupList = this->protocol->A0_CmdMod.value(strGroupName);
 
         A0_CMD_t A0Cmd;
         A0Cmd.cmdGroup = strGroupName;
-        A0Cmd.originAddr = this->protocol.board.originAddr;
-        A0Cmd.targetAddr = this->protocol.board.targetAddr;
+        A0Cmd.originAddr = this->protocol->board.originAddr;
+        A0Cmd.targetAddr = this->protocol->board.targetAddr;
 
         AsignA0CmdFromJsonObj(A0CmdObj, &A0Cmd);
 
@@ -694,12 +703,12 @@ void MainWindow::on_listWidget_Device_doubleClicked(const QModelIndex &index)
 {
     QString device_name = ui->listWidget_Device->currentItem()->text();
     qDebug()<<"index change"+device_name;
-    if(this->protocol.boardTab.isEmpty() != true){
+    if(this->protocol->boardTab.isEmpty() != true){
         qDebug()<<"index change"+device_name+"has already create, skip";
         return;
     }
     QTabWidget *protocolTabWidget = new QTabWidget();
-    this->protocol.boardTab.append(protocolTabWidget);
+    this->protocol->boardTab.append(protocolTabWidget);
     protocolTabWidget->setParent(this);
     protocolTabWidget->setGeometry(120, 180, 901, 281);
     protocolTabWidget->setMovable(true);
@@ -714,11 +723,11 @@ void MainWindow::on_listWidget_Device_doubleClicked(const QModelIndex &index)
     QJsonArray cmdGroupArr = cmdGroup.toArray();
     for(int i = 0; i < cmdGroupArr.count(); ++i){
         QString cmdGroupMember = cmdGroupArr.at(i).toString();
-        this->protocol.board.cmdGroup.append(cmdGroupMember);
+        this->protocol->board.cmdGroup.append(cmdGroupMember);
         qDebug() <<"cmdGroupMember: "+cmdGroupMember;
 
         QTableWidget *tab = new QTableWidget;
-        this->protocol.cmd_mod_table.append(tab);
+        this->protocol->cmd_mod_table.append(tab);
         protocolTabWidget->addTab(tab, cmdGroupMember);
         QStringList tableHeadStrList = {"指令名称","指令类型","长度", "源地址", "目的地址", "主命令", "子命令", "类型", "值", "单位", "操作", "说明"};
         tab->setColumnCount(12);
@@ -736,7 +745,7 @@ void MainWindow::on_listWidget_Device_doubleClicked(const QModelIndex &index)
         tableMap.insert(cmdGroupMember, tab);
 
         QList<A0_CMD_t> *A0_CmdList = new QList<A0_CMD_t>;
-        this->protocol.A0_CmdMod.insert(cmdGroupMember, A0_CmdList);
+        this->protocol->A0_CmdMod.insert(cmdGroupMember, A0_CmdList);
     }
 
     QJsonValue A0CmdValue;
@@ -795,6 +804,11 @@ void MainWindow::UpdateAds8326Vol(A0_CMD_t* cmd)
     free(cmd);
 }
 
+void MainWindow::UpdateAds8326VolNullParam()
+{
+    qDebug()<<"into UpdateAds8326VolNullParam()";
+}
+
 /***********************************************************************************
  * @brief 加载Json文件
  *        在QListWidget里根据板卡名新增一行板卡记录
@@ -832,19 +846,19 @@ void MainWindow::on_actionImportJson_triggered()
                                   QMessageBox::Ok,
                                   QMessageBox::Ok);
         }
-        this->protocol.board.boardName = boardName.toString();
+        this->protocol->board.boardName = boardName.toString();
 
         QJsonValue originAddress;
         if(JsonObjGetDirectChildMemberValue(json_root, "originAddress", &originAddress)<0){
             qDebug()<<"not found originAddress";
         }
-        this->protocol.board.originAddr = originAddress.toInt();
+        this->protocol->board.originAddr = originAddress.toInt();
 
         QJsonValue targetAddress;
         if(JsonObjGetDirectChildMemberValue(json_root, "targetAddress", &targetAddress)<0){
             qDebug()<<"not found targetAddress";
         }
-        this->protocol.board.targetAddr = targetAddress.toInt();
+        this->protocol->board.targetAddr = targetAddress.toInt();
 
 //        QJsonValue cmdGroup;
 //        if(JsonObjGetDirectChildMemberValue(json_root, "cmdGroup", &cmdGroup)<0){

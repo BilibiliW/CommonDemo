@@ -5,7 +5,11 @@
 
 #include <QWidget>
 #include <QTableWidget>
+#include <QQueue>
+#include <QThread>
+#include "./Protocol/Check/data_check.h"
 
+extern  QQueue<uint8_t> RecvQueue;
 typedef struct{
     QString cmdName;
     QString cmdType;
@@ -44,26 +48,34 @@ typedef struct{
     uint32_t targetAddr;
 }device_t;
 
-class Protocol : public QWidget
+class Protocol : public QObject
 {
     Q_OBJECT
 public:
-    explicit Protocol(QWidget *parent = nullptr);
+    // explicit Protocol(QWidget *parent = nullptr);
+    Protocol(void);
     QList<QTableWidget*> cmd_mod_table;
     QList<QTabWidget*> boardTab;
 
 
     board_t board;
-
+    data_check check;
 //    A0_CMD_t A0_CMD;
 //    QList<A0_CMD_t> *A0_CmdList;
 //    QList<A0_Cmd*> A0_CmdMod;
     QMap<QString, QList<A0_CMD_t>*> A0_CmdMod;
 
 
+    QByteArray* frame_arr;
+    int32_t ProtocolAnalyse(void);
 
+public slots:
+    void SubThreadRun();
+    void TestSubThreadSlot(A0_CMD_t*);
 signals:
-
+    void DialSwRead(A0_CMD_t*);
+    void Ads8326Read(A0_CMD_t*);
+    void Ads8326ReadNullParam();
 };
 
 #endif // PROTOCOL_H

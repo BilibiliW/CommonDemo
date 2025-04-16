@@ -49,11 +49,16 @@ public:
     int32_t AsignA0CmdFromJsonObj(QJsonObject A0_CmdObj, A0_CMD_t *A0_Cmd);
     int32_t TableWidgetSetComboBox(QComboBox* comboBox, QString comboBoxText);
 
-    QQueue<uint8_t> RecvQueue;
 
-    int32_t ProtocolAnalyse(void);
+
+    // int32_t ProtocolAnalyse(void);
 
     void UpdateTextLine(QByteArray, bool isRx);
+
+public slots:
+    void UpdateDialSwVol(A0_CMD_t*);
+    void UpdateAds8326Vol(A0_CMD_t*);
+    void UpdateAds8326VolNullParam();
 private slots:
     void CommTypeUpdate(QString);
 
@@ -74,8 +79,7 @@ private slots:
 
     void on_pushButton_dial_sw_get_clicked();
 
-    void UpdateDialSwVol(A0_CMD_t*);
-    void UpdateAds8326Vol(A0_CMD_t*);
+
     void on_pushButton_3_clicked();
 
     void on_pushButton_DAC8571_Set_clicked();
@@ -86,14 +90,17 @@ private slots:
 
     void on_pushButton_multi_Set_clicked();
 
-signals:
-    void DialSwRead(A0_CMD_t*);
-    void Ads8326Read(A0_CMD_t*);
+// signals:
+//     void DialSwRead(A0_CMD_t*);
+//     void Ads8326Read(A0_CMD_t*);
+
+
 
 private:
     Ui::MainWindow *ui;
     HardwareInterface hard_interface;
-    Protocol protocol;
+    Protocol* protocol;
+    QThread* subThread;
     QMap<QString, QTableWidget*> tableMap;
 };
 
