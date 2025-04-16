@@ -472,6 +472,13 @@ release/moc_protocol.cpp: ../../Protocol/protocol.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qtabbar.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qtabwidget.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qrubberband.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/QQueue \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qqueue.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/QThread \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qthread.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qdeadlinetimer.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qelapsedtimer.h \
+		../../Protocol/Check/data_check.h \
 		release/moc_predefs.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/bin/moc.exe
 	D:\ProfessionalSoftware\QT\6.5.3\mingw_64\bin\moc.exe $(DEFINES) --include F:/Project/CommonDemo/build/Desktop_Qt_6_5_3_MinGW_64_bit-Debug/release/moc_predefs.h -ID:/ProfessionalSoftware/QT/6.5.3/mingw_64/mkspecs/win32-g++ -IF:/Project/CommonDemo -ID:/ProfessionalSoftware/QT/6.5.3/mingw_64/include -ID:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets -ID:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtGui -ID:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtSerialBus -ID:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtNetwork -ID:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtSerialPort -ID:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore -I. -ID:/ProfessionalSoftware/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -ID:/ProfessionalSoftware/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -ID:/ProfessionalSoftware/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -ID:/ProfessionalSoftware/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -ID:/ProfessionalSoftware/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -ID:/ProfessionalSoftware/QT/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\Protocol\protocol.h -o release\moc_protocol.cpp
@@ -663,6 +670,8 @@ release/moc_mainwindow.cpp: ../../mainwindow.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qjsonobject.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/QJsonArray \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qjsonarray.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/QQueue \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qqueue.h \
 		../../HardwareInterface/hardwareinterface.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/QWidget \
 		../../HardwareInterface/comm_serialport.h \
@@ -679,6 +688,11 @@ release/moc_mainwindow.cpp: ../../mainwindow.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qabstractitemview.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qitemselectionmodel.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/QThread \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qthread.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qdeadlinetimer.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qelapsedtimer.h \
+		../../Protocol/Check/data_check.h \
 		release/moc_predefs.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/bin/moc.exe
 	D:\ProfessionalSoftware\QT\6.5.3\mingw_64\bin\moc.exe $(DEFINES) --include F:/Project/CommonDemo/build/Desktop_Qt_6_5_3_MinGW_64_bit-Debug/release/moc_predefs.h -ID:/ProfessionalSoftware/QT/6.5.3/mingw_64/mkspecs/win32-g++ -IF:/Project/CommonDemo -ID:/ProfessionalSoftware/QT/6.5.3/mingw_64/include -ID:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets -ID:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtGui -ID:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtSerialBus -ID:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtNetwork -ID:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtSerialPort -ID:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore -I. -ID:/ProfessionalSoftware/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++ -ID:/ProfessionalSoftware/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/x86_64-w64-mingw32 -ID:/ProfessionalSoftware/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include/c++/backward -ID:/ProfessionalSoftware/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include -ID:/ProfessionalSoftware/QT/Tools/mingw1120_64/lib/gcc/x86_64-w64-mingw32/11.2.0/include-fixed -ID:/ProfessionalSoftware/QT/Tools/mingw1120_64/x86_64-w64-mingw32/include ..\..\mainwindow.h -o release\moc_mainwindow.cpp
@@ -1149,7 +1163,14 @@ release/protocol.o: ../../Protocol/protocol.cpp ../../Protocol/protocol.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qstyle.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qtabbar.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qtabwidget.h \
-		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qrubberband.h
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qrubberband.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/QQueue \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qqueue.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/QThread \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qthread.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qdeadlinetimer.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qelapsedtimer.h \
+		../../Protocol/Check/data_check.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\protocol.o ..\..\Protocol\protocol.cpp
 
 release/main.o: ../../main.cpp ../../mainwindow.h \
@@ -1339,6 +1360,8 @@ release/main.o: ../../main.cpp ../../mainwindow.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qjsonobject.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/QJsonArray \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qjsonarray.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/QQueue \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qqueue.h \
 		../../HardwareInterface/hardwareinterface.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/QWidget \
 		../../HardwareInterface/comm_serialport.h \
@@ -1355,6 +1378,11 @@ release/main.o: ../../main.cpp ../../mainwindow.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qabstractitemview.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qabstractscrollarea.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qitemselectionmodel.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/QThread \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qthread.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qdeadlinetimer.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qelapsedtimer.h \
+		../../Protocol/Check/data_check.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/QApplication \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qapplication.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qcoreapplication.h \
@@ -1367,9 +1395,6 @@ release/main.o: ../../main.cpp ../../mainwindow.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qresultstore.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qfuture_impl.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qthreadpool.h \
-		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qthread.h \
-		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qdeadlinetimer.h \
-		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qelapsedtimer.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qrunnable.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qexception.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qpromise.h \
@@ -1585,6 +1610,8 @@ release/mainwindow.o: ../../mainwindow.cpp D:/ProfessionalSoftware/QT/6.5.3/ming
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qjsonobject.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/QJsonArray \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qjsonarray.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/QQueue \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qqueue.h \
 		../../HardwareInterface/hardwareinterface.h \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/QWidget \
 		../../HardwareInterface/comm_serialport.h \
@@ -1595,7 +1622,70 @@ release/mainwindow.o: ../../mainwindow.cpp D:/ProfessionalSoftware/QT/6.5.3/ming
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtSerialPort/QSerialPortInfo \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtSerialPort/qserialportinfo.h \
 		../../Protocol/protocol.h \
-		ui_mainwindow.h
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/QThread \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qthread.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qdeadlinetimer.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qelapsedtimer.h \
+		../../Protocol/Check/data_check.h \
+		ui_mainwindow.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/QVariant \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtGui/QAction \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/QApplication \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qapplication.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qcoreapplication.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qeventloop.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qcoreapplication_platform.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qfuture.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qfutureinterface.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qmutex.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qtsan_impl.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qresultstore.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qfuture_impl.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qthreadpool.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qrunnable.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qexception.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtCore/qpromise.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtGui/qguiapplication.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtGui/qinputmethod.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtGui/qguiapplication_platform.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/QCheckBox \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qcheckbox.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qabstractbutton.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/QFrame \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/QGridLayout \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qgridlayout.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qlayout.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qlayoutitem.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qboxlayout.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/QHBoxLayout \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/QLabel \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qlabel.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtGui/qpicture.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtGui/qtextdocument.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/QLineEdit \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qlineedit.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtGui/qtextcursor.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtGui/qtextformat.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtGui/qpen.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtGui/qtextoption.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/QListWidget \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qlistwidget.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qlistview.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/QMenu \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qmenu.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/QMenuBar \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qmenubar.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/QPushButton \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qpushbutton.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/QRadioButton \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qradiobutton.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/QStatusBar \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qstatusbar.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/QTabWidget \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/QTextEdit \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qtextedit.h \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/QToolBar \
+		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/include/QtWidgets/qtoolbar.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\mainwindow.o ..\..\mainwindow.cpp
 
 release/moc_hardwareinterface.o: release/moc_hardwareinterface.cpp 

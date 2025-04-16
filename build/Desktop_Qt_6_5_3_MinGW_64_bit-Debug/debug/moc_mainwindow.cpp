@@ -6,7 +6,7 @@
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../../../mainwindow.h"
+#include "../../../../QT_Project/CommonDemo/mainwindow.h"
 #include <QtCore/qmetatype.h>
 
 #if __has_include(<QtCore/qtmochelpers.h>)
@@ -263,7 +263,6 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         switch (_id) {
         case 0: _t->UpdateDialSwVol((*reinterpret_cast< std::add_pointer_t<A0_CMD_t*>>(_a[1]))); break;
         case 1: _t->UpdateAds8326Vol((*reinterpret_cast< std::add_pointer_t<A0_CMD_t*>>(_a[1]))); break;
-        case 2: _t->UpdateAds8326VolNullParam(); break;
         case 3: _t->CommTypeUpdate((*reinterpret_cast< std::add_pointer_t<QString>>(_a[1]))); break;
         case 4: _t->on_Communication_currentChanged((*reinterpret_cast< std::add_pointer_t<int>>(_a[1]))); break;
         case 5: _t->on_pushButton_SerialConnect_clicked(); break;

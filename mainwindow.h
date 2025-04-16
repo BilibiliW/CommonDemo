@@ -54,11 +54,12 @@ public:
     // int32_t ProtocolAnalyse(void);
 
     void UpdateTextLine(QByteArray, bool isRx);
+    QString formatFloatToString(double value, int intWidth, int fracWidth);
 
 public slots:
     void UpdateDialSwVol(A0_CMD_t*);
     void UpdateAds8326Vol(A0_CMD_t*);
-    void UpdateAds8326VolNullParam();
+
 private slots:
     void CommTypeUpdate(QString);
 

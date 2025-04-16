@@ -17,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent)
     // ui->frame->setStyleSheet("background-color: rgb(160, 160, 160);");
     // ui->frame->setStyleSheet("border:1px solid rgb(100, 100,189)");
 
+
+    ui->label_Version->setText(ui->label_Version->text() + " v0.0.3");
     ui->radioButton_current_Close->setChecked(true);
     ui->comboBox_multi_sel->setCurrentText("ch_all");
     serial_comm = NULL;
@@ -296,6 +298,46 @@ void MainWindow::UpdateTextLine(QByteArray str_arr, bool isRx)
     cursor.movePosition(QTextCursor::End);
     ui->textEdit_RealTimeCommunicateData->setTextCursor(cursor);
     ui->textEdit_RealTimeCommunicateData->insertPlainText(current_date + TxRx + str + '\n');
+}
+
+QString MainWindow::formatFloatToString(double value, int intWidth, int fracWidth)
+{
+    // QString strValue = QString::number(value, 'f', fracWidth);
+    // QStringList parts = strValue.split('.');
+
+    // // 确保整数部分的长度
+    // if (parts[0].length() < intWidth) {
+    //     parts[0].prepend(QString(intWidth - parts[0].length(), '0'));
+    // }
+
+    // // 确保小数部分的长度
+    // if (parts.size() == 1) { // 没有小数部分
+    //     parts.append(QString(fracWidth, '0'));
+    // } else if (parts[1].length() < fracWidth) {
+    //     parts[1].append(QString(fracWidth - parts[1].length(), '0'));
+    // }
+
+    // return parts.join('.');
+    // 使用 QString::number 获取小数部分
+    QString strValue = QString::number(value, 'f', fracWidth);
+    QStringList parts = strValue.split('.');
+
+    // 确保整数部分的宽度
+    if (parts[0].length() < intWidth) {
+        parts[0].prepend(QString(intWidth - parts[0].length(), '0'));
+    }
+
+    // 如果没有小数部分，添加相应数量的零
+    if (parts.size() == 1) {
+        parts.append(QString(fracWidth, '0'));
+    } else {
+        // 确保小数部分的宽度
+        if (parts[1].length() < fracWidth) {
+            parts[1].append(QString(fracWidth - parts[1].length(), '0'));
+        }
+    }
+
+    return parts.join('.');
 }
 /***********************************************************************************
  * @brief 实时数据窗口
@@ -770,8 +812,8 @@ void MainWindow::UpdateDialSwVol(A0_CMD_t* cmd)
 
     this->ui->lineEdit_sw0->clear();
     this->ui->lineEdit_sw1->clear();
-    this->ui->lineEdit_sw0->setText(QString::number(sw0_vol));
-    this->ui->lineEdit_sw1->setText(QString::number(sw1_vol));
+    this->ui->lineEdit_sw0->setText(QString::number(sw0_vol, 'f', 6));
+    this->ui->lineEdit_sw1->setText(QString::number(sw1_vol, 'f', 6));
 
     free(cmd);
 }
@@ -788,7 +830,7 @@ void MainWindow::UpdateAds8326Vol(A0_CMD_t* cmd)
     if(cmd->dataCount == 16){
         for(int i = 0; i < 16; i++){
             memcpy(&vol, cmd->data + 4*i, sizeof(float));
-            str += "ch" + QString("%1").arg(i, 2, 10, QLatin1Char('0')) + ":" + QString::number(vol) + "  ";
+            str += "ch" + QString("%1").arg(i, 2, 10, QLatin1Char('0')) + ":" + formatFloatToString(vol, 2, 6) + "  ";
             if(i%4 == 3){
                 str += "\r";
             }
@@ -797,17 +839,14 @@ void MainWindow::UpdateAds8326Vol(A0_CMD_t* cmd)
     else{
         uint8_t ch = ui->comboBox_multi_sel->currentIndex();
         memcpy(&vol, cmd->data, sizeof(float));
-        str = "ch" + QString("%1").arg(ch, 2, 10, QLatin1Char('0')) + ":" + QString::number(vol) + "  ";
+        str = "ch" + QString("%1").arg(ch, 2, 10, QLatin1Char('0')) + ":" + formatFloatToString(vol, 2, 6);
     }
     this->ui->textEdit_ads8326->setText(str);
 
     free(cmd);
 }
 
-void MainWindow::UpdateAds8326VolNullParam()
-{
-    qDebug()<<"into UpdateAds8326VolNullParam()";
-}
+
 
 /***********************************************************************************
  * @brief 加载Json文件

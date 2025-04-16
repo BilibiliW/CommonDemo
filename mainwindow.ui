@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1031</width>
-    <height>698</height>
+    <height>650</height>
    </rect>
   </property>
   <property name="maximumSize">
@@ -150,7 +150,7 @@
       <x>120</x>
       <y>450</y>
       <width>891</width>
-      <height>161</height>
+      <height>121</height>
      </rect>
     </property>
    </widget>
@@ -160,7 +160,7 @@
       <x>0</x>
       <y>0</y>
       <width>111</width>
-      <height>611</height>
+      <height>571</height>
      </rect>
     </property>
    </widget>
@@ -227,9 +227,9 @@
    <widget class="QTextEdit" name="textEdit_ads8326">
     <property name="geometry">
      <rect>
-      <x>520</x>
+      <x>530</x>
       <y>330</y>
-      <width>491</width>
+      <width>481</width>
       <height>111</height>
      </rect>
     </property>
@@ -239,7 +239,7 @@
      <rect>
       <x>130</x>
       <y>150</y>
-      <width>356</width>
+      <width>381</width>
       <height>221</height>
      </rect>
     </property>
@@ -263,37 +263,18 @@ border:2px solid rgb(160, 160,160)
        </property>
       </widget>
      </item>
-     <item row="3" column="2">
-      <widget class="QRadioButton" name="radioButton_current_Close">
-       <property name="minimumSize">
-        <size>
-         <width>77</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>77</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>Close</string>
-       </property>
-      </widget>
-     </item>
      <item row="9" column="2">
       <widget class="QLineEdit" name="lineEdit_sw0">
        <property name="minimumSize">
         <size>
-         <width>0</width>
+         <width>68</width>
          <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>60</width>
-         <height>23</height>
+         <width>68</width>
+         <height>1000</height>
         </size>
        </property>
       </widget>
@@ -319,50 +300,11 @@ border:2px solid rgb(160, 160,160)
        </property>
       </widget>
      </item>
-     <item row="0" column="2" colspan="2">
-      <widget class="QLineEdit" name="lineEdit_DAC8571">
-       <property name="minimumSize">
-        <size>
-         <width>60</width>
-         <height>23</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>60</width>
-         <height>23</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-     <item row="9" column="8">
-      <widget class="QLabel" name="label_7">
-       <property name="text">
-        <string>sw1</string>
-       </property>
-      </widget>
-     </item>
-     <item row="9" column="6">
-      <widget class="QLineEdit" name="lineEdit_sw1">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>60</width>
-         <height>23</height>
-        </size>
-       </property>
-      </widget>
-     </item>
      <item row="4" column="2">
       <widget class="QRadioButton" name="radioButton_current_Pos">
        <property name="minimumSize">
         <size>
-         <width>77</width>
+         <width>0</width>
          <height>0</height>
         </size>
        </property>
@@ -389,7 +331,7 @@ border:2px solid rgb(160, 160,160)
       <widget class="QRadioButton" name="radioButton_current_Neg">
        <property name="minimumSize">
         <size>
-         <width>77</width>
+         <width>0</width>
          <height>0</height>
         </size>
        </property>
@@ -461,22 +403,6 @@ border:2px solid rgb(160, 160,160)
        </property>
       </widget>
      </item>
-     <item row="1" column="2">
-      <widget class="QLineEdit" name="lineEdit_MAX5719">
-       <property name="minimumSize">
-        <size>
-         <width>60</width>
-         <height>23</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>60</width>
-         <height>23</height>
-        </size>
-       </property>
-      </widget>
-     </item>
      <item row="6" column="0">
       <widget class="QLabel" name="label_3">
        <property name="text">
@@ -488,13 +414,13 @@ border:2px solid rgb(160, 160,160)
       <widget class="QComboBox" name="comboBox_multi_sel">
        <property name="minimumSize">
         <size>
-         <width>60</width>
+         <width>0</width>
          <height>0</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>60</width>
+         <width>10000</width>
          <height>16777215</height>
         </size>
        </property>
@@ -595,12 +521,86 @@ border:2px solid rgb(160, 160,160)
        </property>
        <property name="maximumSize">
         <size>
-         <width>75</width>
+         <width>1000</width>
          <height>16777215</height>
         </size>
        </property>
        <property name="text">
         <string>Set</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+      <widget class="QLineEdit" name="lineEdit_DAC8571">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>1000</width>
+         <height>1000</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QLineEdit" name="lineEdit_MAX5719">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>1110</width>
+         <height>1000</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="2">
+      <widget class="QRadioButton" name="radioButton_current_Close">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>10000</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Close</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="4" colspan="4">
+      <widget class="QLineEdit" name="lineEdit_sw1">
+       <property name="minimumSize">
+        <size>
+         <width>68</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>68</width>
+         <height>1000</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="8">
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>sw1</string>
        </property>
       </widget>
      </item>
@@ -638,14 +638,30 @@ border:2px solid rgb(160, 160,160)
    <widget class="QLabel" name="label_9">
     <property name="geometry">
      <rect>
-      <x>520</x>
-      <y>300</y>
+      <x>530</x>
+      <y>310</y>
       <width>121</width>
-      <height>31</height>
+      <height>20</height>
      </rect>
     </property>
     <property name="text">
      <string>多路选择器接入电压：</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_Version">
+    <property name="geometry">
+     <rect>
+      <x>940</x>
+      <y>0</y>
+      <width>91</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string>Version:</string>
     </property>
    </widget>
    <zorder>Communication</zorder>
@@ -658,6 +674,7 @@ border:2px solid rgb(160, 160,160)
    <zorder>label_8</zorder>
    <zorder>label_9</zorder>
    <zorder>frame</zorder>
+   <zorder>label_Version</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -665,7 +682,7 @@ border:2px solid rgb(160, 160,160)
      <x>0</x>
      <y>0</y>
      <width>1031</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuDemo">

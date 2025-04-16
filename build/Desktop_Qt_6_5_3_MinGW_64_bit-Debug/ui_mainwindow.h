@@ -77,14 +77,10 @@ public:
     QFrame *frame;
     QGridLayout *gridLayout_2;
     QPushButton *pushButton_dial_sw_get;
-    QRadioButton *radioButton_current_Close;
     QLineEdit *lineEdit_sw0;
     QLabel *label_6;
     QLabel *label_4;
     QCheckBox *checkBox_DAC8571_B;
-    QLineEdit *lineEdit_DAC8571;
-    QLabel *label_7;
-    QLineEdit *lineEdit_sw1;
     QRadioButton *radioButton_current_Pos;
     QLabel *label_2;
     QPushButton *pushButton_MAX5719_Set;
@@ -98,10 +94,14 @@ public:
     QPushButton *pushButton_current_Set;
     QCheckBox *checkBox_MAX5719_A;
     QPushButton *pushButton_DAC8571_Set;
-    QLineEdit *lineEdit_MAX5719;
     QLabel *label_3;
     QComboBox *comboBox_multi_sel;
     QPushButton *pushButton_multi_Set;
+    QLineEdit *lineEdit_DAC8571;
+    QLineEdit *lineEdit_MAX5719;
+    QRadioButton *radioButton_current_Close;
+    QLineEdit *lineEdit_sw1;
+    QLabel *label_7;
     QPushButton *pushButton_CleanRealTimeWindows;
     QLabel *label_8;
     QLabel *label_9;
@@ -275,10 +275,10 @@ public:
 
         textEdit_ads8326 = new QTextEdit(centralwidget);
         textEdit_ads8326->setObjectName("textEdit_ads8326");
-        textEdit_ads8326->setGeometry(QRect(520, 330, 491, 111));
+        textEdit_ads8326->setGeometry(QRect(530, 330, 481, 111));
         frame = new QFrame(centralwidget);
         frame->setObjectName("frame");
-        frame->setGeometry(QRect(130, 150, 356, 221));
+        frame->setGeometry(QRect(130, 150, 381, 221));
         frame->setStyleSheet(QString::fromUtf8("#frame{\n"
 "border-radius:10px;\n"
 "border:2px solid rgb(160, 160,160)\n"
@@ -292,17 +292,10 @@ public:
 
         gridLayout_2->addWidget(pushButton_dial_sw_get, 9, 9, 1, 1);
 
-        radioButton_current_Close = new QRadioButton(frame);
-        radioButton_current_Close->setObjectName("radioButton_current_Close");
-        radioButton_current_Close->setMinimumSize(QSize(77, 0));
-        radioButton_current_Close->setMaximumSize(QSize(77, 16777215));
-
-        gridLayout_2->addWidget(radioButton_current_Close, 3, 2, 1, 1);
-
         lineEdit_sw0 = new QLineEdit(frame);
         lineEdit_sw0->setObjectName("lineEdit_sw0");
-        lineEdit_sw0->setMinimumSize(QSize(0, 0));
-        lineEdit_sw0->setMaximumSize(QSize(60, 23));
+        lineEdit_sw0->setMinimumSize(QSize(68, 0));
+        lineEdit_sw0->setMaximumSize(QSize(68, 1000));
 
         gridLayout_2->addWidget(lineEdit_sw0, 9, 2, 1, 1);
 
@@ -321,28 +314,9 @@ public:
 
         gridLayout_2->addWidget(checkBox_DAC8571_B, 0, 8, 1, 1);
 
-        lineEdit_DAC8571 = new QLineEdit(frame);
-        lineEdit_DAC8571->setObjectName("lineEdit_DAC8571");
-        lineEdit_DAC8571->setMinimumSize(QSize(60, 23));
-        lineEdit_DAC8571->setMaximumSize(QSize(60, 23));
-
-        gridLayout_2->addWidget(lineEdit_DAC8571, 0, 2, 1, 2);
-
-        label_7 = new QLabel(frame);
-        label_7->setObjectName("label_7");
-
-        gridLayout_2->addWidget(label_7, 9, 8, 1, 1);
-
-        lineEdit_sw1 = new QLineEdit(frame);
-        lineEdit_sw1->setObjectName("lineEdit_sw1");
-        lineEdit_sw1->setMinimumSize(QSize(0, 0));
-        lineEdit_sw1->setMaximumSize(QSize(60, 23));
-
-        gridLayout_2->addWidget(lineEdit_sw1, 9, 6, 1, 1);
-
         radioButton_current_Pos = new QRadioButton(frame);
         radioButton_current_Pos->setObjectName("radioButton_current_Pos");
-        radioButton_current_Pos->setMinimumSize(QSize(77, 0));
+        radioButton_current_Pos->setMinimumSize(QSize(0, 0));
 
         gridLayout_2->addWidget(radioButton_current_Pos, 4, 2, 1, 1);
 
@@ -358,7 +332,7 @@ public:
 
         radioButton_current_Neg = new QRadioButton(frame);
         radioButton_current_Neg->setObjectName("radioButton_current_Neg");
-        radioButton_current_Neg->setMinimumSize(QSize(77, 0));
+        radioButton_current_Neg->setMinimumSize(QSize(0, 0));
 
         gridLayout_2->addWidget(radioButton_current_Neg, 5, 2, 1, 1);
 
@@ -407,13 +381,6 @@ public:
 
         gridLayout_2->addWidget(pushButton_DAC8571_Set, 0, 9, 1, 1);
 
-        lineEdit_MAX5719 = new QLineEdit(frame);
-        lineEdit_MAX5719->setObjectName("lineEdit_MAX5719");
-        lineEdit_MAX5719->setMinimumSize(QSize(60, 23));
-        lineEdit_MAX5719->setMaximumSize(QSize(60, 23));
-
-        gridLayout_2->addWidget(lineEdit_MAX5719, 1, 2, 1, 1);
-
         label_3 = new QLabel(frame);
         label_3->setObjectName("label_3");
 
@@ -438,17 +405,50 @@ public:
         comboBox_multi_sel->addItem(QString());
         comboBox_multi_sel->addItem(QString());
         comboBox_multi_sel->setObjectName("comboBox_multi_sel");
-        comboBox_multi_sel->setMinimumSize(QSize(60, 0));
-        comboBox_multi_sel->setMaximumSize(QSize(60, 16777215));
+        comboBox_multi_sel->setMinimumSize(QSize(0, 0));
+        comboBox_multi_sel->setMaximumSize(QSize(10000, 16777215));
 
         gridLayout_2->addWidget(comboBox_multi_sel, 6, 2, 1, 1);
 
         pushButton_multi_Set = new QPushButton(frame);
         pushButton_multi_Set->setObjectName("pushButton_multi_Set");
         pushButton_multi_Set->setMinimumSize(QSize(0, 0));
-        pushButton_multi_Set->setMaximumSize(QSize(75, 16777215));
+        pushButton_multi_Set->setMaximumSize(QSize(1000, 16777215));
 
         gridLayout_2->addWidget(pushButton_multi_Set, 6, 9, 1, 1);
+
+        lineEdit_DAC8571 = new QLineEdit(frame);
+        lineEdit_DAC8571->setObjectName("lineEdit_DAC8571");
+        lineEdit_DAC8571->setMinimumSize(QSize(0, 0));
+        lineEdit_DAC8571->setMaximumSize(QSize(1000, 1000));
+
+        gridLayout_2->addWidget(lineEdit_DAC8571, 0, 2, 1, 1);
+
+        lineEdit_MAX5719 = new QLineEdit(frame);
+        lineEdit_MAX5719->setObjectName("lineEdit_MAX5719");
+        lineEdit_MAX5719->setMinimumSize(QSize(0, 0));
+        lineEdit_MAX5719->setMaximumSize(QSize(1110, 1000));
+
+        gridLayout_2->addWidget(lineEdit_MAX5719, 1, 2, 1, 1);
+
+        radioButton_current_Close = new QRadioButton(frame);
+        radioButton_current_Close->setObjectName("radioButton_current_Close");
+        radioButton_current_Close->setMinimumSize(QSize(0, 0));
+        radioButton_current_Close->setMaximumSize(QSize(10000, 16777215));
+
+        gridLayout_2->addWidget(radioButton_current_Close, 3, 2, 1, 1);
+
+        lineEdit_sw1 = new QLineEdit(frame);
+        lineEdit_sw1->setObjectName("lineEdit_sw1");
+        lineEdit_sw1->setMinimumSize(QSize(68, 0));
+        lineEdit_sw1->setMaximumSize(QSize(68, 1000));
+
+        gridLayout_2->addWidget(lineEdit_sw1, 9, 4, 1, 4);
+
+        label_7 = new QLabel(frame);
+        label_7->setObjectName("label_7");
+
+        gridLayout_2->addWidget(label_7, 9, 8, 1, 1);
 
         pushButton_CleanRealTimeWindows = new QPushButton(centralwidget);
         pushButton_CleanRealTimeWindows->setObjectName("pushButton_CleanRealTimeWindows");
@@ -459,13 +459,13 @@ public:
         label_8->setStyleSheet(QString::fromUtf8(""));
         label_9 = new QLabel(centralwidget);
         label_9->setObjectName("label_9");
-        label_9->setGeometry(QRect(520, 300, 121, 31));
+        label_9->setGeometry(QRect(530, 310, 121, 20));
         MainWindow->setCentralWidget(centralwidget);
         Communication->raise();
         textEdit_RealTimeCommunicateData->raise();
         listWidget_Device->raise();
         pushButton_LockRealTimeWindows->raise();
-        layoutWidget1->raise();
+        layoutWidget->raise();
         textEdit_ads8326->raise();
         pushButton_CleanRealTimeWindows->raise();
         label_8->raise();
@@ -473,7 +473,7 @@ public:
         frame->raise();
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 1031, 21));
+        menubar->setGeometry(QRect(0, 0, 1031, 22));
         menuDemo = new QMenu(menubar);
         menuDemo->setObjectName("menuDemo");
         MainWindow->setMenuBar(menubar);
@@ -519,11 +519,9 @@ public:
         pushButton_DelMod->setText(QCoreApplication::translate("MainWindow", "\345\210\240\351\231\244\346\250\241\345\235\227", nullptr));
         pushButton_Save->setText(QCoreApplication::translate("MainWindow", "\344\277\235\345\255\230", nullptr));
         pushButton_dial_sw_get->setText(QCoreApplication::translate("MainWindow", "Get", nullptr));
-        radioButton_current_Close->setText(QCoreApplication::translate("MainWindow", "Close", nullptr));
         label_6->setText(QCoreApplication::translate("MainWindow", "sw0", nullptr));
         label_4->setText(QCoreApplication::translate("MainWindow", "\346\213\250\347\240\201\345\274\200\345\205\263\357\274\232", nullptr));
         checkBox_DAC8571_B->setText(QCoreApplication::translate("MainWindow", "B", nullptr));
-        label_7->setText(QCoreApplication::translate("MainWindow", "sw1", nullptr));
         radioButton_current_Pos->setText(QCoreApplication::translate("MainWindow", "Pos", nullptr));
         label_2->setText(QCoreApplication::translate("MainWindow", "MAX5719  \357\274\232", nullptr));
         pushButton_MAX5719_Set->setText(QCoreApplication::translate("MainWindow", "Set", nullptr));
@@ -557,6 +555,8 @@ public:
         comboBox_multi_sel->setItemText(16, QCoreApplication::translate("MainWindow", "ch_all", nullptr));
 
         pushButton_multi_Set->setText(QCoreApplication::translate("MainWindow", "Set", nullptr));
+        radioButton_current_Close->setText(QCoreApplication::translate("MainWindow", "Close", nullptr));
+        label_7->setText(QCoreApplication::translate("MainWindow", "sw1", nullptr));
         pushButton_CleanRealTimeWindows->setText(QCoreApplication::translate("MainWindow", "Clear", nullptr));
         label_8->setText(QCoreApplication::translate("MainWindow", "\345\216\237\345\247\213\351\200\232\350\256\257\346\225\260\346\215\256\357\274\232", nullptr));
         label_9->setText(QCoreApplication::translate("MainWindow", "\345\244\232\350\267\257\351\200\211\346\213\251\345\231\250\346\216\245\345\205\245\347\224\265\345\216\213\357\274\232", nullptr));
