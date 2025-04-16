@@ -14,6 +14,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    // ui->frame->setStyleSheet("background-color: rgb(160, 160, 160);");
+    // ui->frame->setStyleSheet("border:1px solid rgb(100, 100,189)");
 
     ui->radioButton_current_Close->setChecked(true);
     ui->comboBox_multi_sel->setCurrentText("ch_all");
@@ -26,18 +28,16 @@ MainWindow::MainWindow(QWidget *parent)
     qDebug()<<tab_text;
     hard_interface.comm_type = tab_text;
 
-    // connect(this, SIGNAL(Ads8326Read(A0_CMD_t*)), this, SLOT(UpdateAds8326Vol(A0_CMD_t*)));
-    // connect(this, SIGNAL(DialSwRead(A0_CMD_t*)),  this, SLOT(UpdateDialSwVol(A0_CMD_t*)),Qt::DirectConnection);
     CommTypeUpdate(tab_text);
 
     subThread =  new QThread;
     protocol = new Protocol;
 
-
-    // connect(ui->pushButton,&QPushButton::clicked,protocol,&Protocol::SubThreadRun());
     connect(subThread, SIGNAL(started()), protocol, SLOT(SubThreadRun()), Qt::DirectConnection);
+
     connect(protocol, SIGNAL(Ads8326Read(A0_CMD_t*)), this, SLOT(UpdateAds8326Vol(A0_CMD_t*)));
     connect(protocol, SIGNAL(DialSwRead(A0_CMD_t*)), this, SLOT(UpdateDialSwVol(A0_CMD_t*)));
+
     protocol->moveToThread(subThread);
     subThread->start();
 }

@@ -71,11 +71,11 @@ public:
 
 public slots:
     void SubThreadRun();
-    void TestSubThreadSlot(A0_CMD_t*);
+
 signals:
     void DialSwRead(A0_CMD_t*);
     void Ads8326Read(A0_CMD_t*);
-    void Ads8326ReadNullParam();
+
 };
 
 #endif // PROTOCOL_H

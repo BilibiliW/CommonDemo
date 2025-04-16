@@ -25,11 +25,6 @@
 
  }
 
- void Protocol::TestSubThreadSlot(A0_CMD_t* cmd)
- {
-     qDebug()<<"into TestSubThreadSlot()";
- }
-
  int32_t Protocol::ProtocolAnalyse()
  {
      int len = RecvQueue.size();
