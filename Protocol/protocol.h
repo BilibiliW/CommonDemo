@@ -13,12 +13,12 @@ extern  QQueue<uint8_t> RecvQueue;
 typedef struct{
     QString cmdName;
     QString cmdType;
-    uint16_t head;
-    uint16_t len;
-    uint16_t originAddr;
-    uint16_t targetAddr;
-    uint16_t mainCmdID;
-    uint16_t subCmdID;
+    uint8_t head;
+    uint8_t len;
+    uint8_t originAddr;
+    uint8_t targetAddr;
+    uint8_t mainCmdID;
+    uint8_t subCmdID;
     uint8_t  cmd_RW_Type;
     QStringList dataType;
     QStringList unit;
@@ -28,7 +28,7 @@ typedef struct{
     QStringList defaultValue;
     QString descrip;
     char* data;
-    uint16_t dataCount;
+    uint16_t dataLen;
     QString cmdGroup;
     QString access;
     uint16_t crc;
@@ -73,6 +73,24 @@ public slots:
     void SubThreadRun();
 
 signals:
+    void HandShakeAck(A0_CMD_t*);
+    void FirmwareVersion(A0_CMD_t*);
+    void DeviceInfoRead(A0_CMD_t*);
+    void BoardStatusRead(A0_CMD_t*);
+
+    void CoilCurrentRead(A0_CMD_t*);
+    void CoilVolRead(A0_CMD_t*);
+    void CoilResistRead(A0_CMD_t*);
+    void PowerVolRead(A0_CMD_t*);
+    void InputVolRead(A0_CMD_t*);
+    void InputCurrentRead(A0_CMD_t*);
+    void OutputCurrentRead(A0_CMD_t*);
+    void BoardTempRead(A0_CMD_t*);
+    void BoardID_Read(A0_CMD_t*);
+
+    void CoilCurrentCoefRead(A0_CMD_t*);
+    void CoilVolCoefRead(A0_CMD_t*);
+
     void DialSwRead(A0_CMD_t*);
     void Ads8326Read(A0_CMD_t*);
 

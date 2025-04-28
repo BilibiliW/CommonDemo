@@ -19,7 +19,13 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+#define SOFTWARE_VERSION " v0.0.4"
+
 // QQueue<uint8_t> RecvQueue;
+typedef union{
+    float data_float;
+    uint8_t data_arr[4];
+}data_convert_u;
 class MainWindow : public QMainWindow
 
 {
@@ -57,6 +63,24 @@ public:
     QString formatFloatToString(double value, int intWidth, int fracWidth);
 
 public slots:
+    void UpdateHandShakeAck(A0_CMD_t*);
+    void UpdateFirmwareVersion(A0_CMD_t*);
+    void UpdateDeviceInfoRead(A0_CMD_t*);
+    void UpdateBoardStatusRead(A0_CMD_t*);
+
+    void UpdateCoilCurrentRead(A0_CMD_t*);
+    void UpdateCoilVolRead(A0_CMD_t*);
+    void UpdateCoilResistRead(A0_CMD_t*);
+    void UpdatePowerVolRead(A0_CMD_t*);
+    void UpdateInputVolRead(A0_CMD_t*);
+    void UpdateInputCurrentRead(A0_CMD_t*);
+    void UpdateOutputCurrentRead(A0_CMD_t*);
+    void UpdateBoardTempRead(A0_CMD_t*);
+    void UpdateBoardID_Read(A0_CMD_t*);
+
+    void UpdateCoilCurrentCoefRead(A0_CMD_t*);
+    void UpdateCoilVolCoefRead(A0_CMD_t*);
+
     void UpdateDialSwVol(A0_CMD_t*);
     void UpdateAds8326Vol(A0_CMD_t*);
 
@@ -96,6 +120,52 @@ private slots:
 //     void Ads8326Read(A0_CMD_t*);
 
 
+
+    void on_pushButton_ExcitateCurrentSet_clicked();
+
+    void on_pushButton_CoilCurrentGet_clicked();
+
+    void on_pushButton_CoilVolGet_clicked();
+
+    void on_pushButton_PowerVolGet_clicked();
+
+    void on_pushButton_InputCurrentGet_clicked();
+
+    void on_pushButton_CoilResistGet_clicked();
+
+    void on_pushButton_CoilResistSet_clicked();
+
+    void on_pushButton_InputVolGet_clicked();
+
+    void on_pushButton_InputVolSet_clicked();
+
+    void on_pushButton_OutputCurrentGet_clicked();
+
+    void on_pushButton_OutputCurrentSet_clicked();
+
+    void on_pushButton_CoilCurrentCoefSet_clicked();
+
+    void on_pushButton_CoilCurrentCoefGet_clicked();
+
+    void on_pushButton_CoilVolCoefSet_clicked();
+
+    void on_pushButton_CoilVolCoefGet_clicked();
+
+    void on_pushButton_BoardTempGet_clicked();
+
+    void on_pushButton_BoardID_Get_clicked();
+
+    void on_pushButton_RebootSet_clicked();
+
+    void on_pushButton_ParaSaveSet_clicked();
+
+    void on_pushButton_ParaReadGet_clicked();
+
+    void on_pushButton_ParaRestoreSet_clicked();
+
+    void on_pushButton_DeviceInfo_clicked();
+
+    void on_pushButton_FirmVersion_clicked();
 
 private:
     Ui::MainWindow *ui;

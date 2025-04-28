@@ -81,30 +81,101 @@
 
          // QDateTime current_date_time =QDateTime::currentDateTime();
          // QString current_date =current_date_time.toString("hh:mm:ss.zzz");
-
-         switch(frame_A0->subCmdID){
-         case 0x03:
-             if(frame_A0->len == 0x47){
-                 frame_A0->dataCount = 16;
-             }
-             else if(frame_A0->len == 0x0B){
-                 frame_A0->dataCount = 1;
-             }
-             else{
+         if(frame_A0->mainCmdID == 0x01  && frame_A0->cmd_RW_Type == 0x54){
+             switch(frame_A0->subCmdID){
+             case 0x01:
+                 emit HandShakeAck(frame_A0);
+                 break;
+             case 0x02:
+                 emit FirmwareVersion(frame_A0);
+                 break;
+             case 0x03:
+                 emit DeviceInfoRead(frame_A0);
+                 break;
+             case 0x05:
+                 emit BoardStatusRead(frame_A0);
+                 break;
+             default:
+                 free(frame_A0);
                  break;
              }
-
-             // qDebug()<< current_date + ": arrived emit adsAds8326Read";
-             emit Ads8326Read(frame_A0);
-             // emit Ads8326ReadNullParam();
-             break;
-         case 0x04:
-             emit DialSwRead(frame_A0);
-             break;
-         default:
-             free(frame_A0);
-             break;
          }
+         else if(frame_A0->mainCmdID == 0x02  && frame_A0->cmd_RW_Type == 0x54){
+             switch(frame_A0->subCmdID){
+             case 0x02:
+                 emit CoilCurrentRead(frame_A0);
+                 break;
+             case 0x03:
+                 emit CoilVolRead(frame_A0);
+                 break;
+             case 0x04:
+                 emit CoilResistRead(frame_A0);
+                 break;
+             case 0x05:
+                 emit PowerVolRead(frame_A0);
+                 break;
+             case 0x06:
+                 emit InputVolRead(frame_A0);
+                 break;
+             case 0x07:
+                 emit InputCurrentRead(frame_A0);
+                 break;
+             case 0x08:
+                 emit OutputCurrentRead(frame_A0);
+                 break;
+             case 0x09:
+                 emit BoardTempRead(frame_A0);
+                 break;
+             case 0x0A:
+                 emit BoardID_Read(frame_A0);
+                 break;
+             default:
+                 free(frame_A0);
+                 break;
+             }
+         }
+         else if(frame_A0->mainCmdID == 0x03 && frame_A0->cmd_RW_Type == 0x54){
+             switch(frame_A0->subCmdID){
+             case 0x04:
+                 emit CoilCurrentCoefRead(frame_A0);
+                 break;
+             case 0x05:
+                 emit CoilVolCoefRead(frame_A0);
+                 break;
+             default:
+                 free(frame_A0);
+                 break;
+             }
+         }
+         else if(frame_A0->mainCmdID == 0xCC && frame_A0->cmd_RW_Type == 0x54){
+             switch(frame_A0->subCmdID){
+             case 0x03:
+                 if(frame_A0->len == 0x47){
+                     frame_A0->dataLen = 16;
+                 }
+                 else if(frame_A0->len == 0x0B){
+                     frame_A0->dataLen = 1;
+                 }
+                 else{
+                     break;
+                 }
+
+                 // qDebug()<< current_date + ": arrived emit adsAds8326Read";
+                 emit Ads8326Read(frame_A0);
+                 // emit Ads8326ReadNullParam();
+                 break;
+             case 0x04:
+                 emit DialSwRead(frame_A0);
+                 break;
+             default:
+                 free(frame_A0);
+                 break;
+             }
+         }
+         else{
+             free(frame_A0);
+         }
+
      }
      return 0;
  }
