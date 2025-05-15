@@ -25,6 +25,7 @@
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QRadioButton>
+#include <QtWidgets/QSlider>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTextEdit>
@@ -66,13 +67,6 @@ public:
     QTextEdit *textEdit_RealTimeCommunicateData;
     QListWidget *listWidget_Device;
     QPushButton *pushButton_LockRealTimeWindows;
-    QWidget *layoutWidget3;
-    QHBoxLayout *horizontalLayout_2;
-    QPushButton *pushButton_AddCmd;
-    QPushButton *pushButton_DelCmd;
-    QPushButton *pushButton_AddMod;
-    QPushButton *pushButton_DelMod;
-    QPushButton *pushButton_Save;
     QPushButton *pushButton_CleanRealTimeWindows;
     QLabel *label_8;
     QLabel *label_Version;
@@ -80,32 +74,44 @@ public:
     QWidget *tab_4;
     QFrame *frame;
     QGridLayout *gridLayout_2;
-    QPushButton *pushButton_dial_sw_get;
-    QLineEdit *lineEdit_sw0;
-    QLabel *label_6;
-    QLabel *label_4;
-    QCheckBox *checkBox_DAC8571_B;
-    QRadioButton *radioButton_current_Pos;
-    QLabel *label_2;
-    QPushButton *pushButton_MAX5719_Set;
-    QRadioButton *radioButton_current_Neg;
-    QLabel *label_5;
     QCheckBox *checkBox_current_B;
-    QCheckBox *checkBox_MAX5719_B;
-    QCheckBox *checkBox_DAC8571_A;
-    QCheckBox *checkBox_current_A;
+    QLabel *label_10;
+    QLabel *label_5;
+    QLabel *label_2;
+    QPushButton *pushButton_CoilCurrentHexSet;
+    QLabel *label__PowerCtrlHexCH2;
+    QLabel *label_4;
+    QPushButton *pushButton_DAC8571_Set;
+    QPushButton *pushButton_MAX5719_Set;
+    QLineEdit *lineEdit_DAC8571;
+    QLineEdit *lineEdit_sw0;
+    QPushButton *pushButton__PowerCtrlHexSet;
+    QLineEdit *lineEdit_sw1;
+    QLabel *label_3;
+    QLabel *label_6;
     QLabel *label;
+    QLineEdit *lineEdit_CoilCurrentHexCH2;
     QPushButton *pushButton_current_Set;
     QCheckBox *checkBox_MAX5719_A;
-    QPushButton *pushButton_DAC8571_Set;
-    QLabel *label_3;
     QComboBox *comboBox_multi_sel;
+    QRadioButton *radioButton_current_Neg;
+    QLabel *label_11;
+    QPushButton *pushButton_dial_sw_get;
+    QCheckBox *checkBox_DAC8571_B;
+    QLabel *label_CoilCurrentHexCH1;
+    QLineEdit *lineEdit_CoilCurrentHexCH1;
+    QRadioButton *radioButton_current_Pos;
+    QLineEdit *lineEdit_PowerCtrlHexCH1;
     QPushButton *pushButton_multi_Set;
-    QLineEdit *lineEdit_DAC8571;
-    QLineEdit *lineEdit_MAX5719;
     QRadioButton *radioButton_current_Close;
-    QLineEdit *lineEdit_sw1;
+    QLabel *label_CoilCurrentHexCH2;
     QLabel *label_7;
+    QCheckBox *checkBox_MAX5719_B;
+    QCheckBox *checkBox_current_A;
+    QLineEdit *lineEdit_MAX5719;
+    QLabel *label__PowerCtrlHexCH1;
+    QCheckBox *checkBox_DAC8571_A;
+    QLineEdit *lineEdit_PowerCtrlHexCH2;
     QTextEdit *textEdit_ads8326;
     QLabel *label_9;
     QWidget *tab_5;
@@ -187,8 +193,21 @@ public:
     QFrame *line_2;
     QPushButton *pushButton_DeviceInfo;
     QPushButton *pushButton_FirmVersion;
+    QSlider *verticalSlider;
+    QSlider *verticalSlider_2;
+    QSlider *verticalSlider_3;
     QLabel *label_FirmVersion;
     QLabel *label_DeviceInfo;
+    QLabel *label_BoardCommunicateID;
+    QLineEdit *lineEdit_BoardCommunicateID;
+    QWidget *widget;
+    QHBoxLayout *horizontalLayout_11;
+    QHBoxLayout *horizontalLayout_2;
+    QPushButton *pushButton_AddCmd;
+    QPushButton *pushButton_DelCmd;
+    QPushButton *pushButton_AddMod;
+    QPushButton *pushButton_DelMod;
+    QPushButton *pushButton_Save;
     QMenuBar *menubar;
     QMenu *menuDemo;
     QStatusBar *statusBar;
@@ -326,37 +345,6 @@ public:
         pushButton_LockRealTimeWindows = new QPushButton(centralwidget);
         pushButton_LockRealTimeWindows->setObjectName("pushButton_LockRealTimeWindows");
         pushButton_LockRealTimeWindows->setGeometry(QRect(220, 440, 75, 24));
-        layoutWidget3 = new QWidget(centralwidget);
-        layoutWidget3->setObjectName("layoutWidget3");
-        layoutWidget3->setGeometry(QRect(130, 80, 401, 26));
-        horizontalLayout_2 = new QHBoxLayout(layoutWidget3);
-        horizontalLayout_2->setObjectName("horizontalLayout_2");
-        horizontalLayout_2->setContentsMargins(0, 0, 0, 0);
-        pushButton_AddCmd = new QPushButton(layoutWidget3);
-        pushButton_AddCmd->setObjectName("pushButton_AddCmd");
-
-        horizontalLayout_2->addWidget(pushButton_AddCmd);
-
-        pushButton_DelCmd = new QPushButton(layoutWidget3);
-        pushButton_DelCmd->setObjectName("pushButton_DelCmd");
-
-        horizontalLayout_2->addWidget(pushButton_DelCmd);
-
-        pushButton_AddMod = new QPushButton(layoutWidget3);
-        pushButton_AddMod->setObjectName("pushButton_AddMod");
-
-        horizontalLayout_2->addWidget(pushButton_AddMod);
-
-        pushButton_DelMod = new QPushButton(layoutWidget3);
-        pushButton_DelMod->setObjectName("pushButton_DelMod");
-
-        horizontalLayout_2->addWidget(pushButton_DelMod);
-
-        pushButton_Save = new QPushButton(layoutWidget3);
-        pushButton_Save->setObjectName("pushButton_Save");
-
-        horizontalLayout_2->addWidget(pushButton_Save);
-
         pushButton_CleanRealTimeWindows = new QPushButton(centralwidget);
         pushButton_CleanRealTimeWindows->setObjectName("pushButton_CleanRealTimeWindows");
         pushButton_CleanRealTimeWindows->setGeometry(QRect(300, 440, 75, 24));
@@ -375,7 +363,7 @@ public:
         tab_4->setObjectName("tab_4");
         frame = new QFrame(tab_4);
         frame->setObjectName("frame");
-        frame->setGeometry(QRect(0, 10, 381, 221));
+        frame->setGeometry(QRect(0, 10, 381, 261));
         frame->setStyleSheet(QString::fromUtf8("#frame{\n"
 "border-radius:10px;\n"
 "border:2px solid rgb(160, 160,160)\n"
@@ -384,10 +372,59 @@ public:
         frame->setFrameShadow(QFrame::Raised);
         gridLayout_2 = new QGridLayout(frame);
         gridLayout_2->setObjectName("gridLayout_2");
-        pushButton_dial_sw_get = new QPushButton(frame);
-        pushButton_dial_sw_get->setObjectName("pushButton_dial_sw_get");
+        checkBox_current_B = new QCheckBox(frame);
+        checkBox_current_B->setObjectName("checkBox_current_B");
 
-        gridLayout_2->addWidget(pushButton_dial_sw_get, 9, 9, 1, 1);
+        gridLayout_2->addWidget(checkBox_current_B, 4, 8, 1, 1);
+
+        label_10 = new QLabel(frame);
+        label_10->setObjectName("label_10");
+
+        gridLayout_2->addWidget(label_10, 10, 0, 1, 2);
+
+        label_5 = new QLabel(frame);
+        label_5->setObjectName("label_5");
+
+        gridLayout_2->addWidget(label_5, 4, 0, 1, 1);
+
+        label_2 = new QLabel(frame);
+        label_2->setObjectName("label_2");
+
+        gridLayout_2->addWidget(label_2, 1, 0, 1, 2);
+
+        pushButton_CoilCurrentHexSet = new QPushButton(frame);
+        pushButton_CoilCurrentHexSet->setObjectName("pushButton_CoilCurrentHexSet");
+        pushButton_CoilCurrentHexSet->setMinimumSize(QSize(0, 0));
+        pushButton_CoilCurrentHexSet->setMaximumSize(QSize(1000, 16777215));
+
+        gridLayout_2->addWidget(pushButton_CoilCurrentHexSet, 11, 9, 1, 1);
+
+        label__PowerCtrlHexCH2 = new QLabel(frame);
+        label__PowerCtrlHexCH2->setObjectName("label__PowerCtrlHexCH2");
+
+        gridLayout_2->addWidget(label__PowerCtrlHexCH2, 10, 8, 1, 1);
+
+        label_4 = new QLabel(frame);
+        label_4->setObjectName("label_4");
+
+        gridLayout_2->addWidget(label_4, 9, 0, 1, 1);
+
+        pushButton_DAC8571_Set = new QPushButton(frame);
+        pushButton_DAC8571_Set->setObjectName("pushButton_DAC8571_Set");
+
+        gridLayout_2->addWidget(pushButton_DAC8571_Set, 0, 9, 1, 1);
+
+        pushButton_MAX5719_Set = new QPushButton(frame);
+        pushButton_MAX5719_Set->setObjectName("pushButton_MAX5719_Set");
+
+        gridLayout_2->addWidget(pushButton_MAX5719_Set, 1, 9, 1, 1);
+
+        lineEdit_DAC8571 = new QLineEdit(frame);
+        lineEdit_DAC8571->setObjectName("lineEdit_DAC8571");
+        lineEdit_DAC8571->setMinimumSize(QSize(0, 0));
+        lineEdit_DAC8571->setMaximumSize(QSize(1000, 1000));
+
+        gridLayout_2->addWidget(lineEdit_DAC8571, 0, 2, 1, 1);
 
         lineEdit_sw0 = new QLineEdit(frame);
         lineEdit_sw0->setObjectName("lineEdit_sw0");
@@ -396,72 +433,41 @@ public:
 
         gridLayout_2->addWidget(lineEdit_sw0, 9, 2, 1, 1);
 
+        pushButton__PowerCtrlHexSet = new QPushButton(frame);
+        pushButton__PowerCtrlHexSet->setObjectName("pushButton__PowerCtrlHexSet");
+        pushButton__PowerCtrlHexSet->setMinimumSize(QSize(0, 0));
+        pushButton__PowerCtrlHexSet->setMaximumSize(QSize(1000, 16777215));
+
+        gridLayout_2->addWidget(pushButton__PowerCtrlHexSet, 10, 9, 1, 1);
+
+        lineEdit_sw1 = new QLineEdit(frame);
+        lineEdit_sw1->setObjectName("lineEdit_sw1");
+        lineEdit_sw1->setMinimumSize(QSize(68, 0));
+        lineEdit_sw1->setMaximumSize(QSize(68, 1000));
+
+        gridLayout_2->addWidget(lineEdit_sw1, 9, 6, 1, 1);
+
+        label_3 = new QLabel(frame);
+        label_3->setObjectName("label_3");
+
+        gridLayout_2->addWidget(label_3, 6, 0, 1, 1);
+
         label_6 = new QLabel(frame);
         label_6->setObjectName("label_6");
 
         gridLayout_2->addWidget(label_6, 9, 3, 1, 1);
 
-        label_4 = new QLabel(frame);
-        label_4->setObjectName("label_4");
-
-        gridLayout_2->addWidget(label_4, 9, 0, 1, 1);
-
-        checkBox_DAC8571_B = new QCheckBox(frame);
-        checkBox_DAC8571_B->setObjectName("checkBox_DAC8571_B");
-
-        gridLayout_2->addWidget(checkBox_DAC8571_B, 0, 8, 1, 1);
-
-        radioButton_current_Pos = new QRadioButton(frame);
-        radioButton_current_Pos->setObjectName("radioButton_current_Pos");
-        radioButton_current_Pos->setMinimumSize(QSize(0, 0));
-
-        gridLayout_2->addWidget(radioButton_current_Pos, 4, 2, 1, 1);
-
-        label_2 = new QLabel(frame);
-        label_2->setObjectName("label_2");
-
-        gridLayout_2->addWidget(label_2, 1, 0, 1, 2);
-
-        pushButton_MAX5719_Set = new QPushButton(frame);
-        pushButton_MAX5719_Set->setObjectName("pushButton_MAX5719_Set");
-
-        gridLayout_2->addWidget(pushButton_MAX5719_Set, 1, 9, 1, 1);
-
-        radioButton_current_Neg = new QRadioButton(frame);
-        radioButton_current_Neg->setObjectName("radioButton_current_Neg");
-        radioButton_current_Neg->setMinimumSize(QSize(0, 0));
-
-        gridLayout_2->addWidget(radioButton_current_Neg, 5, 2, 1, 1);
-
-        label_5 = new QLabel(frame);
-        label_5->setObjectName("label_5");
-
-        gridLayout_2->addWidget(label_5, 4, 0, 1, 1);
-
-        checkBox_current_B = new QCheckBox(frame);
-        checkBox_current_B->setObjectName("checkBox_current_B");
-
-        gridLayout_2->addWidget(checkBox_current_B, 4, 8, 1, 1);
-
-        checkBox_MAX5719_B = new QCheckBox(frame);
-        checkBox_MAX5719_B->setObjectName("checkBox_MAX5719_B");
-
-        gridLayout_2->addWidget(checkBox_MAX5719_B, 1, 8, 1, 1);
-
-        checkBox_DAC8571_A = new QCheckBox(frame);
-        checkBox_DAC8571_A->setObjectName("checkBox_DAC8571_A");
-
-        gridLayout_2->addWidget(checkBox_DAC8571_A, 0, 6, 1, 2);
-
-        checkBox_current_A = new QCheckBox(frame);
-        checkBox_current_A->setObjectName("checkBox_current_A");
-
-        gridLayout_2->addWidget(checkBox_current_A, 4, 6, 1, 1);
-
         label = new QLabel(frame);
         label->setObjectName("label");
 
         gridLayout_2->addWidget(label, 0, 0, 1, 2);
+
+        lineEdit_CoilCurrentHexCH2 = new QLineEdit(frame);
+        lineEdit_CoilCurrentHexCH2->setObjectName("lineEdit_CoilCurrentHexCH2");
+        lineEdit_CoilCurrentHexCH2->setMinimumSize(QSize(68, 0));
+        lineEdit_CoilCurrentHexCH2->setMaximumSize(QSize(68, 1000));
+
+        gridLayout_2->addWidget(lineEdit_CoilCurrentHexCH2, 11, 6, 1, 1);
 
         pushButton_current_Set = new QPushButton(frame);
         pushButton_current_Set->setObjectName("pushButton_current_Set");
@@ -472,16 +478,6 @@ public:
         checkBox_MAX5719_A->setObjectName("checkBox_MAX5719_A");
 
         gridLayout_2->addWidget(checkBox_MAX5719_A, 1, 6, 1, 1);
-
-        pushButton_DAC8571_Set = new QPushButton(frame);
-        pushButton_DAC8571_Set->setObjectName("pushButton_DAC8571_Set");
-
-        gridLayout_2->addWidget(pushButton_DAC8571_Set, 0, 9, 1, 1);
-
-        label_3 = new QLabel(frame);
-        label_3->setObjectName("label_3");
-
-        gridLayout_2->addWidget(label_3, 6, 0, 1, 1);
 
         comboBox_multi_sel = new QComboBox(frame);
         comboBox_multi_sel->addItem(QString());
@@ -507,26 +503,54 @@ public:
 
         gridLayout_2->addWidget(comboBox_multi_sel, 6, 2, 1, 1);
 
+        radioButton_current_Neg = new QRadioButton(frame);
+        radioButton_current_Neg->setObjectName("radioButton_current_Neg");
+        radioButton_current_Neg->setMinimumSize(QSize(0, 0));
+
+        gridLayout_2->addWidget(radioButton_current_Neg, 5, 2, 1, 1);
+
+        label_11 = new QLabel(frame);
+        label_11->setObjectName("label_11");
+
+        gridLayout_2->addWidget(label_11, 11, 0, 1, 2);
+
+        pushButton_dial_sw_get = new QPushButton(frame);
+        pushButton_dial_sw_get->setObjectName("pushButton_dial_sw_get");
+
+        gridLayout_2->addWidget(pushButton_dial_sw_get, 9, 9, 1, 1);
+
+        checkBox_DAC8571_B = new QCheckBox(frame);
+        checkBox_DAC8571_B->setObjectName("checkBox_DAC8571_B");
+
+        gridLayout_2->addWidget(checkBox_DAC8571_B, 0, 8, 1, 1);
+
+        label_CoilCurrentHexCH1 = new QLabel(frame);
+        label_CoilCurrentHexCH1->setObjectName("label_CoilCurrentHexCH1");
+
+        gridLayout_2->addWidget(label_CoilCurrentHexCH1, 11, 3, 1, 1);
+
+        lineEdit_CoilCurrentHexCH1 = new QLineEdit(frame);
+        lineEdit_CoilCurrentHexCH1->setObjectName("lineEdit_CoilCurrentHexCH1");
+
+        gridLayout_2->addWidget(lineEdit_CoilCurrentHexCH1, 11, 2, 1, 1);
+
+        radioButton_current_Pos = new QRadioButton(frame);
+        radioButton_current_Pos->setObjectName("radioButton_current_Pos");
+        radioButton_current_Pos->setMinimumSize(QSize(0, 0));
+
+        gridLayout_2->addWidget(radioButton_current_Pos, 4, 2, 1, 1);
+
+        lineEdit_PowerCtrlHexCH1 = new QLineEdit(frame);
+        lineEdit_PowerCtrlHexCH1->setObjectName("lineEdit_PowerCtrlHexCH1");
+
+        gridLayout_2->addWidget(lineEdit_PowerCtrlHexCH1, 10, 2, 1, 1);
+
         pushButton_multi_Set = new QPushButton(frame);
         pushButton_multi_Set->setObjectName("pushButton_multi_Set");
         pushButton_multi_Set->setMinimumSize(QSize(0, 0));
         pushButton_multi_Set->setMaximumSize(QSize(1000, 16777215));
 
         gridLayout_2->addWidget(pushButton_multi_Set, 6, 9, 1, 1);
-
-        lineEdit_DAC8571 = new QLineEdit(frame);
-        lineEdit_DAC8571->setObjectName("lineEdit_DAC8571");
-        lineEdit_DAC8571->setMinimumSize(QSize(0, 0));
-        lineEdit_DAC8571->setMaximumSize(QSize(1000, 1000));
-
-        gridLayout_2->addWidget(lineEdit_DAC8571, 0, 2, 1, 1);
-
-        lineEdit_MAX5719 = new QLineEdit(frame);
-        lineEdit_MAX5719->setObjectName("lineEdit_MAX5719");
-        lineEdit_MAX5719->setMinimumSize(QSize(0, 0));
-        lineEdit_MAX5719->setMaximumSize(QSize(1110, 1000));
-
-        gridLayout_2->addWidget(lineEdit_MAX5719, 1, 2, 1, 1);
 
         radioButton_current_Close = new QRadioButton(frame);
         radioButton_current_Close->setObjectName("radioButton_current_Close");
@@ -535,17 +559,49 @@ public:
 
         gridLayout_2->addWidget(radioButton_current_Close, 3, 2, 1, 1);
 
-        lineEdit_sw1 = new QLineEdit(frame);
-        lineEdit_sw1->setObjectName("lineEdit_sw1");
-        lineEdit_sw1->setMinimumSize(QSize(68, 0));
-        lineEdit_sw1->setMaximumSize(QSize(68, 1000));
+        label_CoilCurrentHexCH2 = new QLabel(frame);
+        label_CoilCurrentHexCH2->setObjectName("label_CoilCurrentHexCH2");
 
-        gridLayout_2->addWidget(lineEdit_sw1, 9, 4, 1, 4);
+        gridLayout_2->addWidget(label_CoilCurrentHexCH2, 11, 8, 1, 1);
 
         label_7 = new QLabel(frame);
         label_7->setObjectName("label_7");
 
         gridLayout_2->addWidget(label_7, 9, 8, 1, 1);
+
+        checkBox_MAX5719_B = new QCheckBox(frame);
+        checkBox_MAX5719_B->setObjectName("checkBox_MAX5719_B");
+
+        gridLayout_2->addWidget(checkBox_MAX5719_B, 1, 8, 1, 1);
+
+        checkBox_current_A = new QCheckBox(frame);
+        checkBox_current_A->setObjectName("checkBox_current_A");
+
+        gridLayout_2->addWidget(checkBox_current_A, 4, 6, 1, 1);
+
+        lineEdit_MAX5719 = new QLineEdit(frame);
+        lineEdit_MAX5719->setObjectName("lineEdit_MAX5719");
+        lineEdit_MAX5719->setMinimumSize(QSize(0, 0));
+        lineEdit_MAX5719->setMaximumSize(QSize(1110, 1000));
+
+        gridLayout_2->addWidget(lineEdit_MAX5719, 1, 2, 1, 1);
+
+        label__PowerCtrlHexCH1 = new QLabel(frame);
+        label__PowerCtrlHexCH1->setObjectName("label__PowerCtrlHexCH1");
+
+        gridLayout_2->addWidget(label__PowerCtrlHexCH1, 10, 3, 1, 1);
+
+        checkBox_DAC8571_A = new QCheckBox(frame);
+        checkBox_DAC8571_A->setObjectName("checkBox_DAC8571_A");
+
+        gridLayout_2->addWidget(checkBox_DAC8571_A, 0, 6, 1, 2);
+
+        lineEdit_PowerCtrlHexCH2 = new QLineEdit(frame);
+        lineEdit_PowerCtrlHexCH2->setObjectName("lineEdit_PowerCtrlHexCH2");
+        lineEdit_PowerCtrlHexCH2->setMinimumSize(QSize(68, 0));
+        lineEdit_PowerCtrlHexCH2->setMaximumSize(QSize(68, 16777215));
+
+        gridLayout_2->addWidget(lineEdit_PowerCtrlHexCH2, 10, 6, 1, 2);
 
         textEdit_ads8326 = new QTextEdit(tab_4);
         textEdit_ads8326->setObjectName("textEdit_ads8326");
@@ -558,7 +614,7 @@ public:
         tab_5->setObjectName("tab_5");
         frame_2 = new QFrame(tab_5);
         frame_2->setObjectName("frame_2");
-        frame_2->setGeometry(QRect(0, 10, 871, 291));
+        frame_2->setGeometry(QRect(0, 10, 881, 291));
         frame_2->setStyleSheet(QString::fromUtf8("#frame_2{\n"
 "border-radius:10px;\n"
 "border:2px solid rgb(160, 160,160)\n"
@@ -944,6 +1000,18 @@ public:
         pushButton_FirmVersion = new QPushButton(frame_2);
         pushButton_FirmVersion->setObjectName("pushButton_FirmVersion");
         pushButton_FirmVersion->setGeometry(QRect(790, 10, 75, 23));
+        verticalSlider = new QSlider(frame_2);
+        verticalSlider->setObjectName("verticalSlider");
+        verticalSlider->setGeometry(QRect(750, 40, 22, 241));
+        verticalSlider->setOrientation(Qt::Vertical);
+        verticalSlider_2 = new QSlider(frame_2);
+        verticalSlider_2->setObjectName("verticalSlider_2");
+        verticalSlider_2->setGeometry(QRect(790, 40, 22, 241));
+        verticalSlider_2->setOrientation(Qt::Vertical);
+        verticalSlider_3 = new QSlider(frame_2);
+        verticalSlider_3->setObjectName("verticalSlider_3");
+        verticalSlider_3->setGeometry(QRect(830, 40, 22, 241));
+        verticalSlider_3->setOrientation(Qt::Vertical);
         tabWidget->addTab(tab_5, QString());
         label_FirmVersion = new QLabel(centralwidget);
         label_FirmVersion->setObjectName("label_FirmVersion");
@@ -951,23 +1019,69 @@ public:
         label_FirmVersion->setStyleSheet(QString::fromUtf8(""));
         label_DeviceInfo = new QLabel(centralwidget);
         label_DeviceInfo->setObjectName("label_DeviceInfo");
-        label_DeviceInfo->setGeometry(QRect(550, 80, 431, 21));
+        label_DeviceInfo->setGeometry(QRect(520, 80, 391, 21));
         label_DeviceInfo->setStyleSheet(QString::fromUtf8(""));
+        label_BoardCommunicateID = new QLabel(centralwidget);
+        label_BoardCommunicateID->setObjectName("label_BoardCommunicateID");
+        label_BoardCommunicateID->setGeometry(QRect(920, 80, 40, 23));
+        lineEdit_BoardCommunicateID = new QLineEdit(centralwidget);
+        lineEdit_BoardCommunicateID->setObjectName("lineEdit_BoardCommunicateID");
+        lineEdit_BoardCommunicateID->setGeometry(QRect(970, 80, 41, 21));
+        widget = new QWidget(centralwidget);
+        widget->setObjectName("widget");
+        widget->setGeometry(QRect(130, 80, 381, 27));
+        horizontalLayout_11 = new QHBoxLayout(widget);
+        horizontalLayout_11->setObjectName("horizontalLayout_11");
+        horizontalLayout_11->setContentsMargins(0, 0, 0, 0);
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setObjectName("horizontalLayout_2");
+        pushButton_AddCmd = new QPushButton(widget);
+        pushButton_AddCmd->setObjectName("pushButton_AddCmd");
+
+        horizontalLayout_2->addWidget(pushButton_AddCmd);
+
+        pushButton_DelCmd = new QPushButton(widget);
+        pushButton_DelCmd->setObjectName("pushButton_DelCmd");
+
+        horizontalLayout_2->addWidget(pushButton_DelCmd);
+
+        pushButton_AddMod = new QPushButton(widget);
+        pushButton_AddMod->setObjectName("pushButton_AddMod");
+
+        horizontalLayout_2->addWidget(pushButton_AddMod);
+
+        pushButton_DelMod = new QPushButton(widget);
+        pushButton_DelMod->setObjectName("pushButton_DelMod");
+
+        horizontalLayout_2->addWidget(pushButton_DelMod);
+
+        pushButton_Save = new QPushButton(widget);
+        pushButton_Save->setObjectName("pushButton_Save");
+
+        horizontalLayout_2->addWidget(pushButton_Save);
+
+
+        horizontalLayout_11->addLayout(horizontalLayout_2);
+
         MainWindow->setCentralWidget(centralwidget);
         tabWidget->raise();
         Communication->raise();
         textEdit_RealTimeCommunicateData->raise();
         listWidget_Device->raise();
         pushButton_LockRealTimeWindows->raise();
-        layoutWidget2->raise();
+        layoutWidget1->raise();
         pushButton_CleanRealTimeWindows->raise();
         label_8->raise();
         label_Version->raise();
         label_FirmVersion->raise();
         label_DeviceInfo->raise();
+        label_BoardCommunicateID->raise();
+        lineEdit_BoardCommunicateID->raise();
+        lineEdit_BoardCommunicateID->raise();
+        label_BoardCommunicateID->raise();
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 1031, 18));
+        menubar->setGeometry(QRect(0, 0, 1031, 21));
         menuDemo = new QMenu(menubar);
         menuDemo->setObjectName("menuDemo");
         MainWindow->setMenuBar(menubar);
@@ -988,7 +1102,7 @@ public:
         retranslateUi(MainWindow);
 
         Communication->setCurrentIndex(0);
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -1008,32 +1122,24 @@ public:
         pushButton_CanConnect->setText(QCoreApplication::translate("MainWindow", "\350\277\236\346\216\245", nullptr));
         Communication->setTabText(Communication->indexOf(tab_3), QCoreApplication::translate("MainWindow", "CAN", nullptr));
         pushButton_LockRealTimeWindows->setText(QCoreApplication::translate("MainWindow", "Lock", nullptr));
-        pushButton_AddCmd->setText(QCoreApplication::translate("MainWindow", "\346\226\260\345\242\236\345\215\217\350\256\256", nullptr));
-        pushButton_DelCmd->setText(QCoreApplication::translate("MainWindow", "\345\210\240\351\231\244\345\215\217\350\256\256", nullptr));
-        pushButton_AddMod->setText(QCoreApplication::translate("MainWindow", "\346\226\260\345\242\236\346\250\241\345\235\227", nullptr));
-        pushButton_DelMod->setText(QCoreApplication::translate("MainWindow", "\345\210\240\351\231\244\346\250\241\345\235\227", nullptr));
-        pushButton_Save->setText(QCoreApplication::translate("MainWindow", "\344\277\235\345\255\230", nullptr));
         pushButton_CleanRealTimeWindows->setText(QCoreApplication::translate("MainWindow", "Clear", nullptr));
         label_8->setText(QCoreApplication::translate("MainWindow", "\345\216\237\345\247\213\351\200\232\350\256\257\346\225\260\346\215\256\357\274\232", nullptr));
         label_Version->setText(QCoreApplication::translate("MainWindow", "Software:", nullptr));
-        pushButton_dial_sw_get->setText(QCoreApplication::translate("MainWindow", "Get", nullptr));
-        label_6->setText(QCoreApplication::translate("MainWindow", "sw0", nullptr));
-        label_4->setText(QCoreApplication::translate("MainWindow", "\346\213\250\347\240\201\345\274\200\345\205\263\357\274\232", nullptr));
-        checkBox_DAC8571_B->setText(QCoreApplication::translate("MainWindow", "B", nullptr));
-        radioButton_current_Pos->setText(QCoreApplication::translate("MainWindow", "Pos", nullptr));
-        label_2->setText(QCoreApplication::translate("MainWindow", "MAX5719  \357\274\232", nullptr));
-        pushButton_MAX5719_Set->setText(QCoreApplication::translate("MainWindow", "Set", nullptr));
-        radioButton_current_Neg->setText(QCoreApplication::translate("MainWindow", "Neg", nullptr));
-        label_5->setText(QCoreApplication::translate("MainWindow", "\347\224\265\346\265\201\346\226\271\345\220\221\357\274\232", nullptr));
         checkBox_current_B->setText(QCoreApplication::translate("MainWindow", "B", nullptr));
-        checkBox_MAX5719_B->setText(QCoreApplication::translate("MainWindow", "B", nullptr));
-        checkBox_DAC8571_A->setText(QCoreApplication::translate("MainWindow", "A", nullptr));
-        checkBox_current_A->setText(QCoreApplication::translate("MainWindow", "A", nullptr));
+        label_10->setText(QCoreApplication::translate("MainWindow", "\344\276\233\347\224\265\346\216\247\345\210\266 0x\357\274\232", nullptr));
+        label_5->setText(QCoreApplication::translate("MainWindow", "\347\224\265\346\265\201\346\226\271\345\220\221\357\274\232", nullptr));
+        label_2->setText(QCoreApplication::translate("MainWindow", "MAX5719  \357\274\232", nullptr));
+        pushButton_CoilCurrentHexSet->setText(QCoreApplication::translate("MainWindow", "Set", nullptr));
+        label__PowerCtrlHexCH2->setText(QCoreApplication::translate("MainWindow", "CH2", nullptr));
+        label_4->setText(QCoreApplication::translate("MainWindow", "\346\213\250\347\240\201\345\274\200\345\205\263\357\274\232", nullptr));
+        pushButton_DAC8571_Set->setText(QCoreApplication::translate("MainWindow", "Set", nullptr));
+        pushButton_MAX5719_Set->setText(QCoreApplication::translate("MainWindow", "Set", nullptr));
+        pushButton__PowerCtrlHexSet->setText(QCoreApplication::translate("MainWindow", "Set", nullptr));
+        label_3->setText(QCoreApplication::translate("MainWindow", "\345\244\232\350\267\257\351\200\211\346\213\251\345\231\250 \357\274\232", nullptr));
+        label_6->setText(QCoreApplication::translate("MainWindow", "sw0", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "DAC8571   \357\274\232", nullptr));
         pushButton_current_Set->setText(QCoreApplication::translate("MainWindow", "Set", nullptr));
         checkBox_MAX5719_A->setText(QCoreApplication::translate("MainWindow", "A", nullptr));
-        pushButton_DAC8571_Set->setText(QCoreApplication::translate("MainWindow", "Set", nullptr));
-        label_3->setText(QCoreApplication::translate("MainWindow", "\345\244\232\350\267\257\351\200\211\346\213\251\345\231\250 \357\274\232", nullptr));
         comboBox_multi_sel->setItemText(0, QCoreApplication::translate("MainWindow", "ch0", nullptr));
         comboBox_multi_sel->setItemText(1, QCoreApplication::translate("MainWindow", "ch1", nullptr));
         comboBox_multi_sel->setItemText(2, QCoreApplication::translate("MainWindow", "ch2", nullptr));
@@ -1052,9 +1158,20 @@ public:
         comboBox_multi_sel->setItemText(15, QCoreApplication::translate("MainWindow", "ch15", nullptr));
         comboBox_multi_sel->setItemText(16, QCoreApplication::translate("MainWindow", "ch_all", nullptr));
 
+        radioButton_current_Neg->setText(QCoreApplication::translate("MainWindow", "Neg", nullptr));
+        label_11->setText(QCoreApplication::translate("MainWindow", "\347\272\277\345\234\210\347\224\265\346\265\201 0x\357\274\232", nullptr));
+        pushButton_dial_sw_get->setText(QCoreApplication::translate("MainWindow", "Get", nullptr));
+        checkBox_DAC8571_B->setText(QCoreApplication::translate("MainWindow", "B", nullptr));
+        label_CoilCurrentHexCH1->setText(QCoreApplication::translate("MainWindow", "CH1", nullptr));
+        radioButton_current_Pos->setText(QCoreApplication::translate("MainWindow", "Pos", nullptr));
         pushButton_multi_Set->setText(QCoreApplication::translate("MainWindow", "Set", nullptr));
         radioButton_current_Close->setText(QCoreApplication::translate("MainWindow", "Close", nullptr));
+        label_CoilCurrentHexCH2->setText(QCoreApplication::translate("MainWindow", "CH2", nullptr));
         label_7->setText(QCoreApplication::translate("MainWindow", "sw1", nullptr));
+        checkBox_MAX5719_B->setText(QCoreApplication::translate("MainWindow", "B", nullptr));
+        checkBox_current_A->setText(QCoreApplication::translate("MainWindow", "A", nullptr));
+        label__PowerCtrlHexCH1->setText(QCoreApplication::translate("MainWindow", "CH1", nullptr));
+        checkBox_DAC8571_A->setText(QCoreApplication::translate("MainWindow", "A", nullptr));
         label_9->setText(QCoreApplication::translate("MainWindow", "\345\244\232\350\267\257\351\200\211\346\213\251\345\231\250\346\216\245\345\205\245\347\224\265\345\216\213\357\274\232", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_4), QCoreApplication::translate("MainWindow", "\347\241\254\344\273\266\350\260\203\350\257\225", nullptr));
         label_CoilResist->setText(QCoreApplication::translate("MainWindow", "\347\272\277\345\234\210\347\224\265\351\230\273\357\274\232", nullptr));
@@ -1102,6 +1219,12 @@ public:
         tabWidget->setTabText(tabWidget->indexOf(tab_5), QCoreApplication::translate("MainWindow", "\347\263\273\347\273\237\350\260\203\350\257\225", nullptr));
         label_FirmVersion->setText(QCoreApplication::translate("MainWindow", "Firmware:", nullptr));
         label_DeviceInfo->setText(QCoreApplication::translate("MainWindow", "DeviceInfo:", nullptr));
+        label_BoardCommunicateID->setText(QCoreApplication::translate("MainWindow", "\346\235\277\345\215\241ID:", nullptr));
+        pushButton_AddCmd->setText(QCoreApplication::translate("MainWindow", "\346\226\260\345\242\236\345\215\217\350\256\256", nullptr));
+        pushButton_DelCmd->setText(QCoreApplication::translate("MainWindow", "\345\210\240\351\231\244\345\215\217\350\256\256", nullptr));
+        pushButton_AddMod->setText(QCoreApplication::translate("MainWindow", "\346\226\260\345\242\236\346\250\241\345\235\227", nullptr));
+        pushButton_DelMod->setText(QCoreApplication::translate("MainWindow", "\345\210\240\351\231\244\346\250\241\345\235\227", nullptr));
+        pushButton_Save->setText(QCoreApplication::translate("MainWindow", "\344\277\235\345\255\230", nullptr));
         menuDemo->setTitle(QCoreApplication::translate("MainWindow", "File", nullptr));
         toolBar->setWindowTitle(QCoreApplication::translate("MainWindow", "toolBar", nullptr));
     } // retranslateUi

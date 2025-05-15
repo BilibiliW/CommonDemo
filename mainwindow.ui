@@ -177,53 +177,6 @@
      <string>Lock</string>
     </property>
    </widget>
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>80</y>
-      <width>401</width>
-      <height>26</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QPushButton" name="pushButton_AddCmd">
-       <property name="text">
-        <string>新增协议</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_DelCmd">
-       <property name="text">
-        <string>删除协议</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_AddMod">
-       <property name="text">
-        <string>新增模块</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_DelMod">
-       <property name="text">
-        <string>删除模块</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_Save">
-       <property name="text">
-        <string>保存</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
    <widget class="QPushButton" name="pushButton_CleanRealTimeWindows">
     <property name="geometry">
      <rect>
@@ -279,7 +232,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab_4">
      <attribute name="title">
@@ -291,7 +244,7 @@
         <x>0</x>
         <y>10</y>
         <width>381</width>
-        <height>221</height>
+        <height>261</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -307,10 +260,94 @@ border:2px solid rgb(160, 160,160)
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="9" column="9">
-        <widget class="QPushButton" name="pushButton_dial_sw_get">
+       <item row="4" column="8">
+        <widget class="QCheckBox" name="checkBox_current_B">
          <property name="text">
-          <string>Get</string>
+          <string>B</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0" colspan="2">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>供电控制 0x：</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>电流方向：</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>MAX5719  ：</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="9">
+        <widget class="QPushButton" name="pushButton_CoilCurrentHexSet">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>1000</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Set</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="8">
+        <widget class="QLabel" name="label__PowerCtrlHexCH2">
+         <property name="text">
+          <string>CH2</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>拨码开关：</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="9">
+        <widget class="QPushButton" name="pushButton_DAC8571_Set">
+         <property name="text">
+          <string>Set</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="9">
+        <widget class="QPushButton" name="pushButton_MAX5719_Set">
+         <property name="text">
+          <string>Set</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QLineEdit" name="lineEdit_DAC8571">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>1000</width>
+           <height>1000</height>
+          </size>
          </property>
         </widget>
        </item>
@@ -330,6 +367,48 @@ border:2px solid rgb(160, 160,160)
          </property>
         </widget>
        </item>
+       <item row="10" column="9">
+        <widget class="QPushButton" name="pushButton__PowerCtrlHexSet">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>1000</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Set</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="6">
+        <widget class="QLineEdit" name="lineEdit_sw1">
+         <property name="minimumSize">
+          <size>
+           <width>68</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>68</width>
+           <height>1000</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>多路选择器 ：</string>
+         </property>
+        </widget>
+       </item>
        <item row="9" column="3">
         <widget class="QLabel" name="label_6">
          <property name="text">
@@ -337,99 +416,26 @@ border:2px solid rgb(160, 160,160)
          </property>
         </widget>
        </item>
-       <item row="9" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>拨码开关：</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="8">
-        <widget class="QCheckBox" name="checkBox_DAC8571_B">
-         <property name="text">
-          <string>B</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="2">
-        <widget class="QRadioButton" name="radioButton_current_Pos">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Pos</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0" colspan="2">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>MAX5719  ：</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="9">
-        <widget class="QPushButton" name="pushButton_MAX5719_Set">
-         <property name="text">
-          <string>Set</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="2">
-        <widget class="QRadioButton" name="radioButton_current_Neg">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Neg</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>电流方向：</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="8">
-        <widget class="QCheckBox" name="checkBox_current_B">
-         <property name="text">
-          <string>B</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="8">
-        <widget class="QCheckBox" name="checkBox_MAX5719_B">
-         <property name="text">
-          <string>B</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="6" colspan="2">
-        <widget class="QCheckBox" name="checkBox_DAC8571_A">
-         <property name="text">
-          <string>A</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="6">
-        <widget class="QCheckBox" name="checkBox_current_A">
-         <property name="text">
-          <string>A</string>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="0" colspan="2">
         <widget class="QLabel" name="label">
          <property name="text">
           <string>DAC8571   ：</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="6">
+        <widget class="QLineEdit" name="lineEdit_CoilCurrentHexCH2">
+         <property name="minimumSize">
+          <size>
+           <width>68</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>68</width>
+           <height>1000</height>
+          </size>
          </property>
         </widget>
        </item>
@@ -444,20 +450,6 @@ border:2px solid rgb(160, 160,160)
         <widget class="QCheckBox" name="checkBox_MAX5719_A">
          <property name="text">
           <string>A</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="9">
-        <widget class="QPushButton" name="pushButton_DAC8571_Set">
-         <property name="text">
-          <string>Set</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>多路选择器 ：</string>
          </property>
         </widget>
        </item>
@@ -562,6 +554,66 @@ border:2px solid rgb(160, 160,160)
          </item>
         </widget>
        </item>
+       <item row="5" column="2">
+        <widget class="QRadioButton" name="radioButton_current_Neg">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Neg</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0" colspan="2">
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>线圈电流 0x：</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="9">
+        <widget class="QPushButton" name="pushButton_dial_sw_get">
+         <property name="text">
+          <string>Get</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="8">
+        <widget class="QCheckBox" name="checkBox_DAC8571_B">
+         <property name="text">
+          <string>B</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="3">
+        <widget class="QLabel" name="label_CoilCurrentHexCH1">
+         <property name="text">
+          <string>CH1</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="2">
+        <widget class="QLineEdit" name="lineEdit_CoilCurrentHexCH1"/>
+       </item>
+       <item row="4" column="2">
+        <widget class="QRadioButton" name="radioButton_current_Pos">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Pos</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="2">
+        <widget class="QLineEdit" name="lineEdit_PowerCtrlHexCH1"/>
+       </item>
        <item row="6" column="9">
         <widget class="QPushButton" name="pushButton_multi_Set">
          <property name="minimumSize">
@@ -578,38 +630,6 @@ border:2px solid rgb(160, 160,160)
          </property>
          <property name="text">
           <string>Set</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="2">
-        <widget class="QLineEdit" name="lineEdit_DAC8571">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>1000</width>
-           <height>1000</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="QLineEdit" name="lineEdit_MAX5719">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>1110</width>
-           <height>1000</height>
-          </size>
          </property>
         </widget>
        </item>
@@ -632,8 +652,66 @@ border:2px solid rgb(160, 160,160)
          </property>
         </widget>
        </item>
-       <item row="9" column="4" colspan="4">
-        <widget class="QLineEdit" name="lineEdit_sw1">
+       <item row="11" column="8">
+        <widget class="QLabel" name="label_CoilCurrentHexCH2">
+         <property name="text">
+          <string>CH2</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="8">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>sw1</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="8">
+        <widget class="QCheckBox" name="checkBox_MAX5719_B">
+         <property name="text">
+          <string>B</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="6">
+        <widget class="QCheckBox" name="checkBox_current_A">
+         <property name="text">
+          <string>A</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLineEdit" name="lineEdit_MAX5719">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>1110</width>
+           <height>1000</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="3">
+        <widget class="QLabel" name="label__PowerCtrlHexCH1">
+         <property name="text">
+          <string>CH1</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="6" colspan="2">
+        <widget class="QCheckBox" name="checkBox_DAC8571_A">
+         <property name="text">
+          <string>A</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="6" colspan="2">
+        <widget class="QLineEdit" name="lineEdit_PowerCtrlHexCH2">
          <property name="minimumSize">
           <size>
            <width>68</width>
@@ -643,15 +721,8 @@ border:2px solid rgb(160, 160,160)
          <property name="maximumSize">
           <size>
            <width>68</width>
-           <height>1000</height>
+           <height>16777215</height>
           </size>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="8">
-        <widget class="QLabel" name="label_7">
-         <property name="text">
-          <string>sw1</string>
          </property>
         </widget>
        </item>
@@ -690,7 +761,7 @@ border:2px solid rgb(160, 160,160)
        <rect>
         <x>0</x>
         <y>10</y>
-        <width>871</width>
+        <width>881</width>
         <height>291</height>
        </rect>
       </property>
@@ -1163,6 +1234,45 @@ border:2px solid rgb(160, 160,160)
         <string>FirmVersion</string>
        </property>
       </widget>
+      <widget class="QSlider" name="verticalSlider">
+       <property name="geometry">
+        <rect>
+         <x>750</x>
+         <y>40</y>
+         <width>22</width>
+         <height>241</height>
+        </rect>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+      <widget class="QSlider" name="verticalSlider_2">
+       <property name="geometry">
+        <rect>
+         <x>790</x>
+         <y>40</y>
+         <width>22</width>
+         <height>241</height>
+        </rect>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+      <widget class="QSlider" name="verticalSlider_3">
+       <property name="geometry">
+        <rect>
+         <x>830</x>
+         <y>40</y>
+         <width>22</width>
+         <height>241</height>
+        </rect>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
      </widget>
     </widget>
    </widget>
@@ -1185,9 +1295,9 @@ border:2px solid rgb(160, 160,160)
    <widget class="QLabel" name="label_DeviceInfo">
     <property name="geometry">
      <rect>
-      <x>550</x>
+      <x>520</x>
       <y>80</y>
-      <width>431</width>
+      <width>391</width>
       <height>21</height>
      </rect>
     </property>
@@ -1197,6 +1307,80 @@ border:2px solid rgb(160, 160,160)
     <property name="text">
      <string>DeviceInfo:</string>
     </property>
+   </widget>
+   <widget class="QLabel" name="label_BoardCommunicateID">
+    <property name="geometry">
+     <rect>
+      <x>920</x>
+      <y>80</y>
+      <width>40</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>板卡ID:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_BoardCommunicateID">
+    <property name="geometry">
+     <rect>
+      <x>970</x>
+      <y>80</y>
+      <width>41</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>80</y>
+      <width>381</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_11">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QPushButton" name="pushButton_AddCmd">
+         <property name="text">
+          <string>新增协议</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_DelCmd">
+         <property name="text">
+          <string>删除协议</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_AddMod">
+         <property name="text">
+          <string>新增模块</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_DelMod">
+         <property name="text">
+          <string>删除模块</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_Save">
+         <property name="text">
+          <string>保存</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
    </widget>
    <zorder>tabWidget</zorder>
    <zorder>Communication</zorder>
@@ -1209,6 +1393,10 @@ border:2px solid rgb(160, 160,160)
    <zorder>label_Version</zorder>
    <zorder>label_FirmVersion</zorder>
    <zorder>label_DeviceInfo</zorder>
+   <zorder>label_BoardCommunicateID</zorder>
+   <zorder>lineEdit_BoardCommunicateID</zorder>
+   <zorder>lineEdit_BoardCommunicateID</zorder>
+   <zorder>label_BoardCommunicateID</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -1216,7 +1404,7 @@ border:2px solid rgb(160, 160,160)
      <x>0</x>
      <y>0</y>
      <width>1031</width>
-     <height>18</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuDemo">

@@ -30,6 +30,13 @@ MainWindow::MainWindow(QWidget *parent)
     qDebug()<<tab_text;
     hard_interface.comm_type = tab_text;
 
+    ui->lineEdit_PowerCtrlHexCH1->setValidator(new QRegularExpressionValidator(QRegularExpression("[A-F0-9]+$")));
+    ui->lineEdit_PowerCtrlHexCH2->setValidator(new QRegularExpressionValidator(QRegularExpression("[A-F0-9]+$")));
+    ui->lineEdit_CoilCurrentHexCH1->setValidator(new QRegularExpressionValidator(QRegularExpression("[A-F0-9]+$")));
+    ui->lineEdit_CoilCurrentHexCH1->setValidator(new QRegularExpressionValidator(QRegularExpression("[A-F0-9]+$")));
+    ui->lineEdit_BoardCommunicateID->setValidator(new QRegularExpressionValidator(QRegularExpression("[0-9]+$")));
+    ui->lineEdit_BoardCommunicateID->setText("00");
+
     CommTypeUpdate(tab_text);
 
     subThread =  new QThread;
@@ -175,6 +182,17 @@ void MainWindow::on_pushButton_SerialConnect_clicked()
 
             ui->Communication->setTabEnabled(1, false);
             ui->Communication->setTabEnabled(2, false);
+
+            ui->lineEdit_BoardCommunicateID->setReadOnly(true);
+            uint8_t boardID = ui->lineEdit_BoardCommunicateID->text().toUInt();
+            if(boardID < 10){
+                this->targetID = boardID;
+            }
+            else{
+                this->targetID = 9;
+                ui->lineEdit_BoardCommunicateID->setText("09");
+            }
+
             qDebug("try connect successful");
         }
         else{
@@ -191,6 +209,8 @@ void MainWindow::on_pushButton_SerialConnect_clicked()
 
             ui->Communication->setTabEnabled(1, true);
             ui->Communication->setTabEnabled(2, true);
+
+            ui->lineEdit_BoardCommunicateID->setReadOnly(false);
             qDebug("try connect failed");
         }
     }
@@ -208,6 +228,8 @@ void MainWindow::on_pushButton_SerialConnect_clicked()
 
         ui->Communication->setTabEnabled(1, true);
         ui->Communication->setTabEnabled(2, true);
+
+        ui->lineEdit_BoardCommunicateID->setReadOnly(false);
         qDebug("CurrentConnected\nDisconnect now");
     }
 }
@@ -830,8 +852,9 @@ void MainWindow::UpdateHandShakeAck(A0_CMD_t* cmd)
 void MainWindow::UpdateFirmwareVersion(A0_CMD_t* cmd)
 {
     QString version = QString(" v%1.%2.%3").arg(cmd->data[0]).arg(cmd->data[1]).arg(cmd->data[2]);
-
-    ui->label_FirmVersion->setText(ui->label_FirmVersion->text() + version);
+    QString prefix = "Firmware:";
+    ui->label_FirmVersion->clear();
+    ui->label_FirmVersion->setText(prefix + version);
     free(cmd);
 }
 
@@ -839,7 +862,10 @@ void MainWindow::UpdateDeviceInfoRead(A0_CMD_t* cmd)
 {
     QString dataStr = cmd->data;
     QString deviceInfo = dataStr.left(cmd->len - 7);
-    ui->label_DeviceInfo->setText(ui->label_DeviceInfo->text() + " " + deviceInfo);
+
+    QString prefix = "DeviceInfo:";
+    ui->label_DeviceInfo->clear();
+    ui->label_DeviceInfo->setText(prefix + " " + deviceInfo);
     free(cmd);
 }
 
@@ -1149,7 +1175,7 @@ void MainWindow::on_pushButton_dial_sw_get_clicked()
     frame_A0->head        = 0xA0;
     frame_A0->len         = 7;
     frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = 0x02;
+    frame_A0->targetAddr  = this->targetID;
     frame_A0->cmd_RW_Type = 0x51;
     frame_A0->mainCmdID   = 0xCC;
     frame_A0->subCmdID    = 0x04;
@@ -1201,7 +1227,7 @@ void MainWindow::on_pushButton_DAC8571_Set_clicked()
     frame_A0->head        = 0xA0;
     frame_A0->len         = 7 + 1 + 4;
     frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = 0x02;
+    frame_A0->targetAddr  = this->targetID;
     frame_A0->cmd_RW_Type = 0x53;
     frame_A0->mainCmdID   = 0xCC;
     frame_A0->subCmdID    = 0x02;
@@ -1253,7 +1279,7 @@ void MainWindow::on_pushButton_MAX5719_Set_clicked()
     frame_A0->head        = 0xA0;
     frame_A0->len         = 7 + 1 + 4;
     frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = 0x02;
+    frame_A0->targetAddr  = this->targetID;
     frame_A0->cmd_RW_Type = 0x53;
     frame_A0->mainCmdID   = 0xCC;
     frame_A0->subCmdID    = 0x01;
@@ -1316,7 +1342,7 @@ void MainWindow::on_pushButton_current_Set_clicked()
     frame_A0->head        = 0xA0;
     frame_A0->len         = 7 + 1 + 1;
     frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = 0x02;
+    frame_A0->targetAddr  = this->targetID;
     frame_A0->cmd_RW_Type = 0x53;
     frame_A0->mainCmdID   = 0xCC;
     frame_A0->subCmdID    = 0x05;
@@ -1356,7 +1382,7 @@ void MainWindow::on_pushButton_multi_Set_clicked()
     frame_A0->head        = 0xA0;
     frame_A0->len         = 7 + 1;
     frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = 0x02;
+    frame_A0->targetAddr  = this->targetID;
     frame_A0->cmd_RW_Type = 0x51;
     frame_A0->mainCmdID   = 0xCC;
     frame_A0->subCmdID    = 0x03;
@@ -1402,7 +1428,7 @@ void MainWindow::on_pushButton_ExcitateCurrentSet_clicked()
     frame_A0->head        = 0xA0;
     frame_A0->len         = 7 + 4;
     frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = 0x02;
+    frame_A0->targetAddr  = this->targetID;
     frame_A0->cmd_RW_Type = 0x53;
     frame_A0->mainCmdID   = 0x02;
     frame_A0->subCmdID    = 0x01;
@@ -1442,7 +1468,7 @@ void MainWindow::on_pushButton_CoilCurrentGet_clicked()
     frame_A0->head        = 0xA0;
     frame_A0->len         = 7 + 0;
     frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = 0x02;
+    frame_A0->targetAddr  = this->targetID;
     frame_A0->cmd_RW_Type = 0x51;
     frame_A0->mainCmdID   = 0x02;
     frame_A0->subCmdID    = 0x02;
@@ -1478,7 +1504,7 @@ void MainWindow::on_pushButton_CoilVolGet_clicked()
     frame_A0->head        = 0xA0;
     frame_A0->len         = 7 + 0;
     frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = 0x02;
+    frame_A0->targetAddr  = this->targetID;
     frame_A0->cmd_RW_Type = 0x51;
     frame_A0->mainCmdID   = 0x02;
     frame_A0->subCmdID    = 0x03;
@@ -1514,7 +1540,7 @@ void MainWindow::on_pushButton_CoilResistGet_clicked()
     frame_A0->head        = 0xA0;
     frame_A0->len         = 7 + 0;
     frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = 0x02;
+    frame_A0->targetAddr  = this->targetID;
     frame_A0->cmd_RW_Type = 0x51;
     frame_A0->mainCmdID   = 0x02;
     frame_A0->subCmdID    = 0x04;
@@ -1556,7 +1582,7 @@ void MainWindow::on_pushButton_CoilResistSet_clicked()
     frame_A0->head        = 0xA0;
     frame_A0->len         = 7 + 4 + 4;
     frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = 0x02;
+    frame_A0->targetAddr  = this->targetID;
     frame_A0->cmd_RW_Type = 0x53;
     frame_A0->mainCmdID   = 0x02;
     frame_A0->subCmdID    = 0x04;
@@ -1600,7 +1626,7 @@ void MainWindow::on_pushButton_PowerVolGet_clicked()
     frame_A0->head        = 0xA0;
     frame_A0->len         = 7 + 0;
     frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = 0x02;
+    frame_A0->targetAddr  = this->targetID;
     frame_A0->cmd_RW_Type = 0x51;
     frame_A0->mainCmdID   = 0x02;
     frame_A0->subCmdID    = 0x05;
@@ -1636,7 +1662,7 @@ void MainWindow::on_pushButton_InputVolGet_clicked()
     frame_A0->head        = 0xA0;
     frame_A0->len         = 7 + 0;
     frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = 0x02;
+    frame_A0->targetAddr  = this->targetID;
     frame_A0->cmd_RW_Type = 0x51;
     frame_A0->mainCmdID   = 0x02;
     frame_A0->subCmdID    = 0x06;
@@ -1677,7 +1703,7 @@ void MainWindow::on_pushButton_InputVolSet_clicked()
     frame_A0->head        = 0xA0;
     frame_A0->len         = 7 + 4 + 4;
     frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = 0x02;
+    frame_A0->targetAddr  = this->targetID;
     frame_A0->cmd_RW_Type = 0x53;
     frame_A0->mainCmdID   = 0x02;
     frame_A0->subCmdID    = 0x06;
@@ -1721,7 +1747,7 @@ void MainWindow::on_pushButton_InputCurrentGet_clicked()
     frame_A0->head        = 0xA0;
     frame_A0->len         = 7 + 0;
     frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = 0x02;
+    frame_A0->targetAddr  = this->targetID;
     frame_A0->cmd_RW_Type = 0x51;
     frame_A0->mainCmdID   = 0x02;
     frame_A0->subCmdID    = 0x07;
@@ -1762,7 +1788,7 @@ void MainWindow::on_pushButton_OutputCurrentSet_clicked()
     frame_A0->head        = 0xA0;
     frame_A0->len         = 7 + 4 + 4;
     frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = 0x02;
+    frame_A0->targetAddr  = this->targetID;
     frame_A0->cmd_RW_Type = 0x53;
     frame_A0->mainCmdID   = 0x02;
     frame_A0->subCmdID    = 0x08;
@@ -1805,7 +1831,7 @@ void MainWindow::on_pushButton_OutputCurrentGet_clicked()
     frame_A0->head        = 0xA0;
     frame_A0->len         = 7 + 0;
     frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = 0x02;
+    frame_A0->targetAddr  = this->targetID;
     frame_A0->cmd_RW_Type = 0x51;
     frame_A0->mainCmdID   = 0x02;
     frame_A0->subCmdID    = 0x08;
@@ -1840,7 +1866,7 @@ void MainWindow::on_pushButton_BoardTempGet_clicked()
     frame_A0->head        = 0xA0;
     frame_A0->len         = 7 + 0;
     frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = 0x02;
+    frame_A0->targetAddr  = this->targetID;
     frame_A0->cmd_RW_Type = 0x51;
     frame_A0->mainCmdID   = 0x02;
     frame_A0->subCmdID    = 0x09;
@@ -1875,7 +1901,7 @@ void MainWindow::on_pushButton_BoardID_Get_clicked()
     frame_A0->head        = 0xA0;
     frame_A0->len         = 7 + 0;
     frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = 0x02;
+    frame_A0->targetAddr  = this->targetID;
     frame_A0->cmd_RW_Type = 0x51;
     frame_A0->mainCmdID   = 0x02;
     frame_A0->subCmdID    = 0x0A;
@@ -1916,7 +1942,7 @@ void MainWindow::on_pushButton_CoilCurrentCoefSet_clicked()
     frame_A0->head        = 0xA0;
     frame_A0->len         = 7 + 4 + 4;
     frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = 0x02;
+    frame_A0->targetAddr  = this->targetID;
     frame_A0->cmd_RW_Type = 0x53;
     frame_A0->mainCmdID   = 0x03;
     frame_A0->subCmdID    = 0x04;
@@ -1960,7 +1986,7 @@ void MainWindow::on_pushButton_CoilCurrentCoefGet_clicked()
     frame_A0->head        = 0xA0;
     frame_A0->len         = 7 + 0;
     frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = 0x02;
+    frame_A0->targetAddr  = this->targetID;
     frame_A0->cmd_RW_Type = 0x51;
     frame_A0->mainCmdID   = 0x03;
     frame_A0->subCmdID    = 0x04;
@@ -2002,7 +2028,7 @@ void MainWindow::on_pushButton_CoilVolCoefSet_clicked()
     frame_A0->head        = 0xA0;
     frame_A0->len         = 7 + 4 + 4;
     frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = 0x02;
+    frame_A0->targetAddr  = this->targetID;
     frame_A0->cmd_RW_Type = 0x53;
     frame_A0->mainCmdID   = 0x03;
     frame_A0->subCmdID    = 0x05;
@@ -2046,7 +2072,7 @@ void MainWindow::on_pushButton_CoilVolCoefGet_clicked()
     frame_A0->head        = 0xA0;
     frame_A0->len         = 7 + 0;
     frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = 0x02;
+    frame_A0->targetAddr  = this->targetID;
     frame_A0->cmd_RW_Type = 0x51;
     frame_A0->mainCmdID   = 0x03;
     frame_A0->subCmdID    = 0x05;
@@ -2081,7 +2107,7 @@ void MainWindow::on_pushButton_RebootSet_clicked()
     frame_A0->head        = 0xA0;
     frame_A0->len         = 7 + 0;
     frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = 0x02;
+    frame_A0->targetAddr  = this->targetID;
     frame_A0->cmd_RW_Type = 0x53;
     frame_A0->mainCmdID   = 0x01;
     frame_A0->subCmdID    = 0x04;
@@ -2118,7 +2144,7 @@ void MainWindow::on_pushButton_ParaSaveSet_clicked()
     frame_A0->head        = 0xA0;
     frame_A0->len         = 7 + 0;
     frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = 0x02;
+    frame_A0->targetAddr  = this->targetID;
     frame_A0->cmd_RW_Type = 0x53;
     frame_A0->mainCmdID   = 0x03;
     frame_A0->subCmdID    = 0x06;
@@ -2154,7 +2180,7 @@ void MainWindow::on_pushButton_ParaReadGet_clicked()
     frame_A0->head        = 0xA0;
     frame_A0->len         = 7 + 0;
     frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = 0x02;
+    frame_A0->targetAddr  = this->targetID;
     frame_A0->cmd_RW_Type = 0x51;
     frame_A0->mainCmdID   = 0x03;
     frame_A0->subCmdID    = 0x06;
@@ -2190,7 +2216,7 @@ void MainWindow::on_pushButton_ParaRestoreSet_clicked()
     frame_A0->head        = 0xA0;
     frame_A0->len         = 7 + 0;
     frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = 0x02;
+    frame_A0->targetAddr  = this->targetID;
     frame_A0->cmd_RW_Type = 0x53;
     frame_A0->mainCmdID   = 0x03;
     frame_A0->subCmdID    = 0x07;
@@ -2225,7 +2251,7 @@ void MainWindow::on_pushButton_FirmVersion_clicked()
     frame_A0->head        = 0xA0;
     frame_A0->len         = 7 + 0;
     frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = 0x02;
+    frame_A0->targetAddr  = this->targetID;
     frame_A0->cmd_RW_Type = 0x51;
     frame_A0->mainCmdID   = 0x01;
     frame_A0->subCmdID    = 0x02;
@@ -2260,7 +2286,7 @@ void MainWindow::on_pushButton_DeviceInfo_clicked()
     frame_A0->head        = 0xA0;
     frame_A0->len         = 7 + 0;
     frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = 0x02;
+    frame_A0->targetAddr  = this->targetID;
     frame_A0->cmd_RW_Type = 0x51;
     frame_A0->mainCmdID   = 0x01;
     frame_A0->subCmdID    = 0x03;
@@ -2285,6 +2311,130 @@ void MainWindow::on_pushButton_DeviceInfo_clicked()
     free(frame_A0);
 }
 
+void MainWindow::on_pushButton__PowerCtrlHexSet_clicked()
+{
+    A0_CMD_t* frame_A0 = (A0_CMD_t*)malloc(sizeof(A0_CMD_t));
+    if(frame_A0 == NULL){
+        return;
+    }
+    bool ok;
 
+    data_convert_u dataCHA;
+    data_convert_u dataCHB;
+    QString dataCHA_Str = ui->lineEdit_PowerCtrlHexCH1->text();
+    QString dataCHB_Str = ui->lineEdit_PowerCtrlHexCH2->text();
+    dataCHA.data_uint   = dataCHA_Str.toUInt(&ok, 16);
+    dataCHB.data_uint   = dataCHB_Str.toUInt(&ok, 16);
 
+    if(dataCHA.data_uint > 0xFFFF){
+        dataCHA.data_uint = 0xFFFF;
+        ui->lineEdit_PowerCtrlHexCH1->clear();
+        QString str = (QString::number(0xFFFF, 16));
+        ui->lineEdit_PowerCtrlHexCH1->setText(str.toUpper());
+    }
+    if(dataCHB.data_uint > 0xFFFF){
+        dataCHB.data_uint = 0xFFFF;
+        ui->lineEdit_PowerCtrlHexCH2->clear();
+        QString str = (QString::number(0xFFFF, 16));
+        ui->lineEdit_PowerCtrlHexCH2->setText(str.toUpper());
+    }
+
+    frame_A0->head        = 0xA0;
+    frame_A0->len         = 7 + 4 + 4;
+    frame_A0->originAddr  = 0x01;
+    frame_A0->targetAddr  = this->targetID;
+    frame_A0->cmd_RW_Type = 0x53;
+    frame_A0->mainCmdID   = 0xCC;
+    frame_A0->subCmdID    = 0x07;
+
+    QByteArray frame_arr;
+
+    frame_arr.append(frame_A0->head);
+    frame_arr.append(frame_A0->len);
+    frame_arr.append(frame_A0->originAddr);
+    frame_arr.append(frame_A0->targetAddr);
+    frame_arr.append(frame_A0->cmd_RW_Type);
+    frame_arr.append(frame_A0->mainCmdID);
+    frame_arr.append(frame_A0->subCmdID);
+    frame_arr.append(dataCHA.data_arr[3]);
+    frame_arr.append(dataCHA.data_arr[2]);
+    frame_arr.append(dataCHA.data_arr[1]);
+    frame_arr.append(dataCHA.data_arr[0]);
+    frame_arr.append(dataCHB.data_arr[3]);
+    frame_arr.append(dataCHB.data_arr[2]);
+    frame_arr.append(dataCHB.data_arr[1]);
+    frame_arr.append(dataCHB.data_arr[0]);
+    frame_arr.append(char(0x00));
+    frame_arr.append(char(0x00));
+
+    this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
+
+    serial_comm->serial_port->write(frame_arr);
+
+    UpdateTextLine(frame_arr, false);
+    free(frame_A0);
+}
+
+void MainWindow::on_pushButton_CoilCurrentHexSet_clicked()
+{
+    A0_CMD_t* frame_A0 = (A0_CMD_t*)malloc(sizeof(A0_CMD_t));
+    if(frame_A0 == NULL){
+        return;
+    }
+
+    data_convert_u dataCHA;
+    data_convert_u dataCHB;
+    QString dataCHA_Str = ui->lineEdit_CoilCurrentHexCH1->text();
+    QString dataCHB_Str = ui->lineEdit_CoilCurrentHexCH2->text();
+    dataCHA.data_uint   = dataCHA_Str.toUInt(nullptr, 16);
+    dataCHB.data_uint   = dataCHB_Str.toUInt(nullptr, 16);
+
+    if(dataCHA.data_uint > 0x0FFFFF){
+        dataCHA.data_uint = 0x0FFFFF;
+        ui->lineEdit_CoilCurrentHexCH1->clear();
+        QString str = (QString::number(0x0FFFFF, 16));
+        ui->lineEdit_CoilCurrentHexCH1->setText(str.toUpper());
+    }
+    if(dataCHB.data_uint > 0x0FFFFF){
+        dataCHB.data_uint = 0x0FFFFF;
+        ui->lineEdit_CoilCurrentHexCH2->clear();
+        QString str = (QString::number(0x0FFFFF, 16));
+        ui->lineEdit_CoilCurrentHexCH2->setText(str.toUpper());
+    }
+
+    frame_A0->head        = 0xA0;
+    frame_A0->len         = 7 + 4 + 4;
+    frame_A0->originAddr  = 0x01;
+    frame_A0->targetAddr  = this->targetID;
+    frame_A0->cmd_RW_Type = 0x53;
+    frame_A0->mainCmdID   = 0xCC;
+    frame_A0->subCmdID    = 0x06;
+
+    QByteArray frame_arr;
+
+    frame_arr.append(frame_A0->head);
+    frame_arr.append(frame_A0->len);
+    frame_arr.append(frame_A0->originAddr);
+    frame_arr.append(frame_A0->targetAddr);
+    frame_arr.append(frame_A0->cmd_RW_Type);
+    frame_arr.append(frame_A0->mainCmdID);
+    frame_arr.append(frame_A0->subCmdID);
+    frame_arr.append(dataCHA.data_arr[3]);
+    frame_arr.append(dataCHA.data_arr[2]);
+    frame_arr.append(dataCHA.data_arr[1]);
+    frame_arr.append(dataCHA.data_arr[0]);
+    frame_arr.append(dataCHB.data_arr[3]);
+    frame_arr.append(dataCHB.data_arr[2]);
+    frame_arr.append(dataCHB.data_arr[1]);
+    frame_arr.append(dataCHB.data_arr[0]);
+    frame_arr.append(char(0x00));
+    frame_arr.append(char(0x00));
+
+    this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
+
+    serial_comm->serial_port->write(frame_arr);
+
+    UpdateTextLine(frame_arr, false);
+    free(frame_A0);
+}
 

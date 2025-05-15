@@ -19,11 +19,12 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-#define SOFTWARE_VERSION " v0.0.4"
+#define SOFTWARE_VERSION " v0.0.5"
 
 // QQueue<uint8_t> RecvQueue;
 typedef union{
     float data_float;
+    uint32_t data_uint;
     uint8_t data_arr[4];
 }data_convert_u;
 class MainWindow : public QMainWindow
@@ -55,7 +56,7 @@ public:
     int32_t AsignA0CmdFromJsonObj(QJsonObject A0_CmdObj, A0_CMD_t *A0_Cmd);
     int32_t TableWidgetSetComboBox(QComboBox* comboBox, QString comboBoxText);
 
-
+    uint8_t targetID;
 
     // int32_t ProtocolAnalyse(void);
 
@@ -166,6 +167,10 @@ private slots:
     void on_pushButton_DeviceInfo_clicked();
 
     void on_pushButton_FirmVersion_clicked();
+
+    void on_pushButton__PowerCtrlHexSet_clicked();
+
+    void on_pushButton_CoilCurrentHexSet_clicked();
 
 private:
     Ui::MainWindow *ui;
