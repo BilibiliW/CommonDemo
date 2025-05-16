@@ -183,7 +183,7 @@ void MainWindow::on_pushButton_SerialConnect_clicked()
             ui->Communication->setTabEnabled(1, false);
             ui->Communication->setTabEnabled(2, false);
 
-            ui->lineEdit_BoardCommunicateID->setReadOnly(true);
+            ui->lineEdit_BoardCommunicateID->setDisabled(true);
             uint8_t boardID = ui->lineEdit_BoardCommunicateID->text().toUInt();
             if(boardID < 10){
                 this->targetID = boardID;
@@ -210,8 +210,7 @@ void MainWindow::on_pushButton_SerialConnect_clicked()
             ui->Communication->setTabEnabled(1, true);
             ui->Communication->setTabEnabled(2, true);
 
-            ui->lineEdit_BoardCommunicateID->setReadOnly(false);
-            qDebug("try connect failed");
+            ui->lineEdit_BoardCommunicateID->setDisabled(false);
         }
     }
     else{
@@ -229,7 +228,7 @@ void MainWindow::on_pushButton_SerialConnect_clicked()
         ui->Communication->setTabEnabled(1, true);
         ui->Communication->setTabEnabled(2, true);
 
-        ui->lineEdit_BoardCommunicateID->setReadOnly(false);
+        ui->lineEdit_BoardCommunicateID->setDisabled(false);
         qDebug("CurrentConnected\nDisconnect now");
     }
 }
