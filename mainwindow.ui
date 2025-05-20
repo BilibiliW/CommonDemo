@@ -1048,9 +1048,6 @@ border:2px solid rgb(160, 160,160)
           </property>
          </widget>
         </item>
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="lineEdit_ExcitateCurrent"/>
-        </item>
         <item row="7" column="0">
          <widget class="QLabel" name="label_BoardStatus">
           <property name="text">
@@ -1180,6 +1177,9 @@ border:2px solid rgb(160, 160,160)
         <item row="7" column="2">
          <widget class="QLineEdit" name="lineEdit_BoardErrCode"/>
         </item>
+        <item row="0" column="1">
+         <widget class="FlexibleQDoubleSpinBox" name="widget_MyQDoubleSpinBox_ConstCurrent" native="true"/>
+        </item>
        </layout>
       </widget>
       <widget class="Line" name="line">
@@ -1234,10 +1234,10 @@ border:2px solid rgb(160, 160,160)
         <string>FirmVersion</string>
        </property>
       </widget>
-      <widget class="QSlider" name="verticalSlider">
+      <widget class="QSlider" name="verticalSlider_ConstCurrent">
        <property name="geometry">
         <rect>
-         <x>750</x>
+         <x>730</x>
          <y>40</y>
          <width>22</width>
          <height>241</height>
@@ -1247,10 +1247,10 @@ border:2px solid rgb(160, 160,160)
         <enum>Qt::Vertical</enum>
        </property>
       </widget>
-      <widget class="QSlider" name="verticalSlider_2">
+      <widget class="QSlider" name="verticalSlider_OutputCurrentA">
        <property name="geometry">
         <rect>
-         <x>790</x>
+         <x>780</x>
          <y>40</y>
          <width>22</width>
          <height>241</height>
@@ -1260,7 +1260,7 @@ border:2px solid rgb(160, 160,160)
         <enum>Qt::Vertical</enum>
        </property>
       </widget>
-      <widget class="QSlider" name="verticalSlider_3">
+      <widget class="QSlider" name="verticalSlider_OutputCurrentB">
        <property name="geometry">
         <rect>
          <x>830</x>
@@ -1331,12 +1331,12 @@ border:2px solid rgb(160, 160,160)
      </rect>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>130</x>
       <y>80</y>
-      <width>381</width>
+      <width>403</width>
       <height>27</height>
      </rect>
     </property>
@@ -1382,6 +1382,16 @@ border:2px solid rgb(160, 160,160)
      </item>
     </layout>
    </widget>
+   <widget class="QLineEdit" name="lineEdit_ExcitateCurrent">
+    <property name="geometry">
+     <rect>
+      <x>770</x>
+      <y>90</y>
+      <width>87</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
    <zorder>tabWidget</zorder>
    <zorder>Communication</zorder>
    <zorder>textEdit_RealTimeCommunicateData</zorder>
@@ -1393,10 +1403,9 @@ border:2px solid rgb(160, 160,160)
    <zorder>label_Version</zorder>
    <zorder>label_FirmVersion</zorder>
    <zorder>label_DeviceInfo</zorder>
-   <zorder>label_BoardCommunicateID</zorder>
-   <zorder>lineEdit_BoardCommunicateID</zorder>
    <zorder>lineEdit_BoardCommunicateID</zorder>
    <zorder>label_BoardCommunicateID</zorder>
+   <zorder>lineEdit_ExcitateCurrent</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -1469,6 +1478,14 @@ border:2px solid rgb(160, 160,160)
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>FlexibleQDoubleSpinBox</class>
+   <extends>QWidget</extends>
+   <header location="global">FlexibleQDoubleSpinBox.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

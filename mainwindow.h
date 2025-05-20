@@ -172,6 +172,14 @@ private slots:
 
     void on_pushButton_CoilCurrentHexSet_clicked();
 
+    void qSliderConstCurrentValueChange(int);
+    void qSliderOutputCurrentA_ValueChange(int);
+    void qSliderOutputCurrentB_ValueChange(int);
+
+    void flexibleQDoubleSpinBoxConstCurrentValueChange(double);
+    void flexibleQDoubleSpinBoxOutputCurrentA_ValueChange(double);
+    void flexibleQDoubleSpinBoxOutputCurrentB_ValueChange(double);
+
 private:
     Ui::MainWindow *ui;
     HardwareInterface hard_interface;

@@ -7,7 +7,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-
+#define QSLIDER_VALUE_CONVERT 1000000.0
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -30,6 +30,16 @@ MainWindow::MainWindow(QWidget *parent)
     qDebug()<<tab_text;
     hard_interface.comm_type = tab_text;
 
+    ui->verticalSlider_ConstCurrent->setMinimum(-3*QSLIDER_VALUE_CONVERT);
+    ui->verticalSlider_ConstCurrent->setMaximum(3*QSLIDER_VALUE_CONVERT);
+    ui->verticalSlider_ConstCurrent->setValue(0*QSLIDER_VALUE_CONVERT);
+    ui->verticalSlider_OutputCurrentA->setMinimum(-3*QSLIDER_VALUE_CONVERT);
+    ui->verticalSlider_OutputCurrentA->setMaximum(3*QSLIDER_VALUE_CONVERT);
+    ui->verticalSlider_OutputCurrentA->setValue(0*QSLIDER_VALUE_CONVERT);
+    ui->verticalSlider_OutputCurrentB->setMinimum(-3*QSLIDER_VALUE_CONVERT);
+    ui->verticalSlider_OutputCurrentB->setMaximum(3*QSLIDER_VALUE_CONVERT);
+    ui->verticalSlider_OutputCurrentB->setValue(0*QSLIDER_VALUE_CONVERT);
+
     ui->lineEdit_PowerCtrlHexCH1->setValidator(new QRegularExpressionValidator(QRegularExpression("[A-F0-9]+$")));
     ui->lineEdit_PowerCtrlHexCH2->setValidator(new QRegularExpressionValidator(QRegularExpression("[A-F0-9]+$")));
     ui->lineEdit_CoilCurrentHexCH1->setValidator(new QRegularExpressionValidator(QRegularExpression("[A-F0-9]+$")));
@@ -41,6 +51,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     subThread =  new QThread;
     protocol = new Protocol;
+
+    connect(ui->verticalSlider_ConstCurrent,   SIGNAL(valueChanged(int)), this, SLOT(qSliderConstCurrentValueChange(int)));
+    connect(ui->verticalSlider_OutputCurrentA, SIGNAL(valueChanged(int)), this, SLOT(qSliderOutputCurrentA_ValueChange(int)));
+    connect(ui->verticalSlider_OutputCurrentB, SIGNAL(valueChanged(int)), this, SLOT(qSliderOutputCurrentB_ValueChange(int)));
+
+    connect(ui->widget_MyQDoubleSpinBox_ConstCurrent, SIGNAL(SignalFlexibleSpinBoxValueChange(double)), this, SLOT(flexibleQDoubleSpinBoxConstCurrentValueChange(double)));
+    connect(ui->widget_MyQDoubleSpinBox_ConstCurrent, SIGNAL(SignalFlexibleSpinBoxValueChange(double)), this, SLOT(flexibleQDoubleSpinBoxOutputCurrentA_ValueChange(double)));
+    connect(ui->widget_MyQDoubleSpinBox_ConstCurrent, SIGNAL(SignalFlexibleSpinBoxValueChange(double)), this, SLOT(flexibleQDoubleSpinBoxOutputCurrentB_ValueChange(double)));
 
     connect(subThread, SIGNAL(started()), protocol, SLOT(SubThreadRun()), Qt::DirectConnection);
 
@@ -2437,3 +2455,44 @@ void MainWindow::on_pushButton_CoilCurrentHexSet_clicked()
     free(frame_A0);
 }
 
+void MainWindow::qSliderConstCurrentValueChange(int value)
+{
+    double data = value/QSLIDER_VALUE_CONVERT;
+    ui->widget_MyQDoubleSpinBox_ConstCurrent->SetValue(data);
+    qDebug()<<"qSliderConstCurrentValueChange value:" + QString::number(data, 'f');
+}
+
+void MainWindow::qSliderOutputCurrentA_ValueChange(int value)
+{
+    double data = value/QSLIDER_VALUE_CONVERT;
+    // ui->widget_MyQDoubleSpinBox_ConstCurrent->SetValue(data);
+    qDebug()<<"qSliderOutputCurrentA_ValueChange value:" + QString::number(data, 'f');
+}
+
+void MainWindow::qSliderOutputCurrentB_ValueChange(int value)
+{
+    double data = value/QSLIDER_VALUE_CONVERT;
+    // ui->widget_MyQDoubleSpinBox_ConstCurrent->SetValue(data);
+    qDebug()<<"qSliderOutputCurrentB_ValueChange value:" + QString::number(data, 'f');
+}
+
+void MainWindow::flexibleQDoubleSpinBoxConstCurrentValueChange(double value)
+{
+    int data = value*QSLIDER_VALUE_CONVERT;
+    ui->verticalSlider_ConstCurrent->setValue(data);
+    qDebug()<<"flexibleQDoubleSpinBoxConstCurrentValueChange value:" + QString::number(data);
+}
+
+void MainWindow::flexibleQDoubleSpinBoxOutputCurrentA_ValueChange(double value)
+{
+    int data = value*QSLIDER_VALUE_CONVERT;
+    // ui->verticalSlider_ConstCurrent->setValue(data);
+    qDebug()<<"flexibleQDoubleSpinBoxOutputCurrentA_ValueChange value:" + QString::number(data);
+}
+
+void MainWindow::flexibleQDoubleSpinBoxOutputCurrentB_ValueChange(double value)
+{
+    int data = value*QSLIDER_VALUE_CONVERT;
+    // ui->verticalSlider_ConstCurrent->setValue(data);
+    qDebug()<<"flexibleQDoubleSpinBoxOutputCurrentB_ValueChange value:" + QString::number(data);
+}
