@@ -7,7 +7,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#define QSLIDER_VALUE_CONVERT 1000000.0
+#define QSLIDER_VALUE_CONVERT               1000000.0
+#define QSLIDER_VALUE_SEND_INTERVAL_MS      100
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -17,6 +18,10 @@ MainWindow::MainWindow(QWidget *parent)
     // ui->frame->setStyleSheet("background-color: rgb(160, 160, 160);");
     // ui->frame->setStyleSheet("border:1px solid rgb(100, 100,189)");
 
+    sysClockTimer = new QTimer(this);
+    connect(this->sysClockTimer, &QTimer::timeout, this, &MainWindow::UpdateSysClock);
+    sysClockTimer->start(1000);
+    UpdateSysClock();
 
     ui->label_Version->setText(ui->label_Version->text() + SOFTWARE_VERSION);
     ui->radioButton_current_Close->setChecked(true);
@@ -52,13 +57,23 @@ MainWindow::MainWindow(QWidget *parent)
     subThread =  new QThread;
     protocol = new Protocol;
 
+    ui->lineEdit_ExcitateCurrent->hide();
+    ui->lineEdit_OutputCurrentA->hide();
+    ui->lineEdit_OutputCurrentB->hide();
+    ui->label_RefreshInterval->hide();
+    ui->lineEdit_RefreshInterval->hide();
+    ui->checkBox_RefreshInterval->hide();
+
+    preSliderExcitateCurrentValueSetTime = 0;
+    preSliderCoilCurrentValueSetTime = 0;
+
     connect(ui->verticalSlider_ConstCurrent,   SIGNAL(valueChanged(int)), this, SLOT(qSliderConstCurrentValueChange(int)));
     connect(ui->verticalSlider_OutputCurrentA, SIGNAL(valueChanged(int)), this, SLOT(qSliderOutputCurrentA_ValueChange(int)));
     connect(ui->verticalSlider_OutputCurrentB, SIGNAL(valueChanged(int)), this, SLOT(qSliderOutputCurrentB_ValueChange(int)));
 
-    connect(ui->widget_MyQDoubleSpinBox_ConstCurrent, SIGNAL(SignalFlexibleSpinBoxValueChange(double)), this, SLOT(flexibleQDoubleSpinBoxConstCurrentValueChange(double)));
-    connect(ui->widget_MyQDoubleSpinBox_ConstCurrent, SIGNAL(SignalFlexibleSpinBoxValueChange(double)), this, SLOT(flexibleQDoubleSpinBoxOutputCurrentA_ValueChange(double)));
-    connect(ui->widget_MyQDoubleSpinBox_ConstCurrent, SIGNAL(SignalFlexibleSpinBoxValueChange(double)), this, SLOT(flexibleQDoubleSpinBoxOutputCurrentB_ValueChange(double)));
+    connect(ui->widget_MyQDoubleSpinBox_ConstCurrent,   SIGNAL(SignalFlexibleSpinBoxValueChange(double)), this, SLOT(flexibleQDoubleSpinBoxConstCurrentValueChange(double)));
+    connect(ui->widget_MyQDoubleSpinBox_OutputCurrentA, SIGNAL(SignalFlexibleSpinBoxValueChange(double)), this, SLOT(flexibleQDoubleSpinBoxOutputCurrentA_ValueChange(double)));
+    connect(ui->widget_MyQDoubleSpinBox_OutputCurrentB, SIGNAL(SignalFlexibleSpinBoxValueChange(double)), this, SLOT(flexibleQDoubleSpinBoxOutputCurrentB_ValueChange(double)));
 
     connect(subThread, SIGNAL(started()), protocol, SLOT(SubThreadRun()), Qt::DirectConnection);
 
@@ -91,6 +106,33 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+void MainWindow::UpdateSysClock()
+{
+    QDateTime dateTime = QDateTime::currentDateTime();
+    this->ui->label_SystemTime->setText(dateTime.toString("yyyy/MM/dd  HH:mm:ss"));  // 显示为时:分:秒
+
+}
+
+void MainWindow::ExcitateCurrentCmdDelaySend()
+{
+    QDateTime currentDateTime = QDateTime::currentDateTime();
+    qint64 currentMilliseconds = currentDateTime.toMSecsSinceEpoch();
+
+    int slider_value = ui->verticalSlider_ConstCurrent->value();
+    double excitate_current = slider_value/QSLIDER_VALUE_CONVERT;
+
+    preSliderExcitateCurrentValueSetTime = currentMilliseconds;
+    SetExcitationCurrent(excitate_current);
+}
+
+void MainWindow::CoilCurrentCmdDelaySend()
+{
+    QDateTime currentDateTime = QDateTime::currentDateTime();
+    qint64 currentMilliseconds = currentDateTime.toMSecsSinceEpoch();
+
+    preSliderCoilCurrentValueSetTime = currentMilliseconds;
+    SetCoilCurrent();
 }
 
 void MainWindow::CommTypeUpdate(QString tabName)
@@ -397,6 +439,120 @@ QString MainWindow::formatFloatToString(double value, int intWidth, int fracWidt
 
     return parts.join('.');
 }
+
+void MainWindow::SetExcitationCurrent(float excitate_current)
+{
+    A0_CMD_t* frame_A0 = (A0_CMD_t*)malloc(sizeof(A0_CMD_t));
+    if(frame_A0 == NULL){
+        return;
+    }
+    data_convert_u current;
+
+    current.data_float       = excitate_current;
+
+    if(current.data_float > 3){
+        current.data_float = 3;
+    }
+    else if(current.data_float < -3){
+        current.data_float = -3;
+    }
+
+    frame_A0->head        = 0xA0;
+    frame_A0->len         = 7 + 4;
+    frame_A0->originAddr  = 0x01;
+    frame_A0->targetAddr  = this->targetID;
+    frame_A0->cmd_RW_Type = 0x53;
+    frame_A0->mainCmdID   = 0x02;
+    frame_A0->subCmdID    = 0x01;
+    frame_A0->data        = (char*)&current;
+
+    QByteArray frame_arr;
+
+    frame_arr.append(frame_A0->head);
+    frame_arr.append(frame_A0->len);
+    frame_arr.append(frame_A0->originAddr);
+    frame_arr.append(frame_A0->targetAddr);
+    frame_arr.append(frame_A0->cmd_RW_Type);
+    frame_arr.append(frame_A0->mainCmdID);
+    frame_arr.append(frame_A0->subCmdID);
+    frame_arr.append(current.data_arr[0]);
+    frame_arr.append(current.data_arr[1]);
+    frame_arr.append(current.data_arr[2]);
+    frame_arr.append(current.data_arr[3]);
+    frame_arr.append(char(0x00));
+    frame_arr.append(char(0x00));
+    this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
+
+    serial_comm->serial_port->write(frame_arr);
+
+    UpdateTextLine(frame_arr, false);
+    free(frame_A0);
+}
+
+void MainWindow::SetCoilCurrent(void)
+{
+    A0_CMD_t* frame_A0 = (A0_CMD_t*)malloc(sizeof(A0_CMD_t));
+    if(frame_A0 == NULL){
+        return;
+    }
+
+    data_convert_u dataCHA;
+    data_convert_u dataCHB;
+    int valueCHA = ui->verticalSlider_OutputCurrentA->value();
+    int valueCHB = ui->verticalSlider_OutputCurrentB->value();
+    dataCHA.data_float       = valueCHA/QSLIDER_VALUE_CONVERT;
+    dataCHB.data_float       = valueCHB/QSLIDER_VALUE_CONVERT;
+
+    if(dataCHA.data_float > 3){
+        dataCHA.data_float = 3;
+    }
+    else if(dataCHA.data_float < -3){
+        dataCHA.data_float = -3;
+    }
+
+    if(dataCHB.data_float > 3){
+        dataCHB.data_float = 3;
+    }
+    else if(dataCHB.data_float < -3){
+        dataCHB.data_float = -3;
+    }
+
+    frame_A0->head        = 0xA0;
+    frame_A0->len         = 7 + 4 + 4;
+    frame_A0->originAddr  = 0x01;
+    frame_A0->targetAddr  = this->targetID;
+    frame_A0->cmd_RW_Type = 0x53;
+    frame_A0->mainCmdID   = 0x02;
+    frame_A0->subCmdID    = 0x08;
+
+    QByteArray frame_arr;
+
+    frame_arr.append(frame_A0->head);
+    frame_arr.append(frame_A0->len);
+    frame_arr.append(frame_A0->originAddr);
+    frame_arr.append(frame_A0->targetAddr);
+    frame_arr.append(frame_A0->cmd_RW_Type);
+    frame_arr.append(frame_A0->mainCmdID);
+    frame_arr.append(frame_A0->subCmdID);
+    frame_arr.append(dataCHA.data_arr[0]);
+    frame_arr.append(dataCHA.data_arr[1]);
+    frame_arr.append(dataCHA.data_arr[2]);
+    frame_arr.append(dataCHA.data_arr[3]);
+    frame_arr.append(dataCHB.data_arr[0]);
+    frame_arr.append(dataCHB.data_arr[1]);
+    frame_arr.append(dataCHB.data_arr[2]);
+    frame_arr.append(dataCHB.data_arr[3]);
+    frame_arr.append(char(0x00));
+    frame_arr.append(char(0x00));
+
+    this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
+
+    serial_comm->serial_port->write(frame_arr);
+
+    UpdateTextLine(frame_arr, false);
+    free(frame_A0);
+}
+
 /***********************************************************************************
  * @brief 实时数据窗口
  * @par
@@ -1430,48 +1586,12 @@ void MainWindow::on_pushButton_multi_Set_clicked()
 ****************************************************************************************/
 void MainWindow::on_pushButton_ExcitateCurrentSet_clicked()
 {
-    A0_CMD_t* frame_A0 = (A0_CMD_t*)malloc(sizeof(A0_CMD_t));
-    if(frame_A0 == NULL){
-        return;
-    }
-    data_convert_u current;
-    QString excitate_current = ui->lineEdit_ExcitateCurrent->text();
-    current.data_float       = excitate_current.toFloat();
+    // QString str_excitate_current = ui->lineEdit_ExcitateCurrent->text();
 
-    if(current.data_float >= 3){
-        current.data_float = 3;
-    }
+    int slider_value = ui->verticalSlider_ConstCurrent->value();
+    double excitate_current = slider_value/QSLIDER_VALUE_CONVERT;
 
-    frame_A0->head        = 0xA0;
-    frame_A0->len         = 7 + 4;
-    frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = this->targetID;
-    frame_A0->cmd_RW_Type = 0x53;
-    frame_A0->mainCmdID   = 0x02;
-    frame_A0->subCmdID    = 0x01;
-    frame_A0->data        = (char*)&current;
-
-    QByteArray frame_arr;
-
-    frame_arr.append(frame_A0->head);
-    frame_arr.append(frame_A0->len);
-    frame_arr.append(frame_A0->originAddr);
-    frame_arr.append(frame_A0->targetAddr);
-    frame_arr.append(frame_A0->cmd_RW_Type);
-    frame_arr.append(frame_A0->mainCmdID);
-    frame_arr.append(frame_A0->subCmdID);
-    frame_arr.append(current.data_arr[0]);
-    frame_arr.append(current.data_arr[1]);
-    frame_arr.append(current.data_arr[2]);
-    frame_arr.append(current.data_arr[3]);
-    frame_arr.append(char(0x00));
-    frame_arr.append(char(0x00));
-    this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
-
-    serial_comm->serial_port->write(frame_arr);
-
-    UpdateTextLine(frame_arr, false);
-    free(frame_A0);
+    SetExcitationCurrent(excitate_current);
 }
 
 
@@ -2150,6 +2270,40 @@ void MainWindow::on_pushButton_RebootSet_clicked()
 
 }
 
+void MainWindow::on_pushButton_SelfCheck_clicked()
+{
+    A0_CMD_t* frame_A0 = (A0_CMD_t*)malloc(sizeof(A0_CMD_t));
+    if(frame_A0 == NULL){
+        return;
+    }
+
+    frame_A0->head        = 0xA0;
+    frame_A0->len         = 7 + 0;
+    frame_A0->originAddr  = 0x01;
+    frame_A0->targetAddr  = this->targetID;
+    frame_A0->cmd_RW_Type = 0x53;
+    frame_A0->mainCmdID   = 0x01;
+    frame_A0->subCmdID    = 0x06;
+
+    QByteArray frame_arr;
+
+    frame_arr.append(frame_A0->head);
+    frame_arr.append(frame_A0->len);
+    frame_arr.append(frame_A0->originAddr);
+    frame_arr.append(frame_A0->targetAddr);
+    frame_arr.append(frame_A0->cmd_RW_Type);
+    frame_arr.append(frame_A0->mainCmdID);
+    frame_arr.append(frame_A0->subCmdID);
+    frame_arr.append(char(0x00));
+    frame_arr.append(char(0x00));
+
+    this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
+
+    serial_comm->serial_port->write(frame_arr);
+
+    UpdateTextLine(frame_arr, false);
+    free(frame_A0);
+}
 
 void MainWindow::on_pushButton_ParaSaveSet_clicked()
 {
@@ -2459,40 +2613,142 @@ void MainWindow::qSliderConstCurrentValueChange(int value)
 {
     double data = value/QSLIDER_VALUE_CONVERT;
     ui->widget_MyQDoubleSpinBox_ConstCurrent->SetValue(data);
-    qDebug()<<"qSliderConstCurrentValueChange value:" + QString::number(data, 'f');
+    // qDebug()<<"qSliderConstCurrentValueChange value:" + QString::number(data, 'f');
 }
 
 void MainWindow::qSliderOutputCurrentA_ValueChange(int value)
 {
     double data = value/QSLIDER_VALUE_CONVERT;
-    // ui->widget_MyQDoubleSpinBox_ConstCurrent->SetValue(data);
-    qDebug()<<"qSliderOutputCurrentA_ValueChange value:" + QString::number(data, 'f');
+    ui->widget_MyQDoubleSpinBox_OutputCurrentA->SetValue(data);
+    // qDebug()<<"qSliderOutputCurrentA_ValueChange value:" + QString::number(data, 'f');
 }
 
 void MainWindow::qSliderOutputCurrentB_ValueChange(int value)
 {
     double data = value/QSLIDER_VALUE_CONVERT;
-    // ui->widget_MyQDoubleSpinBox_ConstCurrent->SetValue(data);
-    qDebug()<<"qSliderOutputCurrentB_ValueChange value:" + QString::number(data, 'f');
+    ui->widget_MyQDoubleSpinBox_OutputCurrentB->SetValue(data);
+    // qDebug()<<"qSliderOutputCurrentB_ValueChange value:" + QString::number(data, 'f');
 }
 
 void MainWindow::flexibleQDoubleSpinBoxConstCurrentValueChange(double value)
 {
     int data = value*QSLIDER_VALUE_CONVERT;
     ui->verticalSlider_ConstCurrent->setValue(data);
-    qDebug()<<"flexibleQDoubleSpinBoxConstCurrentValueChange value:" + QString::number(data);
+    // qDebug()<<"flexibleQDoubleSpinBoxConstCurrentValueChange value:" + QString::number(data);
 }
 
 void MainWindow::flexibleQDoubleSpinBoxOutputCurrentA_ValueChange(double value)
 {
     int data = value*QSLIDER_VALUE_CONVERT;
-    // ui->verticalSlider_ConstCurrent->setValue(data);
-    qDebug()<<"flexibleQDoubleSpinBoxOutputCurrentA_ValueChange value:" + QString::number(data);
+    ui->verticalSlider_OutputCurrentA->setValue(data);
+    // qDebug()<<"flexibleQDoubleSpinBoxOutputCurrentA_ValueChange value:" + QString::number(data);
 }
 
 void MainWindow::flexibleQDoubleSpinBoxOutputCurrentB_ValueChange(double value)
 {
     int data = value*QSLIDER_VALUE_CONVERT;
-    // ui->verticalSlider_ConstCurrent->setValue(data);
-    qDebug()<<"flexibleQDoubleSpinBoxOutputCurrentB_ValueChange value:" + QString::number(data);
+    ui->verticalSlider_OutputCurrentB->setValue(data);
+    // qDebug()<<"flexibleQDoubleSpinBoxOutputCurrentB_ValueChange value:" + QString::number(data);
 }
+
+void MainWindow::on_verticalSlider_ConstCurrent_sliderReleased()
+{
+    QDateTime currentDateTime = QDateTime::currentDateTime();
+    qint64 currentMilliseconds = currentDateTime.toMSecsSinceEpoch();
+
+    int slider_value = ui->verticalSlider_ConstCurrent->value();
+    double excitate_current = slider_value/QSLIDER_VALUE_CONVERT;
+
+    qint64 intervalTime = currentMilliseconds - preSliderExcitateCurrentValueSetTime;
+
+    if(intervalTime >= QSLIDER_VALUE_SEND_INTERVAL_MS){
+        preSliderExcitateCurrentValueSetTime = currentMilliseconds;
+        SetExcitationCurrent(excitate_current);
+    }
+    else{
+       QTimer::singleShot(QSLIDER_VALUE_SEND_INTERVAL_MS - intervalTime, this, &MainWindow::ExcitateCurrentCmdDelaySend);
+    }
+}
+
+
+void MainWindow::on_verticalSlider_ConstCurrent_valueChanged(int value)
+{
+
+    QDateTime currentDateTime = QDateTime::currentDateTime();
+    qint64 currentMilliseconds = currentDateTime.toMSecsSinceEpoch();
+
+    qint64 intervalTime = currentMilliseconds - preSliderExcitateCurrentValueSetTime;
+    if(intervalTime >= QSLIDER_VALUE_SEND_INTERVAL_MS){
+        preSliderExcitateCurrentValueSetTime = currentMilliseconds;
+        // int slider_value = ui->verticalSlider_ConstCurrent->value();
+        double excitate_current = value/QSLIDER_VALUE_CONVERT;
+
+        SetExcitationCurrent(excitate_current);
+    }
+
+}
+
+
+
+void MainWindow::on_verticalSlider_OutputCurrentA_sliderReleased()
+{
+    QDateTime currentDateTime = QDateTime::currentDateTime();
+    qint64 currentMilliseconds = currentDateTime.toMSecsSinceEpoch();
+
+    qint64 intervalTime = currentMilliseconds - preSliderCoilCurrentValueSetTime;
+
+    if(intervalTime >= QSLIDER_VALUE_SEND_INTERVAL_MS){
+        preSliderCoilCurrentValueSetTime = currentMilliseconds;
+        SetCoilCurrent();
+    }
+    else{
+        QTimer::singleShot(QSLIDER_VALUE_SEND_INTERVAL_MS - intervalTime, this, &MainWindow::CoilCurrentCmdDelaySend);
+    }
+}
+
+
+void MainWindow::on_verticalSlider_OutputCurrentA_valueChanged(int value)
+{
+    QDateTime currentDateTime = QDateTime::currentDateTime();
+    qint64 currentMilliseconds = currentDateTime.toMSecsSinceEpoch();
+
+    qint64 intervalTime = currentMilliseconds - preSliderCoilCurrentValueSetTime;
+    if(intervalTime >= QSLIDER_VALUE_SEND_INTERVAL_MS){
+        preSliderCoilCurrentValueSetTime = currentMilliseconds;
+        SetCoilCurrent();
+    }
+}
+
+
+void MainWindow::on_verticalSlider_OutputCurrentB_sliderReleased()
+{
+    QDateTime currentDateTime = QDateTime::currentDateTime();
+    qint64 currentMilliseconds = currentDateTime.toMSecsSinceEpoch();
+
+    qint64 intervalTime = currentMilliseconds - preSliderCoilCurrentValueSetTime;
+
+    if(intervalTime >= QSLIDER_VALUE_SEND_INTERVAL_MS){
+        preSliderCoilCurrentValueSetTime = currentMilliseconds;
+        SetCoilCurrent();
+    }
+    else{
+        QTimer::singleShot(QSLIDER_VALUE_SEND_INTERVAL_MS - intervalTime, this, &MainWindow::CoilCurrentCmdDelaySend);
+    }
+}
+
+
+void MainWindow::on_verticalSlider_OutputCurrentB_valueChanged(int value)
+{
+    QDateTime currentDateTime = QDateTime::currentDateTime();
+    qint64 currentMilliseconds = currentDateTime.toMSecsSinceEpoch();
+
+    qint64 intervalTime = currentMilliseconds - preSliderCoilCurrentValueSetTime;
+    if(intervalTime >= QSLIDER_VALUE_SEND_INTERVAL_MS){
+        preSliderCoilCurrentValueSetTime = currentMilliseconds;
+        SetCoilCurrent();
+    }
+}
+
+
+
+

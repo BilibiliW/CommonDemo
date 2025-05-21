@@ -782,7 +782,7 @@ border:2px solid rgb(160, 160,160)
         <rect>
          <x>310</x>
          <y>10</y>
-         <width>363</width>
+         <width>351</width>
          <height>267</height>
         </rect>
        </property>
@@ -793,9 +793,6 @@ border:2px solid rgb(160, 160,160)
            <string>线圈电阻：</string>
           </property>
          </widget>
-        </item>
-        <item row="8" column="1">
-         <widget class="QLineEdit" name="lineEdit_OutputCurrentA"/>
         </item>
         <item row="5" column="0">
          <widget class="QLabel" name="label_PowerVol">
@@ -813,6 +810,12 @@ border:2px solid rgb(160, 160,160)
         </item>
         <item row="3" column="3">
          <widget class="QPushButton" name="pushButton_CoilVolGet">
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="text">
            <string>Get</string>
           </property>
@@ -830,6 +833,12 @@ border:2px solid rgb(160, 160,160)
         </item>
         <item row="2" column="3">
          <widget class="QPushButton" name="pushButton_CoilCurrentGet">
+          <property name="maximumSize">
+           <size>
+            <width>100</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="text">
            <string>Get</string>
           </property>
@@ -901,9 +910,6 @@ border:2px solid rgb(160, 160,160)
         </item>
         <item row="5" column="1">
          <widget class="QLineEdit" name="lineEdit_PowerVolA"/>
-        </item>
-        <item row="8" column="2">
-         <widget class="QLineEdit" name="lineEdit_OutputCurrentB"/>
         </item>
         <item row="7" column="3">
          <widget class="QPushButton" name="pushButton_InputCurrentGet">
@@ -1022,6 +1028,26 @@ border:2px solid rgb(160, 160,160)
           </item>
          </layout>
         </item>
+        <item row="8" column="1">
+         <widget class="FlexibleQDoubleSpinBox" name="widget_MyQDoubleSpinBox_OutputCurrentA" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>85</width>
+            <height>0</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="2">
+         <widget class="FlexibleQDoubleSpinBox" name="widget_MyQDoubleSpinBox_OutputCurrentB" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>85</width>
+            <height>0</height>
+           </size>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="gridLayoutWidget_3">
@@ -1034,6 +1060,16 @@ border:2px solid rgb(160, 160,160)
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_4">
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="lineEdit_BoardTemp">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+         </widget>
+        </item>
         <item row="5" column="2">
          <widget class="QPushButton" name="pushButton_ParaReadGet">
           <property name="text">
@@ -1041,22 +1077,15 @@ border:2px solid rgb(160, 160,160)
           </property>
          </widget>
         </item>
-        <item row="0" column="2">
-         <widget class="QPushButton" name="pushButton_ExcitateCurrentSet">
-          <property name="text">
-           <string>Set</string>
+        <item row="0" column="1">
+         <widget class="FlexibleQDoubleSpinBox" name="widget_MyQDoubleSpinBox_ConstCurrent" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
           </property>
          </widget>
-        </item>
-        <item row="7" column="0">
-         <widget class="QLabel" name="label_BoardStatus">
-          <property name="text">
-           <string>板卡状态：</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QLineEdit" name="lineEdit_BoardID"/>
         </item>
         <item row="0" column="0">
          <widget class="QLabel" name="label_ExcitateCurrent">
@@ -1069,6 +1098,20 @@ border:2px solid rgb(160, 160,160)
          <widget class="QLabel" name="label_ParaRestore">
           <property name="text">
            <string>参数恢复：</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label_ParaRead">
+          <property name="text">
+           <string>参数读取：</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QPushButton" name="pushButton_BoardTempGet">
+          <property name="text">
+           <string>Get</string>
           </property>
          </widget>
         </item>
@@ -1086,73 +1129,6 @@ border:2px solid rgb(160, 160,160)
           </property>
          </widget>
         </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_Reboot">
-          <property name="text">
-           <string>板卡重启：</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="0">
-         <widget class="QLabel" name="label_RefreshInterval">
-          <property name="text">
-           <string>刷新间隔：</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="2">
-         <widget class="QPushButton" name="pushButton_BoardTempGet">
-          <property name="text">
-           <string>Get</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="1">
-         <widget class="QLineEdit" name="lineEdit_RefreshInterval"/>
-        </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="label_ParaRead">
-          <property name="text">
-           <string>参数读取：</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLineEdit" name="lineEdit_BoardTemp"/>
-        </item>
-        <item row="8" column="2">
-         <widget class="QCheckBox" name="checkBox_RefreshInterval">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="autoFillBackground">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string>开启</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="2">
-         <widget class="QPushButton" name="pushButton_ParaRestoreSet">
-          <property name="text">
-           <string>Set</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="2">
-         <widget class="QPushButton" name="pushButton_RebootSet">
-          <property name="text">
-           <string>Set</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="1">
-         <widget class="QLineEdit" name="lineEdit_BoardState"/>
-        </item>
         <item row="2" column="2">
          <widget class="QPushButton" name="pushButton_BoardID_Get">
           <property name="text">
@@ -1167,6 +1143,50 @@ border:2px solid rgb(160, 160,160)
           </property>
          </widget>
         </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_Reboot">
+          <property name="text">
+           <string>板卡重启：</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QPushButton" name="pushButton_ExcitateCurrentSet">
+          <property name="text">
+           <string>Set</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="2">
+         <widget class="QLineEdit" name="lineEdit_BoardErrCode"/>
+        </item>
+        <item row="7" column="1">
+         <widget class="QLineEdit" name="lineEdit_BoardState"/>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLineEdit" name="lineEdit_BoardID"/>
+        </item>
+        <item row="3" column="2">
+         <widget class="QPushButton" name="pushButton_RebootSet">
+          <property name="text">
+           <string>Set</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="2">
+         <widget class="QPushButton" name="pushButton_ParaRestoreSet">
+          <property name="text">
+           <string>Set</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="0">
+         <widget class="QLabel" name="label_BoardStatus">
+          <property name="text">
+           <string>板卡状态：</string>
+          </property>
+         </widget>
+        </item>
         <item row="4" column="0">
          <widget class="QLabel" name="label_ParaSave">
           <property name="text">
@@ -1174,11 +1194,22 @@ border:2px solid rgb(160, 160,160)
           </property>
          </widget>
         </item>
-        <item row="7" column="2">
-         <widget class="QLineEdit" name="lineEdit_BoardErrCode"/>
+        <item row="8" column="0">
+         <widget class="QLabel" name="label_SelfCheck">
+          <property name="text">
+           <string>板卡自检：</string>
+          </property>
+         </widget>
         </item>
-        <item row="0" column="1">
-         <widget class="FlexibleQDoubleSpinBox" name="widget_MyQDoubleSpinBox_ConstCurrent" native="true"/>
+        <item row="8" column="2">
+         <widget class="QPushButton" name="pushButton_SelfCheck">
+          <property name="text">
+           <string>Set</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="1">
+         <widget class="QLineEdit" name="lineEdit_SelfCheck"/>
         </item>
        </layout>
       </widget>
@@ -1198,7 +1229,7 @@ border:2px solid rgb(160, 160,160)
       <widget class="Line" name="line_2">
        <property name="geometry">
         <rect>
-         <x>690</x>
+         <x>670</x>
          <y>0</y>
          <width>16</width>
          <height>291</height>
@@ -1237,10 +1268,10 @@ border:2px solid rgb(160, 160,160)
       <widget class="QSlider" name="verticalSlider_ConstCurrent">
        <property name="geometry">
         <rect>
-         <x>730</x>
+         <x>710</x>
          <y>40</y>
          <width>22</width>
-         <height>241</height>
+         <height>231</height>
         </rect>
        </property>
        <property name="orientation">
@@ -1250,10 +1281,10 @@ border:2px solid rgb(160, 160,160)
       <widget class="QSlider" name="verticalSlider_OutputCurrentA">
        <property name="geometry">
         <rect>
-         <x>780</x>
+         <x>770</x>
          <y>40</y>
          <width>22</width>
-         <height>241</height>
+         <height>231</height>
         </rect>
        </property>
        <property name="orientation">
@@ -1266,11 +1297,50 @@ border:2px solid rgb(160, 160,160)
          <x>830</x>
          <y>40</y>
          <width>22</width>
-         <height>241</height>
+         <height>231</height>
         </rect>
        </property>
        <property name="orientation">
         <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_ExcitateCurrent_QSlider">
+       <property name="geometry">
+        <rect>
+         <x>690</x>
+         <y>270</y>
+         <width>51</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>激励电流</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_OutputCurrent_QSlider_B">
+       <property name="geometry">
+        <rect>
+         <x>820</x>
+         <y>270</y>
+         <width>61</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>输出电流B</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_OutputCurrent_QSlider_A">
+       <property name="geometry">
+        <rect>
+         <x>750</x>
+         <y>270</y>
+         <width>61</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>输出电流A</string>
        </property>
       </widget>
      </widget>
@@ -1295,9 +1365,9 @@ border:2px solid rgb(160, 160,160)
    <widget class="QLabel" name="label_DeviceInfo">
     <property name="geometry">
      <rect>
-      <x>520</x>
+      <x>540</x>
       <y>80</y>
-      <width>391</width>
+      <width>371</width>
       <height>21</height>
      </rect>
     </property>
@@ -1385,11 +1455,89 @@ border:2px solid rgb(160, 160,160)
    <widget class="QLineEdit" name="lineEdit_ExcitateCurrent">
     <property name="geometry">
      <rect>
-      <x>770</x>
-      <y>90</y>
+      <x>380</x>
+      <y>440</y>
       <width>87</width>
       <height>21</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_OutputCurrentA">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>440</y>
+      <width>62</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_OutputCurrentB">
+    <property name="geometry">
+     <rect>
+      <x>540</x>
+      <y>440</y>
+      <width>63</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_SystemTime">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>0</y>
+      <width>121</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Time</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_RefreshInterval">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>440</y>
+      <width>60</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>刷新间隔：</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_RefreshInterval">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>440</y>
+      <width>87</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox_RefreshInterval">
+    <property name="geometry">
+     <rect>
+      <x>770</x>
+      <y>440</y>
+      <width>47</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="text">
+     <string>开启</string>
     </property>
    </widget>
    <zorder>tabWidget</zorder>
@@ -1406,6 +1554,12 @@ border:2px solid rgb(160, 160,160)
    <zorder>lineEdit_BoardCommunicateID</zorder>
    <zorder>label_BoardCommunicateID</zorder>
    <zorder>lineEdit_ExcitateCurrent</zorder>
+   <zorder>lineEdit_OutputCurrentA</zorder>
+   <zorder>lineEdit_OutputCurrentB</zorder>
+   <zorder>label_SystemTime</zorder>
+   <zorder>label_RefreshInterval</zorder>
+   <zorder>lineEdit_RefreshInterval</zorder>
+   <zorder>checkBox_RefreshInterval</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

@@ -25,7 +25,7 @@ double FlexibleQDoubleSpinBox::GetValue()
 void FlexibleQDoubleSpinBox::SetValue(double value)
 {
     myQDoubleSpinBox->setValue(value);
-    qDebug()<<"SetValue value:" + QString::number(value, 'f');
+    // qDebug()<<"SetValue value:" + QString::number(value, 'f');
 }
 
 void FlexibleQDoubleSpinBox::SlotExternUpdateFlexibleSpinBoxValue(double value)
@@ -37,7 +37,7 @@ void FlexibleQDoubleSpinBox::SlotExternUpdateFlexibleSpinBoxValue(double value)
 void FlexibleQDoubleSpinBox::SlotInnerFlexibleSpinBoxValueChange(double value)
 {
     emit SignalFlexibleSpinBoxValueChange(value);
-    qDebug()<<"SlotInnerFlexibleSpinBoxValueChange emit:" + QString::number(value, 'f');
+    // qDebug()<<"SlotInnerFlexibleSpinBoxValueChange emit:" + QString::number(value, 'f');
 }
 
 void FlexibleQDoubleSpinBox::SlotInnerUpdateFlexibleSpinBoxValue()

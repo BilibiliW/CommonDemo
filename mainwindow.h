@@ -8,6 +8,8 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QQueue>
+#include <QTimer>
+#include <QTime>
 #include <stdint.h>
 #include "./HardwareInterface/hardwareinterface.h"
 #include "./HardwareInterface/comm_serialport.h"
@@ -19,7 +21,7 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-#define SOFTWARE_VERSION " v0.0.5"
+#define SOFTWARE_VERSION " v1.0.0"
 
 // QQueue<uint8_t> RecvQueue;
 typedef union{
@@ -62,6 +64,9 @@ public:
 
     void UpdateTextLine(QByteArray, bool isRx);
     QString formatFloatToString(double value, int intWidth, int fracWidth);
+
+    void SetExcitationCurrent(float current);
+    void SetCoilCurrent(void);
 
 public slots:
     void UpdateHandShakeAck(A0_CMD_t*);
@@ -180,12 +185,34 @@ private slots:
     void flexibleQDoubleSpinBoxOutputCurrentA_ValueChange(double);
     void flexibleQDoubleSpinBoxOutputCurrentB_ValueChange(double);
 
+    void on_verticalSlider_ConstCurrent_sliderReleased();
+
+    void on_verticalSlider_ConstCurrent_valueChanged(int value);
+
+    void UpdateSysClock();
+    void ExcitateCurrentCmdDelaySend();
+    void CoilCurrentCmdDelaySend();
+
+    void on_verticalSlider_OutputCurrentA_sliderReleased();
+
+    void on_verticalSlider_OutputCurrentA_valueChanged(int value);
+
+    void on_verticalSlider_OutputCurrentB_sliderReleased();
+
+    void on_verticalSlider_OutputCurrentB_valueChanged(int value);
+
+    void on_pushButton_SelfCheck_clicked();
+
 private:
     Ui::MainWindow *ui;
     HardwareInterface hard_interface;
     Protocol* protocol;
     QThread* subThread;
     QMap<QString, QTableWidget*> tableMap;
+    QTimer* sysClockTimer;
+    // QTimer* cmdDelayTimer;
+    qint64 preSliderExcitateCurrentValueSetTime;
+    qint64 preSliderCoilCurrentValueSetTime;
 };
 
 #endif // MAINWINDOW_H
