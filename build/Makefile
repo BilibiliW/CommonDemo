@@ -330,6 +330,7 @@ Makefile: ../Demo.pro D:/ProfessionalSoftware/QT/6.5.3/mingw_64/mkspecs/win32-g+
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/mkspecs/features/qt_config.prf \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/mkspecs/win32-g++/qmake.conf \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/mkspecs/features/exclusive_builds.prf \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/mkspecs/features/toolchain.prf \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/mkspecs/features/default_pre.prf \
@@ -362,7 +363,6 @@ Makefile: ../Demo.pro D:/ProfessionalSoftware/QT/6.5.3/mingw_64/mkspecs/win32-g+
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/lib/Qt6SerialPort.prl \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/lib/Qt6Core.prl \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/lib/Qt6EntryPoint.prl \
-		.qmake.stash \
 		D:/ProfessionalSoftware/QT/6.5.3/mingw_64/mkspecs/features/build_pass.prf
 	$(QMAKE) -o Makefile ..\Demo.pro -spec win32-g++ "CONFIG+=qtquickcompiler"
 D:/ProfessionalSoftware/QT/6.5.3/mingw_64/mkspecs/features/spec_pre.prf:
@@ -625,6 +625,7 @@ D:/ProfessionalSoftware/QT/6.5.3/mingw_64/mkspecs/features/qt_functions.prf:
 D:/ProfessionalSoftware/QT/6.5.3/mingw_64/mkspecs/features/qt_config.prf:
 D:/ProfessionalSoftware/QT/6.5.3/mingw_64/mkspecs/win32-g++/qmake.conf:
 D:/ProfessionalSoftware/QT/6.5.3/mingw_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 D:/ProfessionalSoftware/QT/6.5.3/mingw_64/mkspecs/features/exclusive_builds.prf:
 D:/ProfessionalSoftware/QT/6.5.3/mingw_64/mkspecs/features/toolchain.prf:
 D:/ProfessionalSoftware/QT/6.5.3/mingw_64/mkspecs/features/default_pre.prf:
@@ -657,7 +658,6 @@ D:/ProfessionalSoftware/QT/6.5.3/mingw_64/lib/Qt6Network.prl:
 D:/ProfessionalSoftware/QT/6.5.3/mingw_64/lib/Qt6SerialPort.prl:
 D:/ProfessionalSoftware/QT/6.5.3/mingw_64/lib/Qt6Core.prl:
 D:/ProfessionalSoftware/QT/6.5.3/mingw_64/lib/Qt6EntryPoint.prl:
-.qmake.stash:
 D:/ProfessionalSoftware/QT/6.5.3/mingw_64/mkspecs/features/build_pass.prf:
 qmake: FORCE
 	@$(QMAKE) -o Makefile ..\Demo.pro -spec win32-g++ "CONFIG+=qtquickcompiler"

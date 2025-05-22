@@ -9,6 +9,7 @@
 #ifndef UI_MAINWINDOW_H
 #define UI_MAINWINDOW_H
 
+#include <FlexibleQDoubleSpinBox.h>
 #include <QtCore/QVariant>
 #include <QtGui/QAction>
 #include <QtWidgets/QApplication>
@@ -119,7 +120,6 @@ public:
     QWidget *gridLayoutWidget_2;
     QGridLayout *gridLayout_3;
     QLabel *label_CoilResist;
-    QLineEdit *lineEdit_OutputCurrentA;
     QLabel *label_PowerVol;
     QLabel *label_CoilVol;
     QPushButton *pushButton_CoilVolGet;
@@ -143,7 +143,6 @@ public:
     QLineEdit *lineEdit_CoilVolB;
     QLineEdit *lineEdit_CoilCurrentCoefA;
     QLineEdit *lineEdit_PowerVolA;
-    QLineEdit *lineEdit_OutputCurrentB;
     QPushButton *pushButton_InputCurrentGet;
     QLabel *label_CoilVolCoef;
     QLineEdit *lineEdit_CoilVolCoefA;
@@ -164,43 +163,48 @@ public:
     QHBoxLayout *horizontalLayout_10;
     QPushButton *pushButton_OutputCurrentSet;
     QPushButton *pushButton_OutputCurrentGet;
+    FlexibleQDoubleSpinBox *widget_MyQDoubleSpinBox_OutputCurrentA;
+    FlexibleQDoubleSpinBox *widget_MyQDoubleSpinBox_OutputCurrentB;
     QWidget *gridLayoutWidget_3;
     QGridLayout *gridLayout_4;
+    QLineEdit *lineEdit_BoardTemp;
     QPushButton *pushButton_ParaReadGet;
-    QPushButton *pushButton_ExcitateCurrentSet;
-    QLineEdit *lineEdit_ExcitateCurrent;
-    QLabel *label_BoardStatus;
-    QLineEdit *lineEdit_BoardID;
+    FlexibleQDoubleSpinBox *widget_MyQDoubleSpinBox_ConstCurrent;
     QLabel *label_ExcitateCurrent;
     QLabel *label_ParaRestore;
+    QLabel *label_ParaRead;
+    QPushButton *pushButton_BoardTempGet;
     QLabel *label_BoardID;
     QLabel *label_BoardTemp;
-    QLabel *label_Reboot;
-    QLabel *label_RefreshInterval;
-    QPushButton *pushButton_BoardTempGet;
-    QLineEdit *lineEdit_RefreshInterval;
-    QLabel *label_ParaRead;
-    QLineEdit *lineEdit_BoardTemp;
-    QCheckBox *checkBox_RefreshInterval;
-    QPushButton *pushButton_ParaRestoreSet;
-    QPushButton *pushButton_RebootSet;
-    QLineEdit *lineEdit_BoardState;
     QPushButton *pushButton_BoardID_Get;
     QPushButton *pushButton_ParaSaveSet;
-    QLabel *label_ParaSave;
+    QLabel *label_Reboot;
+    QPushButton *pushButton_ExcitateCurrentSet;
     QLineEdit *lineEdit_BoardErrCode;
+    QLineEdit *lineEdit_BoardState;
+    QLineEdit *lineEdit_BoardID;
+    QPushButton *pushButton_RebootSet;
+    QPushButton *pushButton_ParaRestoreSet;
+    QLabel *label_BoardStatus;
+    QLabel *label_ParaSave;
+    QLabel *label_SelfCheck;
+    QPushButton *pushButton_SelfCheck;
+    QLineEdit *lineEdit_SelfCheck;
     QFrame *line;
     QFrame *line_2;
     QPushButton *pushButton_DeviceInfo;
     QPushButton *pushButton_FirmVersion;
-    QSlider *verticalSlider;
-    QSlider *verticalSlider_2;
-    QSlider *verticalSlider_3;
+    QSlider *verticalSlider_ConstCurrent;
+    QSlider *verticalSlider_OutputCurrentA;
+    QSlider *verticalSlider_OutputCurrentB;
+    QLabel *label_ExcitateCurrent_QSlider;
+    QLabel *label_OutputCurrent_QSlider_B;
+    QLabel *label_OutputCurrent_QSlider_A;
     QLabel *label_FirmVersion;
     QLabel *label_DeviceInfo;
     QLabel *label_BoardCommunicateID;
     QLineEdit *lineEdit_BoardCommunicateID;
-    QWidget *widget;
+    QWidget *layoutWidget3;
     QHBoxLayout *horizontalLayout_11;
     QHBoxLayout *horizontalLayout_2;
     QPushButton *pushButton_AddCmd;
@@ -208,6 +212,13 @@ public:
     QPushButton *pushButton_AddMod;
     QPushButton *pushButton_DelMod;
     QPushButton *pushButton_Save;
+    QLineEdit *lineEdit_ExcitateCurrent;
+    QLineEdit *lineEdit_OutputCurrentA;
+    QLineEdit *lineEdit_OutputCurrentB;
+    QLabel *label_SystemTime;
+    QLabel *label_RefreshInterval;
+    QLineEdit *lineEdit_RefreshInterval;
+    QCheckBox *checkBox_RefreshInterval;
     QMenuBar *menubar;
     QMenu *menuDemo;
     QStatusBar *statusBar;
@@ -623,7 +634,7 @@ public:
         frame_2->setFrameShadow(QFrame::Raised);
         gridLayoutWidget_2 = new QWidget(frame_2);
         gridLayoutWidget_2->setObjectName("gridLayoutWidget_2");
-        gridLayoutWidget_2->setGeometry(QRect(310, 10, 363, 267));
+        gridLayoutWidget_2->setGeometry(QRect(310, 10, 351, 267));
         gridLayout_3 = new QGridLayout(gridLayoutWidget_2);
         gridLayout_3->setObjectName("gridLayout_3");
         gridLayout_3->setContentsMargins(0, 0, 0, 0);
@@ -631,11 +642,6 @@ public:
         label_CoilResist->setObjectName("label_CoilResist");
 
         gridLayout_3->addWidget(label_CoilResist, 4, 0, 1, 1);
-
-        lineEdit_OutputCurrentA = new QLineEdit(gridLayoutWidget_2);
-        lineEdit_OutputCurrentA->setObjectName("lineEdit_OutputCurrentA");
-
-        gridLayout_3->addWidget(lineEdit_OutputCurrentA, 8, 1, 1, 1);
 
         label_PowerVol = new QLabel(gridLayoutWidget_2);
         label_PowerVol->setObjectName("label_PowerVol");
@@ -649,6 +655,7 @@ public:
 
         pushButton_CoilVolGet = new QPushButton(gridLayoutWidget_2);
         pushButton_CoilVolGet->setObjectName("pushButton_CoilVolGet");
+        pushButton_CoilVolGet->setMaximumSize(QSize(100, 16777215));
 
         gridLayout_3->addWidget(pushButton_CoilVolGet, 3, 3, 1, 1);
 
@@ -664,6 +671,7 @@ public:
 
         pushButton_CoilCurrentGet = new QPushButton(gridLayoutWidget_2);
         pushButton_CoilCurrentGet->setObjectName("pushButton_CoilCurrentGet");
+        pushButton_CoilCurrentGet->setMaximumSize(QSize(100, 16777215));
 
         gridLayout_3->addWidget(pushButton_CoilCurrentGet, 2, 3, 1, 1);
 
@@ -751,11 +759,6 @@ public:
         lineEdit_PowerVolA->setObjectName("lineEdit_PowerVolA");
 
         gridLayout_3->addWidget(lineEdit_PowerVolA, 5, 1, 1, 1);
-
-        lineEdit_OutputCurrentB = new QLineEdit(gridLayoutWidget_2);
-        lineEdit_OutputCurrentB->setObjectName("lineEdit_OutputCurrentB");
-
-        gridLayout_3->addWidget(lineEdit_OutputCurrentB, 8, 2, 1, 1);
 
         pushButton_InputCurrentGet = new QPushButton(gridLayoutWidget_2);
         pushButton_InputCurrentGet->setObjectName("pushButton_InputCurrentGet");
@@ -857,36 +860,40 @@ public:
 
         gridLayout_3->addLayout(horizontalLayout_10, 8, 3, 1, 1);
 
+        widget_MyQDoubleSpinBox_OutputCurrentA = new FlexibleQDoubleSpinBox(gridLayoutWidget_2);
+        widget_MyQDoubleSpinBox_OutputCurrentA->setObjectName("widget_MyQDoubleSpinBox_OutputCurrentA");
+        widget_MyQDoubleSpinBox_OutputCurrentA->setMinimumSize(QSize(85, 0));
+
+        gridLayout_3->addWidget(widget_MyQDoubleSpinBox_OutputCurrentA, 8, 1, 1, 1);
+
+        widget_MyQDoubleSpinBox_OutputCurrentB = new FlexibleQDoubleSpinBox(gridLayoutWidget_2);
+        widget_MyQDoubleSpinBox_OutputCurrentB->setObjectName("widget_MyQDoubleSpinBox_OutputCurrentB");
+        widget_MyQDoubleSpinBox_OutputCurrentB->setMinimumSize(QSize(85, 0));
+
+        gridLayout_3->addWidget(widget_MyQDoubleSpinBox_OutputCurrentB, 8, 2, 1, 1);
+
         gridLayoutWidget_3 = new QWidget(frame_2);
         gridLayoutWidget_3->setObjectName("gridLayoutWidget_3");
         gridLayoutWidget_3->setGeometry(QRect(20, 10, 249, 271));
         gridLayout_4 = new QGridLayout(gridLayoutWidget_3);
         gridLayout_4->setObjectName("gridLayout_4");
         gridLayout_4->setContentsMargins(0, 0, 0, 0);
+        lineEdit_BoardTemp = new QLineEdit(gridLayoutWidget_3);
+        lineEdit_BoardTemp->setObjectName("lineEdit_BoardTemp");
+        lineEdit_BoardTemp->setMinimumSize(QSize(0, 0));
+
+        gridLayout_4->addWidget(lineEdit_BoardTemp, 1, 1, 1, 1);
+
         pushButton_ParaReadGet = new QPushButton(gridLayoutWidget_3);
         pushButton_ParaReadGet->setObjectName("pushButton_ParaReadGet");
 
         gridLayout_4->addWidget(pushButton_ParaReadGet, 5, 2, 1, 1);
 
-        pushButton_ExcitateCurrentSet = new QPushButton(gridLayoutWidget_3);
-        pushButton_ExcitateCurrentSet->setObjectName("pushButton_ExcitateCurrentSet");
+        widget_MyQDoubleSpinBox_ConstCurrent = new FlexibleQDoubleSpinBox(gridLayoutWidget_3);
+        widget_MyQDoubleSpinBox_ConstCurrent->setObjectName("widget_MyQDoubleSpinBox_ConstCurrent");
+        widget_MyQDoubleSpinBox_ConstCurrent->setMinimumSize(QSize(0, 0));
 
-        gridLayout_4->addWidget(pushButton_ExcitateCurrentSet, 0, 2, 1, 1);
-
-        lineEdit_ExcitateCurrent = new QLineEdit(gridLayoutWidget_3);
-        lineEdit_ExcitateCurrent->setObjectName("lineEdit_ExcitateCurrent");
-
-        gridLayout_4->addWidget(lineEdit_ExcitateCurrent, 0, 1, 1, 1);
-
-        label_BoardStatus = new QLabel(gridLayoutWidget_3);
-        label_BoardStatus->setObjectName("label_BoardStatus");
-
-        gridLayout_4->addWidget(label_BoardStatus, 7, 0, 1, 1);
-
-        lineEdit_BoardID = new QLineEdit(gridLayoutWidget_3);
-        lineEdit_BoardID->setObjectName("lineEdit_BoardID");
-
-        gridLayout_4->addWidget(lineEdit_BoardID, 2, 1, 1, 1);
+        gridLayout_4->addWidget(widget_MyQDoubleSpinBox_ConstCurrent, 0, 1, 1, 1);
 
         label_ExcitateCurrent = new QLabel(gridLayoutWidget_3);
         label_ExcitateCurrent->setObjectName("label_ExcitateCurrent");
@@ -898,6 +905,16 @@ public:
 
         gridLayout_4->addWidget(label_ParaRestore, 6, 0, 1, 1);
 
+        label_ParaRead = new QLabel(gridLayoutWidget_3);
+        label_ParaRead->setObjectName("label_ParaRead");
+
+        gridLayout_4->addWidget(label_ParaRead, 5, 0, 1, 1);
+
+        pushButton_BoardTempGet = new QPushButton(gridLayoutWidget_3);
+        pushButton_BoardTempGet->setObjectName("pushButton_BoardTempGet");
+
+        gridLayout_4->addWidget(pushButton_BoardTempGet, 1, 2, 1, 1);
+
         label_BoardID = new QLabel(gridLayoutWidget_3);
         label_BoardID->setObjectName("label_BoardID");
 
@@ -907,62 +924,6 @@ public:
         label_BoardTemp->setObjectName("label_BoardTemp");
 
         gridLayout_4->addWidget(label_BoardTemp, 1, 0, 1, 1);
-
-        label_Reboot = new QLabel(gridLayoutWidget_3);
-        label_Reboot->setObjectName("label_Reboot");
-
-        gridLayout_4->addWidget(label_Reboot, 3, 0, 1, 1);
-
-        label_RefreshInterval = new QLabel(gridLayoutWidget_3);
-        label_RefreshInterval->setObjectName("label_RefreshInterval");
-
-        gridLayout_4->addWidget(label_RefreshInterval, 8, 0, 1, 1);
-
-        pushButton_BoardTempGet = new QPushButton(gridLayoutWidget_3);
-        pushButton_BoardTempGet->setObjectName("pushButton_BoardTempGet");
-
-        gridLayout_4->addWidget(pushButton_BoardTempGet, 1, 2, 1, 1);
-
-        lineEdit_RefreshInterval = new QLineEdit(gridLayoutWidget_3);
-        lineEdit_RefreshInterval->setObjectName("lineEdit_RefreshInterval");
-
-        gridLayout_4->addWidget(lineEdit_RefreshInterval, 8, 1, 1, 1);
-
-        label_ParaRead = new QLabel(gridLayoutWidget_3);
-        label_ParaRead->setObjectName("label_ParaRead");
-
-        gridLayout_4->addWidget(label_ParaRead, 5, 0, 1, 1);
-
-        lineEdit_BoardTemp = new QLineEdit(gridLayoutWidget_3);
-        lineEdit_BoardTemp->setObjectName("lineEdit_BoardTemp");
-
-        gridLayout_4->addWidget(lineEdit_BoardTemp, 1, 1, 1, 1);
-
-        checkBox_RefreshInterval = new QCheckBox(gridLayoutWidget_3);
-        checkBox_RefreshInterval->setObjectName("checkBox_RefreshInterval");
-        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(checkBox_RefreshInterval->sizePolicy().hasHeightForWidth());
-        checkBox_RefreshInterval->setSizePolicy(sizePolicy);
-        checkBox_RefreshInterval->setAutoFillBackground(false);
-
-        gridLayout_4->addWidget(checkBox_RefreshInterval, 8, 2, 1, 1);
-
-        pushButton_ParaRestoreSet = new QPushButton(gridLayoutWidget_3);
-        pushButton_ParaRestoreSet->setObjectName("pushButton_ParaRestoreSet");
-
-        gridLayout_4->addWidget(pushButton_ParaRestoreSet, 6, 2, 1, 1);
-
-        pushButton_RebootSet = new QPushButton(gridLayoutWidget_3);
-        pushButton_RebootSet->setObjectName("pushButton_RebootSet");
-
-        gridLayout_4->addWidget(pushButton_RebootSet, 3, 2, 1, 1);
-
-        lineEdit_BoardState = new QLineEdit(gridLayoutWidget_3);
-        lineEdit_BoardState->setObjectName("lineEdit_BoardState");
-
-        gridLayout_4->addWidget(lineEdit_BoardState, 7, 1, 1, 1);
 
         pushButton_BoardID_Get = new QPushButton(gridLayoutWidget_3);
         pushButton_BoardID_Get->setObjectName("pushButton_BoardID_Get");
@@ -974,15 +935,65 @@ public:
 
         gridLayout_4->addWidget(pushButton_ParaSaveSet, 4, 2, 1, 1);
 
-        label_ParaSave = new QLabel(gridLayoutWidget_3);
-        label_ParaSave->setObjectName("label_ParaSave");
+        label_Reboot = new QLabel(gridLayoutWidget_3);
+        label_Reboot->setObjectName("label_Reboot");
 
-        gridLayout_4->addWidget(label_ParaSave, 4, 0, 1, 1);
+        gridLayout_4->addWidget(label_Reboot, 3, 0, 1, 1);
+
+        pushButton_ExcitateCurrentSet = new QPushButton(gridLayoutWidget_3);
+        pushButton_ExcitateCurrentSet->setObjectName("pushButton_ExcitateCurrentSet");
+
+        gridLayout_4->addWidget(pushButton_ExcitateCurrentSet, 0, 2, 1, 1);
 
         lineEdit_BoardErrCode = new QLineEdit(gridLayoutWidget_3);
         lineEdit_BoardErrCode->setObjectName("lineEdit_BoardErrCode");
 
         gridLayout_4->addWidget(lineEdit_BoardErrCode, 7, 2, 1, 1);
+
+        lineEdit_BoardState = new QLineEdit(gridLayoutWidget_3);
+        lineEdit_BoardState->setObjectName("lineEdit_BoardState");
+
+        gridLayout_4->addWidget(lineEdit_BoardState, 7, 1, 1, 1);
+
+        lineEdit_BoardID = new QLineEdit(gridLayoutWidget_3);
+        lineEdit_BoardID->setObjectName("lineEdit_BoardID");
+
+        gridLayout_4->addWidget(lineEdit_BoardID, 2, 1, 1, 1);
+
+        pushButton_RebootSet = new QPushButton(gridLayoutWidget_3);
+        pushButton_RebootSet->setObjectName("pushButton_RebootSet");
+
+        gridLayout_4->addWidget(pushButton_RebootSet, 3, 2, 1, 1);
+
+        pushButton_ParaRestoreSet = new QPushButton(gridLayoutWidget_3);
+        pushButton_ParaRestoreSet->setObjectName("pushButton_ParaRestoreSet");
+
+        gridLayout_4->addWidget(pushButton_ParaRestoreSet, 6, 2, 1, 1);
+
+        label_BoardStatus = new QLabel(gridLayoutWidget_3);
+        label_BoardStatus->setObjectName("label_BoardStatus");
+
+        gridLayout_4->addWidget(label_BoardStatus, 7, 0, 1, 1);
+
+        label_ParaSave = new QLabel(gridLayoutWidget_3);
+        label_ParaSave->setObjectName("label_ParaSave");
+
+        gridLayout_4->addWidget(label_ParaSave, 4, 0, 1, 1);
+
+        label_SelfCheck = new QLabel(gridLayoutWidget_3);
+        label_SelfCheck->setObjectName("label_SelfCheck");
+
+        gridLayout_4->addWidget(label_SelfCheck, 8, 0, 1, 1);
+
+        pushButton_SelfCheck = new QPushButton(gridLayoutWidget_3);
+        pushButton_SelfCheck->setObjectName("pushButton_SelfCheck");
+
+        gridLayout_4->addWidget(pushButton_SelfCheck, 8, 2, 1, 1);
+
+        lineEdit_SelfCheck = new QLineEdit(gridLayoutWidget_3);
+        lineEdit_SelfCheck->setObjectName("lineEdit_SelfCheck");
+
+        gridLayout_4->addWidget(lineEdit_SelfCheck, 8, 1, 1, 1);
 
         line = new QFrame(frame_2);
         line->setObjectName("line");
@@ -991,7 +1002,7 @@ public:
         line->setFrameShadow(QFrame::Sunken);
         line_2 = new QFrame(frame_2);
         line_2->setObjectName("line_2");
-        line_2->setGeometry(QRect(690, 0, 16, 291));
+        line_2->setGeometry(QRect(670, 0, 16, 291));
         line_2->setFrameShape(QFrame::VLine);
         line_2->setFrameShadow(QFrame::Sunken);
         pushButton_DeviceInfo = new QPushButton(frame_2);
@@ -1000,18 +1011,27 @@ public:
         pushButton_FirmVersion = new QPushButton(frame_2);
         pushButton_FirmVersion->setObjectName("pushButton_FirmVersion");
         pushButton_FirmVersion->setGeometry(QRect(790, 10, 75, 23));
-        verticalSlider = new QSlider(frame_2);
-        verticalSlider->setObjectName("verticalSlider");
-        verticalSlider->setGeometry(QRect(750, 40, 22, 241));
-        verticalSlider->setOrientation(Qt::Vertical);
-        verticalSlider_2 = new QSlider(frame_2);
-        verticalSlider_2->setObjectName("verticalSlider_2");
-        verticalSlider_2->setGeometry(QRect(790, 40, 22, 241));
-        verticalSlider_2->setOrientation(Qt::Vertical);
-        verticalSlider_3 = new QSlider(frame_2);
-        verticalSlider_3->setObjectName("verticalSlider_3");
-        verticalSlider_3->setGeometry(QRect(830, 40, 22, 241));
-        verticalSlider_3->setOrientation(Qt::Vertical);
+        verticalSlider_ConstCurrent = new QSlider(frame_2);
+        verticalSlider_ConstCurrent->setObjectName("verticalSlider_ConstCurrent");
+        verticalSlider_ConstCurrent->setGeometry(QRect(710, 40, 22, 231));
+        verticalSlider_ConstCurrent->setOrientation(Qt::Vertical);
+        verticalSlider_OutputCurrentA = new QSlider(frame_2);
+        verticalSlider_OutputCurrentA->setObjectName("verticalSlider_OutputCurrentA");
+        verticalSlider_OutputCurrentA->setGeometry(QRect(770, 40, 22, 231));
+        verticalSlider_OutputCurrentA->setOrientation(Qt::Vertical);
+        verticalSlider_OutputCurrentB = new QSlider(frame_2);
+        verticalSlider_OutputCurrentB->setObjectName("verticalSlider_OutputCurrentB");
+        verticalSlider_OutputCurrentB->setGeometry(QRect(830, 40, 22, 231));
+        verticalSlider_OutputCurrentB->setOrientation(Qt::Vertical);
+        label_ExcitateCurrent_QSlider = new QLabel(frame_2);
+        label_ExcitateCurrent_QSlider->setObjectName("label_ExcitateCurrent_QSlider");
+        label_ExcitateCurrent_QSlider->setGeometry(QRect(690, 270, 51, 21));
+        label_OutputCurrent_QSlider_B = new QLabel(frame_2);
+        label_OutputCurrent_QSlider_B->setObjectName("label_OutputCurrent_QSlider_B");
+        label_OutputCurrent_QSlider_B->setGeometry(QRect(820, 270, 61, 21));
+        label_OutputCurrent_QSlider_A = new QLabel(frame_2);
+        label_OutputCurrent_QSlider_A->setObjectName("label_OutputCurrent_QSlider_A");
+        label_OutputCurrent_QSlider_A->setGeometry(QRect(750, 270, 61, 20));
         tabWidget->addTab(tab_5, QString());
         label_FirmVersion = new QLabel(centralwidget);
         label_FirmVersion->setObjectName("label_FirmVersion");
@@ -1019,7 +1039,7 @@ public:
         label_FirmVersion->setStyleSheet(QString::fromUtf8(""));
         label_DeviceInfo = new QLabel(centralwidget);
         label_DeviceInfo->setObjectName("label_DeviceInfo");
-        label_DeviceInfo->setGeometry(QRect(520, 80, 391, 21));
+        label_DeviceInfo->setGeometry(QRect(540, 80, 371, 21));
         label_DeviceInfo->setStyleSheet(QString::fromUtf8(""));
         label_BoardCommunicateID = new QLabel(centralwidget);
         label_BoardCommunicateID->setObjectName("label_BoardCommunicateID");
@@ -1027,35 +1047,35 @@ public:
         lineEdit_BoardCommunicateID = new QLineEdit(centralwidget);
         lineEdit_BoardCommunicateID->setObjectName("lineEdit_BoardCommunicateID");
         lineEdit_BoardCommunicateID->setGeometry(QRect(970, 80, 41, 21));
-        widget = new QWidget(centralwidget);
-        widget->setObjectName("widget");
-        widget->setGeometry(QRect(130, 80, 381, 27));
-        horizontalLayout_11 = new QHBoxLayout(widget);
+        layoutWidget3 = new QWidget(centralwidget);
+        layoutWidget3->setObjectName("layoutWidget3");
+        layoutWidget3->setGeometry(QRect(130, 80, 403, 27));
+        horizontalLayout_11 = new QHBoxLayout(layoutWidget3);
         horizontalLayout_11->setObjectName("horizontalLayout_11");
         horizontalLayout_11->setContentsMargins(0, 0, 0, 0);
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName("horizontalLayout_2");
-        pushButton_AddCmd = new QPushButton(widget);
+        pushButton_AddCmd = new QPushButton(layoutWidget3);
         pushButton_AddCmd->setObjectName("pushButton_AddCmd");
 
         horizontalLayout_2->addWidget(pushButton_AddCmd);
 
-        pushButton_DelCmd = new QPushButton(widget);
+        pushButton_DelCmd = new QPushButton(layoutWidget3);
         pushButton_DelCmd->setObjectName("pushButton_DelCmd");
 
         horizontalLayout_2->addWidget(pushButton_DelCmd);
 
-        pushButton_AddMod = new QPushButton(widget);
+        pushButton_AddMod = new QPushButton(layoutWidget3);
         pushButton_AddMod->setObjectName("pushButton_AddMod");
 
         horizontalLayout_2->addWidget(pushButton_AddMod);
 
-        pushButton_DelMod = new QPushButton(widget);
+        pushButton_DelMod = new QPushButton(layoutWidget3);
         pushButton_DelMod->setObjectName("pushButton_DelMod");
 
         horizontalLayout_2->addWidget(pushButton_DelMod);
 
-        pushButton_Save = new QPushButton(widget);
+        pushButton_Save = new QPushButton(layoutWidget3);
         pushButton_Save->setObjectName("pushButton_Save");
 
         horizontalLayout_2->addWidget(pushButton_Save);
@@ -1063,6 +1083,33 @@ public:
 
         horizontalLayout_11->addLayout(horizontalLayout_2);
 
+        lineEdit_ExcitateCurrent = new QLineEdit(centralwidget);
+        lineEdit_ExcitateCurrent->setObjectName("lineEdit_ExcitateCurrent");
+        lineEdit_ExcitateCurrent->setGeometry(QRect(380, 440, 87, 21));
+        lineEdit_OutputCurrentA = new QLineEdit(centralwidget);
+        lineEdit_OutputCurrentA->setObjectName("lineEdit_OutputCurrentA");
+        lineEdit_OutputCurrentA->setGeometry(QRect(470, 440, 62, 21));
+        lineEdit_OutputCurrentB = new QLineEdit(centralwidget);
+        lineEdit_OutputCurrentB->setObjectName("lineEdit_OutputCurrentB");
+        lineEdit_OutputCurrentB->setGeometry(QRect(540, 440, 63, 21));
+        label_SystemTime = new QLabel(centralwidget);
+        label_SystemTime->setObjectName("label_SystemTime");
+        label_SystemTime->setGeometry(QRect(890, 0, 121, 16));
+        label_RefreshInterval = new QLabel(centralwidget);
+        label_RefreshInterval->setObjectName("label_RefreshInterval");
+        label_RefreshInterval->setGeometry(QRect(610, 440, 60, 21));
+        lineEdit_RefreshInterval = new QLineEdit(centralwidget);
+        lineEdit_RefreshInterval->setObjectName("lineEdit_RefreshInterval");
+        lineEdit_RefreshInterval->setGeometry(QRect(670, 440, 87, 21));
+        checkBox_RefreshInterval = new QCheckBox(centralwidget);
+        checkBox_RefreshInterval->setObjectName("checkBox_RefreshInterval");
+        checkBox_RefreshInterval->setGeometry(QRect(770, 440, 47, 19));
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(checkBox_RefreshInterval->sizePolicy().hasHeightForWidth());
+        checkBox_RefreshInterval->setSizePolicy(sizePolicy);
+        checkBox_RefreshInterval->setAutoFillBackground(false);
         MainWindow->setCentralWidget(centralwidget);
         tabWidget->raise();
         Communication->raise();
@@ -1075,10 +1122,15 @@ public:
         label_Version->raise();
         label_FirmVersion->raise();
         label_DeviceInfo->raise();
-        label_BoardCommunicateID->raise();
-        lineEdit_BoardCommunicateID->raise();
         lineEdit_BoardCommunicateID->raise();
         label_BoardCommunicateID->raise();
+        lineEdit_ExcitateCurrent->raise();
+        lineEdit_OutputCurrentA->raise();
+        lineEdit_OutputCurrentB->raise();
+        label_SystemTime->raise();
+        label_RefreshInterval->raise();
+        lineEdit_RefreshInterval->raise();
+        checkBox_RefreshInterval->raise();
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
         menubar->setGeometry(QRect(0, 0, 1031, 21));
@@ -1198,24 +1250,27 @@ public:
         pushButton_OutputCurrentSet->setText(QCoreApplication::translate("MainWindow", "Set", nullptr));
         pushButton_OutputCurrentGet->setText(QCoreApplication::translate("MainWindow", "Get", nullptr));
         pushButton_ParaReadGet->setText(QCoreApplication::translate("MainWindow", "Get", nullptr));
-        pushButton_ExcitateCurrentSet->setText(QCoreApplication::translate("MainWindow", "Set", nullptr));
-        label_BoardStatus->setText(QCoreApplication::translate("MainWindow", "\346\235\277\345\215\241\347\212\266\346\200\201\357\274\232", nullptr));
         label_ExcitateCurrent->setText(QCoreApplication::translate("MainWindow", "\346\277\200\345\212\261\347\224\265\346\265\201\357\274\232", nullptr));
         label_ParaRestore->setText(QCoreApplication::translate("MainWindow", "\345\217\202\346\225\260\346\201\242\345\244\215\357\274\232", nullptr));
+        label_ParaRead->setText(QCoreApplication::translate("MainWindow", "\345\217\202\346\225\260\350\257\273\345\217\226\357\274\232", nullptr));
+        pushButton_BoardTempGet->setText(QCoreApplication::translate("MainWindow", "Get", nullptr));
         label_BoardID->setText(QCoreApplication::translate("MainWindow", "\346\235\277\345\215\241ID  \357\274\232", nullptr));
         label_BoardTemp->setText(QCoreApplication::translate("MainWindow", "\346\235\277\345\215\241\346\270\251\345\272\246\357\274\232", nullptr));
-        label_Reboot->setText(QCoreApplication::translate("MainWindow", "\346\235\277\345\215\241\351\207\215\345\220\257\357\274\232", nullptr));
-        label_RefreshInterval->setText(QCoreApplication::translate("MainWindow", "\345\210\267\346\226\260\351\227\264\351\232\224\357\274\232", nullptr));
-        pushButton_BoardTempGet->setText(QCoreApplication::translate("MainWindow", "Get", nullptr));
-        label_ParaRead->setText(QCoreApplication::translate("MainWindow", "\345\217\202\346\225\260\350\257\273\345\217\226\357\274\232", nullptr));
-        checkBox_RefreshInterval->setText(QCoreApplication::translate("MainWindow", "\345\274\200\345\220\257", nullptr));
-        pushButton_ParaRestoreSet->setText(QCoreApplication::translate("MainWindow", "Set", nullptr));
-        pushButton_RebootSet->setText(QCoreApplication::translate("MainWindow", "Set", nullptr));
         pushButton_BoardID_Get->setText(QCoreApplication::translate("MainWindow", "Get", nullptr));
         pushButton_ParaSaveSet->setText(QCoreApplication::translate("MainWindow", "Set", nullptr));
+        label_Reboot->setText(QCoreApplication::translate("MainWindow", "\346\235\277\345\215\241\351\207\215\345\220\257\357\274\232", nullptr));
+        pushButton_ExcitateCurrentSet->setText(QCoreApplication::translate("MainWindow", "Set", nullptr));
+        pushButton_RebootSet->setText(QCoreApplication::translate("MainWindow", "Set", nullptr));
+        pushButton_ParaRestoreSet->setText(QCoreApplication::translate("MainWindow", "Set", nullptr));
+        label_BoardStatus->setText(QCoreApplication::translate("MainWindow", "\346\235\277\345\215\241\347\212\266\346\200\201\357\274\232", nullptr));
         label_ParaSave->setText(QCoreApplication::translate("MainWindow", "\345\217\202\346\225\260\344\277\235\345\255\230\357\274\232", nullptr));
+        label_SelfCheck->setText(QCoreApplication::translate("MainWindow", "\346\235\277\345\215\241\350\207\252\346\243\200\357\274\232", nullptr));
+        pushButton_SelfCheck->setText(QCoreApplication::translate("MainWindow", "Set", nullptr));
         pushButton_DeviceInfo->setText(QCoreApplication::translate("MainWindow", "DeviceInfo", nullptr));
         pushButton_FirmVersion->setText(QCoreApplication::translate("MainWindow", "FirmVersion", nullptr));
+        label_ExcitateCurrent_QSlider->setText(QCoreApplication::translate("MainWindow", "\346\277\200\345\212\261\347\224\265\346\265\201", nullptr));
+        label_OutputCurrent_QSlider_B->setText(QCoreApplication::translate("MainWindow", "\350\276\223\345\207\272\347\224\265\346\265\201B", nullptr));
+        label_OutputCurrent_QSlider_A->setText(QCoreApplication::translate("MainWindow", "\350\276\223\345\207\272\347\224\265\346\265\201A", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_5), QCoreApplication::translate("MainWindow", "\347\263\273\347\273\237\350\260\203\350\257\225", nullptr));
         label_FirmVersion->setText(QCoreApplication::translate("MainWindow", "Firmware:", nullptr));
         label_DeviceInfo->setText(QCoreApplication::translate("MainWindow", "DeviceInfo:", nullptr));
@@ -1225,6 +1280,9 @@ public:
         pushButton_AddMod->setText(QCoreApplication::translate("MainWindow", "\346\226\260\345\242\236\346\250\241\345\235\227", nullptr));
         pushButton_DelMod->setText(QCoreApplication::translate("MainWindow", "\345\210\240\351\231\244\346\250\241\345\235\227", nullptr));
         pushButton_Save->setText(QCoreApplication::translate("MainWindow", "\344\277\235\345\255\230", nullptr));
+        label_SystemTime->setText(QCoreApplication::translate("MainWindow", "Time", nullptr));
+        label_RefreshInterval->setText(QCoreApplication::translate("MainWindow", "\345\210\267\346\226\260\351\227\264\351\232\224\357\274\232", nullptr));
+        checkBox_RefreshInterval->setText(QCoreApplication::translate("MainWindow", "\345\274\200\345\220\257", nullptr));
         menuDemo->setTitle(QCoreApplication::translate("MainWindow", "File", nullptr));
         toolBar->setWindowTitle(QCoreApplication::translate("MainWindow", "toolBar", nullptr));
     } // retranslateUi

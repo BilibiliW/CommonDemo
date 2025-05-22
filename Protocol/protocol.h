@@ -48,6 +48,25 @@ typedef struct{
     uint32_t targetAddr;
 }device_t;
 
+typedef enum{
+    NO_ERR,
+    POWER_VOL_A_ABNORMAL,
+    POWER_VOL_B_ABNORMAL,
+    POWER_CTRL_VOL_A_ABNORMAL,
+    POWER_CTRL_VOL_B_ABNORMAL,
+    POWER_CURRENT_A_ABNORMAL,
+    POWER_CURRENT_B_ABNORMAL,
+    COIL_VOL_A_ABNORMAL,
+    COIL_VOL_B_ABNORMAL,
+    COIL_CURRENT_A_ABNORMAL,
+    COIL_CURRENT_B_ABNORMAL,
+    COIL_CTRL_CURRENT_A_ABNORMAL,
+    COIL_CTRL_CURRENT_B_ABNORMAL,
+    COIL_RESIST_A_ABNORMAL,
+    COIL_RESIST_B_ABNORMAL,
+    TEMP_OVERHEAT,
+}sys_err_code_e;
+
 class Protocol : public QObject
 {
     Q_OBJECT
@@ -65,6 +84,24 @@ public:
 //    QList<A0_Cmd*> A0_CmdMod;
     QMap<QString, QList<A0_CMD_t>*> A0_CmdMod;
 
+    QMap<sys_err_code_e, QString> err_code = {
+        {NO_ERR,                        "NO_ERR"                        },
+        {POWER_VOL_A_ABNORMAL,          "POWER_VOL_A_ABNORMAL"          },
+        {POWER_VOL_B_ABNORMAL,          "POWER_VOL_B_ABNORMAL"          },
+        {POWER_CTRL_VOL_A_ABNORMAL,     "POWER_CTRL_VOL_A_ABNORMAL"     },
+        {POWER_CTRL_VOL_B_ABNORMAL,     "POWER_CTRL_VOL_B_ABNORMAL"     },
+        {POWER_CURRENT_A_ABNORMAL,      "POWER_CURRENT_A_ABNORMAL"      },
+        {POWER_CURRENT_B_ABNORMAL,      "POWER_CURRENT_B_ABNORMAL"      },
+        {COIL_VOL_A_ABNORMAL,           "COIL_VOL_A_ABNORMAL"           },
+        {COIL_VOL_B_ABNORMAL,           "COIL_VOL_B_ABNORMAL"           },
+        {COIL_CURRENT_A_ABNORMAL,       "COIL_CURRENT_A_ABNORMAL"       },
+        {COIL_CURRENT_B_ABNORMAL,       "COIL_CURRENT_B_ABNORMAL"       },
+        {COIL_CTRL_CURRENT_A_ABNORMAL,  "COIL_CTRL_CURRENT_A_ABNORMAL"  },
+        {COIL_CTRL_CURRENT_B_ABNORMAL,  "COIL_CTRL_CURRENT_B_ABNORMAL"  },
+        {COIL_RESIST_A_ABNORMAL,        "COIL_RESIST_A_ABNORMAL"        },
+        {COIL_RESIST_B_ABNORMAL,        "COIL_RESIST_B_ABNORMAL"        },
+        {TEMP_OVERHEAT,                 "TEMP_OVERHEAT"                 },
+    };
 
     QByteArray* frame_arr;
     int32_t ProtocolAnalyse(void);
@@ -77,6 +114,7 @@ signals:
     void FirmwareVersion(A0_CMD_t*);
     void DeviceInfoRead(A0_CMD_t*);
     void BoardStatusRead(A0_CMD_t*);
+    void BoardSelfCheckResult(A0_CMD_t*);
 
     void CoilCurrentRead(A0_CMD_t*);
     void CoilVolRead(A0_CMD_t*);

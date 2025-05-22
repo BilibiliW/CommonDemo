@@ -81,7 +81,7 @@
 
          // QDateTime current_date_time =QDateTime::currentDateTime();
          // QString current_date =current_date_time.toString("hh:mm:ss.zzz");
-         if(frame_A0->mainCmdID == 0x01  && frame_A0->cmd_RW_Type == 0x54){
+         if(frame_A0->mainCmdID == 0x01  && (frame_A0->cmd_RW_Type == 0x54 || frame_A0->cmd_RW_Type == 0x50)){
              switch(frame_A0->subCmdID){
              case 0x01:
                  emit HandShakeAck(frame_A0);
@@ -94,6 +94,9 @@
                  break;
              case 0x05:
                  emit BoardStatusRead(frame_A0);
+                 break;
+             case 0x06:
+                 emit BoardSelfCheckResult(frame_A0);
                  break;
              default:
                  free(frame_A0);

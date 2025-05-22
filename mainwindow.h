@@ -21,7 +21,7 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-#define SOFTWARE_VERSION " v1.0.0"
+#define SOFTWARE_VERSION " v1.0.1"
 
 // QQueue<uint8_t> RecvQueue;
 typedef union{
@@ -73,6 +73,7 @@ public slots:
     void UpdateFirmwareVersion(A0_CMD_t*);
     void UpdateDeviceInfoRead(A0_CMD_t*);
     void UpdateBoardStatusRead(A0_CMD_t*);
+    void UpdateBoardSelfCheckResult(A0_CMD_t*);
 
     void UpdateCoilCurrentRead(A0_CMD_t*);
     void UpdateCoilVolRead(A0_CMD_t*);
