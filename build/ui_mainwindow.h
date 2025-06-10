@@ -1329,7 +1329,7 @@ public:
         textEdit_RealTimeCommunicateData->raise();
         listWidget_Device->raise();
         pushButton_LockRealTimeWindows->raise();
-        layoutWidget->raise();
+        layoutWidget3->raise();
         pushButton_CleanRealTimeWindows->raise();
         label_8->raise();
         label_Version->raise();
