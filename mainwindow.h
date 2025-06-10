@@ -21,7 +21,7 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-#define SOFTWARE_VERSION " v1.0.1"
+#define SOFTWARE_VERSION " v1.0.2"
 
 // QQueue<uint8_t> RecvQueue;
 typedef union{
@@ -67,6 +67,9 @@ public:
 
     void SetExcitationCurrent(float current);
     void SetCoilCurrent(void);
+
+    void SetWobble(uint8_t sw);
+    void SetDegauss(uint8_t sw);
 
 public slots:
     void UpdateHandShakeAck(A0_CMD_t*);
@@ -203,6 +206,14 @@ private slots:
     void on_verticalSlider_OutputCurrentB_valueChanged(int value);
 
     void on_pushButton_SelfCheck_clicked();
+
+    void on_pushButton_WobStart_clicked();
+
+    void on_pushButtonWobClose_clicked();
+
+    void on_pushButton_DegaussStart_clicked();
+
+    void on_pushButton_DegaussAbort_clicked();
 
 private:
     Ui::MainWindow *ui;

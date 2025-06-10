@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1031</width>
+    <width>1052</width>
     <height>650</height>
    </rect>
   </property>
@@ -227,7 +227,7 @@
      <rect>
       <x>130</x>
       <y>110</y>
-      <width>891</width>
+      <width>911</width>
       <height>331</height>
      </rect>
     </property>
@@ -782,7 +782,7 @@ border:2px solid rgb(160, 160,160)
         <rect>
          <x>310</x>
          <y>10</y>
-         <width>351</width>
+         <width>358</width>
          <height>267</height>
         </rect>
        </property>
@@ -812,7 +812,7 @@ border:2px solid rgb(160, 160,160)
          <widget class="QPushButton" name="pushButton_CoilVolGet">
           <property name="maximumSize">
            <size>
-            <width>100</width>
+            <width>120</width>
             <height>16777215</height>
            </size>
           </property>
@@ -822,7 +822,14 @@ border:2px solid rgb(160, 160,160)
          </widget>
         </item>
         <item row="7" column="1">
-         <widget class="QLineEdit" name="lineEdit_InputCurrentA"/>
+         <widget class="QLineEdit" name="lineEdit_InputCurrentA">
+          <property name="maximumSize">
+           <size>
+            <width>85</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
         </item>
         <item row="6" column="0">
          <widget class="QLabel" name="label_InputVol">
@@ -835,7 +842,7 @@ border:2px solid rgb(160, 160,160)
          <widget class="QPushButton" name="pushButton_CoilCurrentGet">
           <property name="maximumSize">
            <size>
-            <width>100</width>
+            <width>120</width>
             <height>16777215</height>
            </size>
           </property>
@@ -845,16 +852,44 @@ border:2px solid rgb(160, 160,160)
          </widget>
         </item>
         <item row="7" column="2">
-         <widget class="QLineEdit" name="lineEdit_InputCurrentB"/>
+         <widget class="QLineEdit" name="lineEdit_InputCurrentB">
+          <property name="maximumSize">
+           <size>
+            <width>85</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
         </item>
         <item row="6" column="2">
-         <widget class="QLineEdit" name="lineEdit_InputVolB"/>
+         <widget class="QLineEdit" name="lineEdit_InputVolB">
+          <property name="maximumSize">
+           <size>
+            <width>85</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
         </item>
         <item row="4" column="1">
-         <widget class="QLineEdit" name="lineEdit_CoilResistA"/>
+         <widget class="QLineEdit" name="lineEdit_CoilResistA">
+          <property name="maximumSize">
+           <size>
+            <width>85</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QLineEdit" name="lineEdit_CoilCurrentA"/>
+         <widget class="QLineEdit" name="lineEdit_CoilCurrentA">
+          <property name="maximumSize">
+           <size>
+            <width>85</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
         </item>
         <item row="8" column="0">
          <widget class="QLabel" name="label_OutputCurrent">
@@ -864,13 +899,34 @@ border:2px solid rgb(160, 160,160)
          </widget>
         </item>
         <item row="3" column="1">
-         <widget class="QLineEdit" name="lineEdit_CoilVolA"/>
+         <widget class="QLineEdit" name="lineEdit_CoilVolA">
+          <property name="maximumSize">
+           <size>
+            <width>85</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
         </item>
         <item row="5" column="2">
-         <widget class="QLineEdit" name="lineEdit_PowerVolB"/>
+         <widget class="QLineEdit" name="lineEdit_PowerVolB">
+          <property name="maximumSize">
+           <size>
+            <width>85</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
         </item>
         <item row="4" column="2">
-         <widget class="QLineEdit" name="lineEdit_CoilResistB"/>
+         <widget class="QLineEdit" name="lineEdit_CoilResistB">
+          <property name="maximumSize">
+           <size>
+            <width>85</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
         </item>
         <item row="7" column="0">
          <widget class="QLabel" name="label_InputCurrent">
@@ -880,7 +936,14 @@ border:2px solid rgb(160, 160,160)
          </widget>
         </item>
         <item row="2" column="2">
-         <widget class="QLineEdit" name="lineEdit_CoilCurrentB"/>
+         <widget class="QLineEdit" name="lineEdit_CoilCurrentB">
+          <property name="maximumSize">
+           <size>
+            <width>85</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
         </item>
         <item row="2" column="0">
          <widget class="QLabel" name="label_CoilCurrent">
@@ -890,7 +953,14 @@ border:2px solid rgb(160, 160,160)
          </widget>
         </item>
         <item row="9" column="2">
-         <widget class="QLineEdit" name="lineEdit_CoilCurrentCoefB"/>
+         <widget class="QLineEdit" name="lineEdit_CoilCurrentCoefB">
+          <property name="maximumSize">
+           <size>
+            <width>85</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
         </item>
         <item row="9" column="0">
          <widget class="QLabel" name="label_CoilCurrentCoef">
@@ -900,19 +970,53 @@ border:2px solid rgb(160, 160,160)
          </widget>
         </item>
         <item row="6" column="1">
-         <widget class="QLineEdit" name="lineEdit_InputVolA"/>
+         <widget class="QLineEdit" name="lineEdit_InputVolA">
+          <property name="maximumSize">
+           <size>
+            <width>85</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
         </item>
         <item row="3" column="2">
-         <widget class="QLineEdit" name="lineEdit_CoilVolB"/>
+         <widget class="QLineEdit" name="lineEdit_CoilVolB">
+          <property name="maximumSize">
+           <size>
+            <width>85</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
         </item>
         <item row="9" column="1">
-         <widget class="QLineEdit" name="lineEdit_CoilCurrentCoefA"/>
+         <widget class="QLineEdit" name="lineEdit_CoilCurrentCoefA">
+          <property name="maximumSize">
+           <size>
+            <width>85</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
         </item>
         <item row="5" column="1">
-         <widget class="QLineEdit" name="lineEdit_PowerVolA"/>
+         <widget class="QLineEdit" name="lineEdit_PowerVolA">
+          <property name="maximumSize">
+           <size>
+            <width>85</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
         </item>
         <item row="7" column="3">
          <widget class="QPushButton" name="pushButton_InputCurrentGet">
+          <property name="maximumSize">
+           <size>
+            <width>120</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="text">
            <string>Get</string>
           </property>
@@ -926,15 +1030,35 @@ border:2px solid rgb(160, 160,160)
          </widget>
         </item>
         <item row="10" column="1">
-         <widget class="QLineEdit" name="lineEdit_CoilVolCoefA"/>
+         <widget class="QLineEdit" name="lineEdit_CoilVolCoefA">
+          <property name="maximumSize">
+           <size>
+            <width>85</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
         </item>
         <item row="10" column="2">
-         <widget class="QLineEdit" name="lineEdit_CoilVolCoefB"/>
+         <widget class="QLineEdit" name="lineEdit_CoilVolCoefB">
+          <property name="maximumSize">
+           <size>
+            <width>85</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
         </item>
         <item row="4" column="3">
          <layout class="QHBoxLayout" name="horizontalLayout_5">
           <item>
            <widget class="QPushButton" name="pushButton_CoilResistSet">
+            <property name="maximumSize">
+             <size>
+              <width>50</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="text">
              <string>Set</string>
             </property>
@@ -942,6 +1066,12 @@ border:2px solid rgb(160, 160,160)
           </item>
           <item>
            <widget class="QPushButton" name="pushButton_CoilResistGet">
+            <property name="maximumSize">
+             <size>
+              <width>50</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="text">
              <string>Get</string>
             </property>
@@ -951,6 +1081,12 @@ border:2px solid rgb(160, 160,160)
         </item>
         <item row="5" column="3">
          <widget class="QPushButton" name="pushButton_PowerVolGet">
+          <property name="maximumSize">
+           <size>
+            <width>120</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="text">
            <string>Get</string>
           </property>
@@ -960,6 +1096,12 @@ border:2px solid rgb(160, 160,160)
          <layout class="QHBoxLayout" name="horizontalLayout_6">
           <item>
            <widget class="QPushButton" name="pushButton_InputVolSet">
+            <property name="maximumSize">
+             <size>
+              <width>50</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="text">
              <string>Set</string>
             </property>
@@ -967,6 +1109,12 @@ border:2px solid rgb(160, 160,160)
           </item>
           <item>
            <widget class="QPushButton" name="pushButton_InputVolGet">
+            <property name="maximumSize">
+             <size>
+              <width>50</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="text">
              <string>Get</string>
             </property>
@@ -978,6 +1126,12 @@ border:2px solid rgb(160, 160,160)
          <layout class="QHBoxLayout" name="horizontalLayout_8">
           <item>
            <widget class="QPushButton" name="pushButton_CoilCurrentCoefSet">
+            <property name="maximumSize">
+             <size>
+              <width>50</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="text">
              <string>Set</string>
             </property>
@@ -985,6 +1139,12 @@ border:2px solid rgb(160, 160,160)
           </item>
           <item>
            <widget class="QPushButton" name="pushButton_CoilCurrentCoefGet">
+            <property name="maximumSize">
+             <size>
+              <width>50</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="text">
              <string>Get</string>
             </property>
@@ -996,6 +1156,12 @@ border:2px solid rgb(160, 160,160)
          <layout class="QHBoxLayout" name="horizontalLayout_9">
           <item>
            <widget class="QPushButton" name="pushButton_CoilVolCoefSet">
+            <property name="maximumSize">
+             <size>
+              <width>50</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="text">
              <string>Set</string>
             </property>
@@ -1003,6 +1169,12 @@ border:2px solid rgb(160, 160,160)
           </item>
           <item>
            <widget class="QPushButton" name="pushButton_CoilVolCoefGet">
+            <property name="maximumSize">
+             <size>
+              <width>50</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="text">
              <string>Get</string>
             </property>
@@ -1014,6 +1186,12 @@ border:2px solid rgb(160, 160,160)
          <layout class="QHBoxLayout" name="horizontalLayout_10">
           <item>
            <widget class="QPushButton" name="pushButton_OutputCurrentSet">
+            <property name="maximumSize">
+             <size>
+              <width>50</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="text">
              <string>Set</string>
             </property>
@@ -1021,6 +1199,12 @@ border:2px solid rgb(160, 160,160)
           </item>
           <item>
            <widget class="QPushButton" name="pushButton_OutputCurrentGet">
+            <property name="maximumSize">
+             <size>
+              <width>50</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="text">
              <string>Get</string>
             </property>
@@ -1235,6 +1419,12 @@ border:2px solid rgb(160, 160,160)
          <height>291</height>
         </rect>
        </property>
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
@@ -1342,6 +1532,229 @@ border:2px solid rgb(160, 160,160)
        <property name="text">
         <string>输出电流A</string>
        </property>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_6">
+     <attribute name="title">
+      <string>Wobble_Degauss</string>
+     </attribute>
+     <widget class="QFrame" name="frame_3">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>10</y>
+        <width>901</width>
+        <height>281</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">#frame_3{
+border-radius:10px;
+border:2px solid rgb(160, 160,160)
+}</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QWidget" name="gridLayoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>881</width>
+         <height>261</height>
+        </rect>
+       </property>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="14">
+         <widget class="QCheckBox" name="checkBox_WobCHA">
+          <property name="text">
+           <string>CH1</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="8">
+         <widget class="QLabel" name="label_DegaussCutoff">
+          <property name="text">
+           <string>截止：</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="16">
+         <widget class="QPushButton" name="pushButton_DegaussStart">
+          <property name="maximumSize">
+           <size>
+            <width>50</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>开启</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="7">
+         <widget class="QLineEdit" name="lineEdit_WobOffset"/>
+        </item>
+        <item row="1" column="12">
+         <widget class="QLabel" name="label_DegaussTotalDots">
+          <property name="text">
+           <string>总点数：</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="15">
+         <widget class="QCheckBox" name="checkBox_DegaussCHB">
+          <property name="text">
+           <string>CH2</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="label_WobAmp">
+          <property name="text">
+           <string>幅度：</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLabel" name="label_DegaussAmp">
+          <property name="text">
+           <string>幅度：</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="17">
+         <widget class="QPushButton" name="pushButtonWobClose">
+          <property name="maximumSize">
+           <size>
+            <width>50</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>关闭</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="9">
+         <widget class="QLineEdit" name="lineEdit_DegaussCutoff"/>
+        </item>
+        <item row="1" column="3">
+         <widget class="QLineEdit" name="lineEdit_DegaussAmp"/>
+        </item>
+        <item row="1" column="6">
+         <widget class="QLabel" name="label_DegaussAtten">
+          <property name="text">
+           <string>衰减：</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="14">
+         <widget class="QCheckBox" name="checkBox_DegaussCHA">
+          <property name="text">
+           <string>CH1</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QLineEdit" name="lineEdit_WobAmp"/>
+        </item>
+        <item row="1" column="17">
+         <widget class="QPushButton" name="pushButton_DegaussAbort">
+          <property name="maximumSize">
+           <size>
+            <width>50</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>终止</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="10">
+         <widget class="QLabel" name="label_DegaussPeriodDots">
+          <property name="text">
+           <string>周期点数：</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="6">
+         <widget class="QLabel" name="label_WobOffset">
+          <property name="text">
+           <string>偏置：</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="7">
+         <widget class="QLineEdit" name="lineEdit_DegaussAtten"/>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_WobPeriod">
+          <property name="text">
+           <string>周期：</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="13">
+         <widget class="QLineEdit" name="lineEdit_DegaussTotalDots">
+          <property name="maximumSize">
+           <size>
+            <width>60</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="11">
+         <widget class="QLineEdit" name="lineEdit_DegaussPeriodDots">
+          <property name="maximumSize">
+           <size>
+            <width>60</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="16">
+         <widget class="QPushButton" name="pushButton_WobStart">
+          <property name="maximumSize">
+           <size>
+            <width>50</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>开启</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="15">
+         <widget class="QCheckBox" name="checkBox_WobCHB">
+          <property name="text">
+           <string>CH2</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="lineEdit_WobPeriod"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_DegaussPeriod">
+          <property name="text">
+           <string>周期：</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="lineEdit_DegaussPeriod"/>
+        </item>
+       </layout>
       </widget>
      </widget>
     </widget>
@@ -1566,7 +1979,7 @@ border:2px solid rgb(160, 160,160)
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1031</width>
+     <width>1052</width>
      <height>21</height>
     </rect>
    </property>

@@ -565,6 +565,233 @@ void MainWindow::SetCoilCurrent(void)
     free(frame_A0);
 }
 
+void MainWindow::SetWobble(uint8_t sw)
+{
+    A0_CMD_t* frame_A0 = (A0_CMD_t*)malloc(sizeof(A0_CMD_t));
+    if(frame_A0 == NULL){
+        return;
+    }
+    uint8_t ch = 0x00;
+    data_convert_u amp;
+    data_convert_u period;
+    data_convert_u offset;
+
+    QString ampStr    = ui->lineEdit_WobAmp->text();
+    QString periodStr = ui->lineEdit_WobPeriod->text();
+    QString offsetStr = ui->lineEdit_WobOffset->text();
+
+    amp.data_float    = ampStr.toFloat();
+    offset.data_float = offsetStr.toFloat();
+    period.data_uint  = periodStr.toUInt();
+
+    if(amp.data_float > 3){
+        amp.data_float = 3;
+        ui->lineEdit_WobAmp->setText("3");
+    }
+    if(amp.data_float < -3){
+        amp.data_float = -3;
+        ui->lineEdit_WobAmp->setText("-3");
+    }
+
+    if(offset.data_float > 3){
+        offset.data_float = 3;
+        ui->lineEdit_WobOffset->setText("3");
+    }
+    if(offset.data_float < -3){
+        offset.data_float = -3;
+        ui->lineEdit_WobOffset->setText("-3");
+    }
+
+    if(period.data_uint > 10){
+        period.data_uint = 10;
+        ui->lineEdit_WobPeriod->setText("10");
+    }
+    if(period.data_uint < 1){
+        period.data_uint = 1;
+        ui->lineEdit_WobPeriod->setText("1");
+    }
+
+    if(ui->checkBox_WobCHA->isChecked())
+        ch |= 0x01;
+    if(ui->checkBox_WobCHB->isChecked())
+        ch |= 0x02;
+
+    frame_A0->head        = 0xA0;
+    frame_A0->len         = 7 + 1 + 2 + 4 + 4 + 1;
+    frame_A0->originAddr  = 0x01;
+    frame_A0->targetAddr  = this->targetID;
+    frame_A0->cmd_RW_Type = 0x53;
+    frame_A0->mainCmdID   = 0x02;
+    frame_A0->subCmdID    = 0x0B;
+    // frame_A0->data        = (char*)&resistB;
+
+    QByteArray frame_arr;
+
+    frame_arr.append(frame_A0->head);
+    frame_arr.append(frame_A0->len);
+    frame_arr.append(frame_A0->originAddr);
+    frame_arr.append(frame_A0->targetAddr);
+    frame_arr.append(frame_A0->cmd_RW_Type);
+    frame_arr.append(frame_A0->mainCmdID);
+    frame_arr.append(frame_A0->subCmdID);
+    frame_arr.append(ch);
+    frame_arr.append(period.data_arr[0]);
+    frame_arr.append(period.data_arr[1]);
+    frame_arr.append(offset.data_arr[0]);
+    frame_arr.append(offset.data_arr[1]);
+    frame_arr.append(offset.data_arr[2]);
+    frame_arr.append(offset.data_arr[3]);
+    frame_arr.append(amp.data_arr[0]);
+    frame_arr.append(amp.data_arr[1]);
+    frame_arr.append(amp.data_arr[2]);
+    frame_arr.append(amp.data_arr[3]);
+    frame_arr.append(sw);
+    frame_arr.append(char(0x00));
+    frame_arr.append(char(0x00));
+
+    this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
+
+    serial_comm->serial_port->write(frame_arr);
+
+    UpdateTextLine(frame_arr, false);
+    free(frame_A0);
+}
+
+void MainWindow::SetDegauss(uint8_t sw)
+{
+    A0_CMD_t* frame_A0 = (A0_CMD_t*)malloc(sizeof(A0_CMD_t));
+    if(frame_A0 == NULL){
+        return;
+    }
+    uint8_t ch = 0x00;
+    data_convert_u amp;
+    data_convert_u period;
+    data_convert_u atten;
+    data_convert_u cutoff;
+    data_convert_u periodDots;
+    data_convert_u totalDots;
+    QString ampStr        = ui->lineEdit_DegaussAmp->text();
+    QString periodStr     = ui->lineEdit_DegaussPeriod->text();
+    QString attenStr      = ui->lineEdit_DegaussAtten->text();
+    QString cutoffStr     = ui->lineEdit_DegaussCutoff->text();
+    QString periodDotsStr = ui->lineEdit_DegaussPeriodDots->text();
+    QString totalDotsStr  = ui->lineEdit_DegaussTotalDots->text();
+
+    amp.data_float       = ampStr.toFloat();
+    atten.data_float     = attenStr.toFloat();
+    cutoff.data_float    = cutoffStr.toFloat();
+    period.data_uint     = periodStr.toUInt();
+    periodDots.data_uint = periodDotsStr.toUInt();
+    totalDots.data_uint  = totalDotsStr.toUInt();
+
+    if(amp.data_float > 3){
+        amp.data_float = 3;
+        ui->lineEdit_DegaussAmp->setText("3");
+    }
+    if(amp.data_float < -3){
+        amp.data_float = -3;
+        ui->lineEdit_DegaussAmp->setText("-3");
+    }
+
+    if(atten.data_float > 0.1){
+        atten.data_float = 0.1;
+        ui->lineEdit_DegaussAtten->setText("0.1");
+    }
+    if(atten.data_float < 0.000001){
+        atten.data_float = 0.000001;
+        ui->lineEdit_DegaussAtten->setText("0.000001");
+    }
+
+    if(cutoff.data_float > 3){
+        cutoff.data_float = 3;
+        ui->lineEdit_DegaussCutoff->setText("3");
+    }
+    if(cutoff.data_float < -3){
+        cutoff.data_float = -3;
+        ui->lineEdit_DegaussCutoff->setText("-3");
+    }
+
+    if(period.data_uint > 10000){
+        period.data_uint = 10000;
+        ui->lineEdit_DegaussPeriod->setText("10000");
+    }
+    if(period.data_uint < 100){
+        period.data_uint = 100;
+        ui->lineEdit_DegaussPeriod->setText("100");
+    }
+
+    if(periodDots.data_uint > 100){
+        periodDots.data_uint = 100;
+        ui->lineEdit_DegaussPeriodDots->setText("100");
+    }
+    if(periodDots.data_uint < 1){
+        periodDots.data_uint = 1;
+        ui->lineEdit_DegaussPeriodDots->setText("1");
+    }
+
+    if(totalDots.data_uint > 10000){
+        totalDots.data_uint = 10000;
+        ui->lineEdit_DegaussTotalDots->setText("10000");
+    }
+    if(totalDots.data_uint < 1){
+        totalDots.data_uint = 1;
+        ui->lineEdit_DegaussTotalDots->setText("1");
+    }
+
+    if(ui->checkBox_DegaussCHA->isChecked())
+        ch |= 0x01;
+    if(ui->checkBox_DegaussCHB->isChecked())
+        ch |= 0x02;
+
+    frame_A0->head        = 0xA0;
+    frame_A0->len         = 7 + 1 + 2 + 4 + 4 + 4 + 2 + 2 + 1;
+    frame_A0->originAddr  = 0x01;
+    frame_A0->targetAddr  = this->targetID;
+    frame_A0->cmd_RW_Type = 0x53;
+    frame_A0->mainCmdID   = 0x02;
+    frame_A0->subCmdID    = 0x0C;
+    // frame_A0->data        = (char*)&resistB;
+
+    QByteArray frame_arr;
+
+    frame_arr.append(frame_A0->head);
+    frame_arr.append(frame_A0->len);
+    frame_arr.append(frame_A0->originAddr);
+    frame_arr.append(frame_A0->targetAddr);
+    frame_arr.append(frame_A0->cmd_RW_Type);
+    frame_arr.append(frame_A0->mainCmdID);
+    frame_arr.append(frame_A0->subCmdID);
+    frame_arr.append(ch);
+    frame_arr.append(period.data_arr[0]);
+    frame_arr.append(period.data_arr[1]);
+    frame_arr.append(amp.data_arr[0]);
+    frame_arr.append(amp.data_arr[1]);
+    frame_arr.append(amp.data_arr[2]);
+    frame_arr.append(amp.data_arr[3]);
+    frame_arr.append(atten.data_arr[0]);
+    frame_arr.append(atten.data_arr[1]);
+    frame_arr.append(atten.data_arr[2]);
+    frame_arr.append(atten.data_arr[3]);
+    frame_arr.append(cutoff.data_arr[0]);
+    frame_arr.append(cutoff.data_arr[1]);
+    frame_arr.append(cutoff.data_arr[2]);
+    frame_arr.append(cutoff.data_arr[3]);
+    frame_arr.append(periodDots.data_arr[0]);
+    frame_arr.append(periodDots.data_arr[1]);
+    frame_arr.append(totalDots.data_arr[0]);
+    frame_arr.append(totalDots.data_arr[1]);
+    frame_arr.append(sw);
+    frame_arr.append(char(0x00));
+    frame_arr.append(char(0x00));
+
+    this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
+
+    serial_comm->serial_port->write(frame_arr);
+
+    UpdateTextLine(frame_arr, false);
+    free(frame_A0);
+}
+
 /***********************************************************************************
  * @brief 实时数据窗口
  * @par
@@ -2739,5 +2966,27 @@ void MainWindow::on_verticalSlider_OutputCurrentB_valueChanged(int value)
 }
 
 
+void MainWindow::on_pushButton_WobStart_clicked()
+{
 
+    SetWobble(1);
+}
+
+
+void MainWindow::on_pushButtonWobClose_clicked()
+{
+    SetWobble(0);
+}
+
+
+void MainWindow::on_pushButton_DegaussStart_clicked()
+{
+    SetDegauss(1);
+}
+
+
+void MainWindow::on_pushButton_DegaussAbort_clicked()
+{
+    SetDegauss(0);
+}
 

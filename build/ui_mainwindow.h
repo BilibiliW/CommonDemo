@@ -200,6 +200,36 @@ public:
     QLabel *label_ExcitateCurrent_QSlider;
     QLabel *label_OutputCurrent_QSlider_B;
     QLabel *label_OutputCurrent_QSlider_A;
+    QWidget *tab_6;
+    QFrame *frame_3;
+    QWidget *gridLayoutWidget;
+    QGridLayout *gridLayout;
+    QCheckBox *checkBox_WobCHA;
+    QLabel *label_DegaussCutoff;
+    QPushButton *pushButton_DegaussStart;
+    QLineEdit *lineEdit_WobOffset;
+    QLabel *label_DegaussTotalDots;
+    QCheckBox *checkBox_DegaussCHB;
+    QLabel *label_WobAmp;
+    QLabel *label_DegaussAmp;
+    QPushButton *pushButtonWobClose;
+    QLineEdit *lineEdit_DegaussCutoff;
+    QLineEdit *lineEdit_DegaussAmp;
+    QLabel *label_DegaussAtten;
+    QCheckBox *checkBox_DegaussCHA;
+    QLineEdit *lineEdit_WobAmp;
+    QPushButton *pushButton_DegaussAbort;
+    QLabel *label_DegaussPeriodDots;
+    QLabel *label_WobOffset;
+    QLineEdit *lineEdit_DegaussAtten;
+    QLabel *label_WobPeriod;
+    QLineEdit *lineEdit_DegaussTotalDots;
+    QLineEdit *lineEdit_DegaussPeriodDots;
+    QPushButton *pushButton_WobStart;
+    QCheckBox *checkBox_WobCHB;
+    QLineEdit *lineEdit_WobPeriod;
+    QLabel *label_DegaussPeriod;
+    QLineEdit *lineEdit_DegaussPeriod;
     QLabel *label_FirmVersion;
     QLabel *label_DeviceInfo;
     QLabel *label_BoardCommunicateID;
@@ -228,7 +258,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(1031, 650);
+        MainWindow->resize(1052, 650);
         MainWindow->setMaximumSize(QSize(10000, 10000));
         MainWindow->setBaseSize(QSize(0, 100));
         MainWindow->setDocumentMode(false);
@@ -369,7 +399,7 @@ public:
         label_Version->setStyleSheet(QString::fromUtf8(""));
         tabWidget = new QTabWidget(centralwidget);
         tabWidget->setObjectName("tabWidget");
-        tabWidget->setGeometry(QRect(130, 110, 891, 331));
+        tabWidget->setGeometry(QRect(130, 110, 911, 331));
         tab_4 = new QWidget();
         tab_4->setObjectName("tab_4");
         frame = new QFrame(tab_4);
@@ -634,7 +664,7 @@ public:
         frame_2->setFrameShadow(QFrame::Raised);
         gridLayoutWidget_2 = new QWidget(frame_2);
         gridLayoutWidget_2->setObjectName("gridLayoutWidget_2");
-        gridLayoutWidget_2->setGeometry(QRect(310, 10, 351, 267));
+        gridLayoutWidget_2->setGeometry(QRect(310, 10, 358, 267));
         gridLayout_3 = new QGridLayout(gridLayoutWidget_2);
         gridLayout_3->setObjectName("gridLayout_3");
         gridLayout_3->setContentsMargins(0, 0, 0, 0);
@@ -655,12 +685,13 @@ public:
 
         pushButton_CoilVolGet = new QPushButton(gridLayoutWidget_2);
         pushButton_CoilVolGet->setObjectName("pushButton_CoilVolGet");
-        pushButton_CoilVolGet->setMaximumSize(QSize(100, 16777215));
+        pushButton_CoilVolGet->setMaximumSize(QSize(120, 16777215));
 
         gridLayout_3->addWidget(pushButton_CoilVolGet, 3, 3, 1, 1);
 
         lineEdit_InputCurrentA = new QLineEdit(gridLayoutWidget_2);
         lineEdit_InputCurrentA->setObjectName("lineEdit_InputCurrentA");
+        lineEdit_InputCurrentA->setMaximumSize(QSize(85, 16777215));
 
         gridLayout_3->addWidget(lineEdit_InputCurrentA, 7, 1, 1, 1);
 
@@ -671,27 +702,31 @@ public:
 
         pushButton_CoilCurrentGet = new QPushButton(gridLayoutWidget_2);
         pushButton_CoilCurrentGet->setObjectName("pushButton_CoilCurrentGet");
-        pushButton_CoilCurrentGet->setMaximumSize(QSize(100, 16777215));
+        pushButton_CoilCurrentGet->setMaximumSize(QSize(120, 16777215));
 
         gridLayout_3->addWidget(pushButton_CoilCurrentGet, 2, 3, 1, 1);
 
         lineEdit_InputCurrentB = new QLineEdit(gridLayoutWidget_2);
         lineEdit_InputCurrentB->setObjectName("lineEdit_InputCurrentB");
+        lineEdit_InputCurrentB->setMaximumSize(QSize(85, 16777215));
 
         gridLayout_3->addWidget(lineEdit_InputCurrentB, 7, 2, 1, 1);
 
         lineEdit_InputVolB = new QLineEdit(gridLayoutWidget_2);
         lineEdit_InputVolB->setObjectName("lineEdit_InputVolB");
+        lineEdit_InputVolB->setMaximumSize(QSize(85, 16777215));
 
         gridLayout_3->addWidget(lineEdit_InputVolB, 6, 2, 1, 1);
 
         lineEdit_CoilResistA = new QLineEdit(gridLayoutWidget_2);
         lineEdit_CoilResistA->setObjectName("lineEdit_CoilResistA");
+        lineEdit_CoilResistA->setMaximumSize(QSize(85, 16777215));
 
         gridLayout_3->addWidget(lineEdit_CoilResistA, 4, 1, 1, 1);
 
         lineEdit_CoilCurrentA = new QLineEdit(gridLayoutWidget_2);
         lineEdit_CoilCurrentA->setObjectName("lineEdit_CoilCurrentA");
+        lineEdit_CoilCurrentA->setMaximumSize(QSize(85, 16777215));
 
         gridLayout_3->addWidget(lineEdit_CoilCurrentA, 2, 1, 1, 1);
 
@@ -702,16 +737,19 @@ public:
 
         lineEdit_CoilVolA = new QLineEdit(gridLayoutWidget_2);
         lineEdit_CoilVolA->setObjectName("lineEdit_CoilVolA");
+        lineEdit_CoilVolA->setMaximumSize(QSize(85, 16777215));
 
         gridLayout_3->addWidget(lineEdit_CoilVolA, 3, 1, 1, 1);
 
         lineEdit_PowerVolB = new QLineEdit(gridLayoutWidget_2);
         lineEdit_PowerVolB->setObjectName("lineEdit_PowerVolB");
+        lineEdit_PowerVolB->setMaximumSize(QSize(85, 16777215));
 
         gridLayout_3->addWidget(lineEdit_PowerVolB, 5, 2, 1, 1);
 
         lineEdit_CoilResistB = new QLineEdit(gridLayoutWidget_2);
         lineEdit_CoilResistB->setObjectName("lineEdit_CoilResistB");
+        lineEdit_CoilResistB->setMaximumSize(QSize(85, 16777215));
 
         gridLayout_3->addWidget(lineEdit_CoilResistB, 4, 2, 1, 1);
 
@@ -722,6 +760,7 @@ public:
 
         lineEdit_CoilCurrentB = new QLineEdit(gridLayoutWidget_2);
         lineEdit_CoilCurrentB->setObjectName("lineEdit_CoilCurrentB");
+        lineEdit_CoilCurrentB->setMaximumSize(QSize(85, 16777215));
 
         gridLayout_3->addWidget(lineEdit_CoilCurrentB, 2, 2, 1, 1);
 
@@ -732,6 +771,7 @@ public:
 
         lineEdit_CoilCurrentCoefB = new QLineEdit(gridLayoutWidget_2);
         lineEdit_CoilCurrentCoefB->setObjectName("lineEdit_CoilCurrentCoefB");
+        lineEdit_CoilCurrentCoefB->setMaximumSize(QSize(85, 16777215));
 
         gridLayout_3->addWidget(lineEdit_CoilCurrentCoefB, 9, 2, 1, 1);
 
@@ -742,26 +782,31 @@ public:
 
         lineEdit_InputVolA = new QLineEdit(gridLayoutWidget_2);
         lineEdit_InputVolA->setObjectName("lineEdit_InputVolA");
+        lineEdit_InputVolA->setMaximumSize(QSize(85, 16777215));
 
         gridLayout_3->addWidget(lineEdit_InputVolA, 6, 1, 1, 1);
 
         lineEdit_CoilVolB = new QLineEdit(gridLayoutWidget_2);
         lineEdit_CoilVolB->setObjectName("lineEdit_CoilVolB");
+        lineEdit_CoilVolB->setMaximumSize(QSize(85, 16777215));
 
         gridLayout_3->addWidget(lineEdit_CoilVolB, 3, 2, 1, 1);
 
         lineEdit_CoilCurrentCoefA = new QLineEdit(gridLayoutWidget_2);
         lineEdit_CoilCurrentCoefA->setObjectName("lineEdit_CoilCurrentCoefA");
+        lineEdit_CoilCurrentCoefA->setMaximumSize(QSize(85, 16777215));
 
         gridLayout_3->addWidget(lineEdit_CoilCurrentCoefA, 9, 1, 1, 1);
 
         lineEdit_PowerVolA = new QLineEdit(gridLayoutWidget_2);
         lineEdit_PowerVolA->setObjectName("lineEdit_PowerVolA");
+        lineEdit_PowerVolA->setMaximumSize(QSize(85, 16777215));
 
         gridLayout_3->addWidget(lineEdit_PowerVolA, 5, 1, 1, 1);
 
         pushButton_InputCurrentGet = new QPushButton(gridLayoutWidget_2);
         pushButton_InputCurrentGet->setObjectName("pushButton_InputCurrentGet");
+        pushButton_InputCurrentGet->setMaximumSize(QSize(120, 16777215));
 
         gridLayout_3->addWidget(pushButton_InputCurrentGet, 7, 3, 1, 1);
 
@@ -772,11 +817,13 @@ public:
 
         lineEdit_CoilVolCoefA = new QLineEdit(gridLayoutWidget_2);
         lineEdit_CoilVolCoefA->setObjectName("lineEdit_CoilVolCoefA");
+        lineEdit_CoilVolCoefA->setMaximumSize(QSize(85, 16777215));
 
         gridLayout_3->addWidget(lineEdit_CoilVolCoefA, 10, 1, 1, 1);
 
         lineEdit_CoilVolCoefB = new QLineEdit(gridLayoutWidget_2);
         lineEdit_CoilVolCoefB->setObjectName("lineEdit_CoilVolCoefB");
+        lineEdit_CoilVolCoefB->setMaximumSize(QSize(85, 16777215));
 
         gridLayout_3->addWidget(lineEdit_CoilVolCoefB, 10, 2, 1, 1);
 
@@ -784,11 +831,13 @@ public:
         horizontalLayout_5->setObjectName("horizontalLayout_5");
         pushButton_CoilResistSet = new QPushButton(gridLayoutWidget_2);
         pushButton_CoilResistSet->setObjectName("pushButton_CoilResistSet");
+        pushButton_CoilResistSet->setMaximumSize(QSize(50, 16777215));
 
         horizontalLayout_5->addWidget(pushButton_CoilResistSet);
 
         pushButton_CoilResistGet = new QPushButton(gridLayoutWidget_2);
         pushButton_CoilResistGet->setObjectName("pushButton_CoilResistGet");
+        pushButton_CoilResistGet->setMaximumSize(QSize(50, 16777215));
 
         horizontalLayout_5->addWidget(pushButton_CoilResistGet);
 
@@ -797,6 +846,7 @@ public:
 
         pushButton_PowerVolGet = new QPushButton(gridLayoutWidget_2);
         pushButton_PowerVolGet->setObjectName("pushButton_PowerVolGet");
+        pushButton_PowerVolGet->setMaximumSize(QSize(120, 16777215));
 
         gridLayout_3->addWidget(pushButton_PowerVolGet, 5, 3, 1, 1);
 
@@ -804,11 +854,13 @@ public:
         horizontalLayout_6->setObjectName("horizontalLayout_6");
         pushButton_InputVolSet = new QPushButton(gridLayoutWidget_2);
         pushButton_InputVolSet->setObjectName("pushButton_InputVolSet");
+        pushButton_InputVolSet->setMaximumSize(QSize(50, 16777215));
 
         horizontalLayout_6->addWidget(pushButton_InputVolSet);
 
         pushButton_InputVolGet = new QPushButton(gridLayoutWidget_2);
         pushButton_InputVolGet->setObjectName("pushButton_InputVolGet");
+        pushButton_InputVolGet->setMaximumSize(QSize(50, 16777215));
 
         horizontalLayout_6->addWidget(pushButton_InputVolGet);
 
@@ -819,11 +871,13 @@ public:
         horizontalLayout_8->setObjectName("horizontalLayout_8");
         pushButton_CoilCurrentCoefSet = new QPushButton(gridLayoutWidget_2);
         pushButton_CoilCurrentCoefSet->setObjectName("pushButton_CoilCurrentCoefSet");
+        pushButton_CoilCurrentCoefSet->setMaximumSize(QSize(50, 16777215));
 
         horizontalLayout_8->addWidget(pushButton_CoilCurrentCoefSet);
 
         pushButton_CoilCurrentCoefGet = new QPushButton(gridLayoutWidget_2);
         pushButton_CoilCurrentCoefGet->setObjectName("pushButton_CoilCurrentCoefGet");
+        pushButton_CoilCurrentCoefGet->setMaximumSize(QSize(50, 16777215));
 
         horizontalLayout_8->addWidget(pushButton_CoilCurrentCoefGet);
 
@@ -834,11 +888,13 @@ public:
         horizontalLayout_9->setObjectName("horizontalLayout_9");
         pushButton_CoilVolCoefSet = new QPushButton(gridLayoutWidget_2);
         pushButton_CoilVolCoefSet->setObjectName("pushButton_CoilVolCoefSet");
+        pushButton_CoilVolCoefSet->setMaximumSize(QSize(50, 16777215));
 
         horizontalLayout_9->addWidget(pushButton_CoilVolCoefSet);
 
         pushButton_CoilVolCoefGet = new QPushButton(gridLayoutWidget_2);
         pushButton_CoilVolCoefGet->setObjectName("pushButton_CoilVolCoefGet");
+        pushButton_CoilVolCoefGet->setMaximumSize(QSize(50, 16777215));
 
         horizontalLayout_9->addWidget(pushButton_CoilVolCoefGet);
 
@@ -849,11 +905,13 @@ public:
         horizontalLayout_10->setObjectName("horizontalLayout_10");
         pushButton_OutputCurrentSet = new QPushButton(gridLayoutWidget_2);
         pushButton_OutputCurrentSet->setObjectName("pushButton_OutputCurrentSet");
+        pushButton_OutputCurrentSet->setMaximumSize(QSize(50, 16777215));
 
         horizontalLayout_10->addWidget(pushButton_OutputCurrentSet);
 
         pushButton_OutputCurrentGet = new QPushButton(gridLayoutWidget_2);
         pushButton_OutputCurrentGet->setObjectName("pushButton_OutputCurrentGet");
+        pushButton_OutputCurrentGet->setMaximumSize(QSize(50, 16777215));
 
         horizontalLayout_10->addWidget(pushButton_OutputCurrentGet);
 
@@ -1003,6 +1061,7 @@ public:
         line_2 = new QFrame(frame_2);
         line_2->setObjectName("line_2");
         line_2->setGeometry(QRect(670, 0, 16, 291));
+        line_2->setMaximumSize(QSize(100, 16777215));
         line_2->setFrameShape(QFrame::VLine);
         line_2->setFrameShadow(QFrame::Sunken);
         pushButton_DeviceInfo = new QPushButton(frame_2);
@@ -1033,6 +1092,160 @@ public:
         label_OutputCurrent_QSlider_A->setObjectName("label_OutputCurrent_QSlider_A");
         label_OutputCurrent_QSlider_A->setGeometry(QRect(750, 270, 61, 20));
         tabWidget->addTab(tab_5, QString());
+        tab_6 = new QWidget();
+        tab_6->setObjectName("tab_6");
+        frame_3 = new QFrame(tab_6);
+        frame_3->setObjectName("frame_3");
+        frame_3->setGeometry(QRect(0, 10, 901, 281));
+        frame_3->setStyleSheet(QString::fromUtf8("#frame_3{\n"
+"border-radius:10px;\n"
+"border:2px solid rgb(160, 160,160)\n"
+"}"));
+        frame_3->setFrameShape(QFrame::StyledPanel);
+        frame_3->setFrameShadow(QFrame::Raised);
+        gridLayoutWidget = new QWidget(frame_3);
+        gridLayoutWidget->setObjectName("gridLayoutWidget");
+        gridLayoutWidget->setGeometry(QRect(10, 10, 881, 261));
+        gridLayout = new QGridLayout(gridLayoutWidget);
+        gridLayout->setObjectName("gridLayout");
+        gridLayout->setContentsMargins(0, 0, 0, 0);
+        checkBox_WobCHA = new QCheckBox(gridLayoutWidget);
+        checkBox_WobCHA->setObjectName("checkBox_WobCHA");
+
+        gridLayout->addWidget(checkBox_WobCHA, 0, 14, 1, 1);
+
+        label_DegaussCutoff = new QLabel(gridLayoutWidget);
+        label_DegaussCutoff->setObjectName("label_DegaussCutoff");
+
+        gridLayout->addWidget(label_DegaussCutoff, 1, 8, 1, 1);
+
+        pushButton_DegaussStart = new QPushButton(gridLayoutWidget);
+        pushButton_DegaussStart->setObjectName("pushButton_DegaussStart");
+        pushButton_DegaussStart->setMaximumSize(QSize(50, 16777215));
+
+        gridLayout->addWidget(pushButton_DegaussStart, 1, 16, 1, 1);
+
+        lineEdit_WobOffset = new QLineEdit(gridLayoutWidget);
+        lineEdit_WobOffset->setObjectName("lineEdit_WobOffset");
+
+        gridLayout->addWidget(lineEdit_WobOffset, 0, 7, 1, 1);
+
+        label_DegaussTotalDots = new QLabel(gridLayoutWidget);
+        label_DegaussTotalDots->setObjectName("label_DegaussTotalDots");
+
+        gridLayout->addWidget(label_DegaussTotalDots, 1, 12, 1, 1);
+
+        checkBox_DegaussCHB = new QCheckBox(gridLayoutWidget);
+        checkBox_DegaussCHB->setObjectName("checkBox_DegaussCHB");
+
+        gridLayout->addWidget(checkBox_DegaussCHB, 1, 15, 1, 1);
+
+        label_WobAmp = new QLabel(gridLayoutWidget);
+        label_WobAmp->setObjectName("label_WobAmp");
+
+        gridLayout->addWidget(label_WobAmp, 0, 2, 1, 1);
+
+        label_DegaussAmp = new QLabel(gridLayoutWidget);
+        label_DegaussAmp->setObjectName("label_DegaussAmp");
+
+        gridLayout->addWidget(label_DegaussAmp, 1, 2, 1, 1);
+
+        pushButtonWobClose = new QPushButton(gridLayoutWidget);
+        pushButtonWobClose->setObjectName("pushButtonWobClose");
+        pushButtonWobClose->setMaximumSize(QSize(50, 16777215));
+
+        gridLayout->addWidget(pushButtonWobClose, 0, 17, 1, 1);
+
+        lineEdit_DegaussCutoff = new QLineEdit(gridLayoutWidget);
+        lineEdit_DegaussCutoff->setObjectName("lineEdit_DegaussCutoff");
+
+        gridLayout->addWidget(lineEdit_DegaussCutoff, 1, 9, 1, 1);
+
+        lineEdit_DegaussAmp = new QLineEdit(gridLayoutWidget);
+        lineEdit_DegaussAmp->setObjectName("lineEdit_DegaussAmp");
+
+        gridLayout->addWidget(lineEdit_DegaussAmp, 1, 3, 1, 1);
+
+        label_DegaussAtten = new QLabel(gridLayoutWidget);
+        label_DegaussAtten->setObjectName("label_DegaussAtten");
+
+        gridLayout->addWidget(label_DegaussAtten, 1, 6, 1, 1);
+
+        checkBox_DegaussCHA = new QCheckBox(gridLayoutWidget);
+        checkBox_DegaussCHA->setObjectName("checkBox_DegaussCHA");
+
+        gridLayout->addWidget(checkBox_DegaussCHA, 1, 14, 1, 1);
+
+        lineEdit_WobAmp = new QLineEdit(gridLayoutWidget);
+        lineEdit_WobAmp->setObjectName("lineEdit_WobAmp");
+
+        gridLayout->addWidget(lineEdit_WobAmp, 0, 3, 1, 1);
+
+        pushButton_DegaussAbort = new QPushButton(gridLayoutWidget);
+        pushButton_DegaussAbort->setObjectName("pushButton_DegaussAbort");
+        pushButton_DegaussAbort->setMaximumSize(QSize(50, 16777215));
+
+        gridLayout->addWidget(pushButton_DegaussAbort, 1, 17, 1, 1);
+
+        label_DegaussPeriodDots = new QLabel(gridLayoutWidget);
+        label_DegaussPeriodDots->setObjectName("label_DegaussPeriodDots");
+
+        gridLayout->addWidget(label_DegaussPeriodDots, 1, 10, 1, 1);
+
+        label_WobOffset = new QLabel(gridLayoutWidget);
+        label_WobOffset->setObjectName("label_WobOffset");
+
+        gridLayout->addWidget(label_WobOffset, 0, 6, 1, 1);
+
+        lineEdit_DegaussAtten = new QLineEdit(gridLayoutWidget);
+        lineEdit_DegaussAtten->setObjectName("lineEdit_DegaussAtten");
+
+        gridLayout->addWidget(lineEdit_DegaussAtten, 1, 7, 1, 1);
+
+        label_WobPeriod = new QLabel(gridLayoutWidget);
+        label_WobPeriod->setObjectName("label_WobPeriod");
+
+        gridLayout->addWidget(label_WobPeriod, 0, 0, 1, 1);
+
+        lineEdit_DegaussTotalDots = new QLineEdit(gridLayoutWidget);
+        lineEdit_DegaussTotalDots->setObjectName("lineEdit_DegaussTotalDots");
+        lineEdit_DegaussTotalDots->setMaximumSize(QSize(60, 16777215));
+
+        gridLayout->addWidget(lineEdit_DegaussTotalDots, 1, 13, 1, 1);
+
+        lineEdit_DegaussPeriodDots = new QLineEdit(gridLayoutWidget);
+        lineEdit_DegaussPeriodDots->setObjectName("lineEdit_DegaussPeriodDots");
+        lineEdit_DegaussPeriodDots->setMaximumSize(QSize(60, 16777215));
+
+        gridLayout->addWidget(lineEdit_DegaussPeriodDots, 1, 11, 1, 1);
+
+        pushButton_WobStart = new QPushButton(gridLayoutWidget);
+        pushButton_WobStart->setObjectName("pushButton_WobStart");
+        pushButton_WobStart->setMaximumSize(QSize(50, 16777215));
+
+        gridLayout->addWidget(pushButton_WobStart, 0, 16, 1, 1);
+
+        checkBox_WobCHB = new QCheckBox(gridLayoutWidget);
+        checkBox_WobCHB->setObjectName("checkBox_WobCHB");
+
+        gridLayout->addWidget(checkBox_WobCHB, 0, 15, 1, 1);
+
+        lineEdit_WobPeriod = new QLineEdit(gridLayoutWidget);
+        lineEdit_WobPeriod->setObjectName("lineEdit_WobPeriod");
+
+        gridLayout->addWidget(lineEdit_WobPeriod, 0, 1, 1, 1);
+
+        label_DegaussPeriod = new QLabel(gridLayoutWidget);
+        label_DegaussPeriod->setObjectName("label_DegaussPeriod");
+
+        gridLayout->addWidget(label_DegaussPeriod, 1, 0, 1, 1);
+
+        lineEdit_DegaussPeriod = new QLineEdit(gridLayoutWidget);
+        lineEdit_DegaussPeriod->setObjectName("lineEdit_DegaussPeriod");
+
+        gridLayout->addWidget(lineEdit_DegaussPeriod, 1, 1, 1, 1);
+
+        tabWidget->addTab(tab_6, QString());
         label_FirmVersion = new QLabel(centralwidget);
         label_FirmVersion->setObjectName("label_FirmVersion");
         label_FirmVersion->setGeometry(QRect(920, 40, 111, 21));
@@ -1116,7 +1329,7 @@ public:
         textEdit_RealTimeCommunicateData->raise();
         listWidget_Device->raise();
         pushButton_LockRealTimeWindows->raise();
-        layoutWidget1->raise();
+        layoutWidget->raise();
         pushButton_CleanRealTimeWindows->raise();
         label_8->raise();
         label_Version->raise();
@@ -1133,7 +1346,7 @@ public:
         checkBox_RefreshInterval->raise();
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 1031, 21));
+        menubar->setGeometry(QRect(0, 0, 1052, 21));
         menuDemo = new QMenu(menubar);
         menuDemo->setObjectName("menuDemo");
         MainWindow->setMenuBar(menubar);
@@ -1272,6 +1485,24 @@ public:
         label_OutputCurrent_QSlider_B->setText(QCoreApplication::translate("MainWindow", "\350\276\223\345\207\272\347\224\265\346\265\201B", nullptr));
         label_OutputCurrent_QSlider_A->setText(QCoreApplication::translate("MainWindow", "\350\276\223\345\207\272\347\224\265\346\265\201A", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_5), QCoreApplication::translate("MainWindow", "\347\263\273\347\273\237\350\260\203\350\257\225", nullptr));
+        checkBox_WobCHA->setText(QCoreApplication::translate("MainWindow", "CH1", nullptr));
+        label_DegaussCutoff->setText(QCoreApplication::translate("MainWindow", "\346\210\252\346\255\242\357\274\232", nullptr));
+        pushButton_DegaussStart->setText(QCoreApplication::translate("MainWindow", "\345\274\200\345\220\257", nullptr));
+        label_DegaussTotalDots->setText(QCoreApplication::translate("MainWindow", "\346\200\273\347\202\271\346\225\260\357\274\232", nullptr));
+        checkBox_DegaussCHB->setText(QCoreApplication::translate("MainWindow", "CH2", nullptr));
+        label_WobAmp->setText(QCoreApplication::translate("MainWindow", "\345\271\205\345\272\246\357\274\232", nullptr));
+        label_DegaussAmp->setText(QCoreApplication::translate("MainWindow", "\345\271\205\345\272\246\357\274\232", nullptr));
+        pushButtonWobClose->setText(QCoreApplication::translate("MainWindow", "\345\205\263\351\227\255", nullptr));
+        label_DegaussAtten->setText(QCoreApplication::translate("MainWindow", "\350\241\260\345\207\217\357\274\232", nullptr));
+        checkBox_DegaussCHA->setText(QCoreApplication::translate("MainWindow", "CH1", nullptr));
+        pushButton_DegaussAbort->setText(QCoreApplication::translate("MainWindow", "\347\273\210\346\255\242", nullptr));
+        label_DegaussPeriodDots->setText(QCoreApplication::translate("MainWindow", "\345\221\250\346\234\237\347\202\271\346\225\260\357\274\232", nullptr));
+        label_WobOffset->setText(QCoreApplication::translate("MainWindow", "\345\201\217\347\275\256\357\274\232", nullptr));
+        label_WobPeriod->setText(QCoreApplication::translate("MainWindow", "\345\221\250\346\234\237\357\274\232", nullptr));
+        pushButton_WobStart->setText(QCoreApplication::translate("MainWindow", "\345\274\200\345\220\257", nullptr));
+        checkBox_WobCHB->setText(QCoreApplication::translate("MainWindow", "CH2", nullptr));
+        label_DegaussPeriod->setText(QCoreApplication::translate("MainWindow", "\345\221\250\346\234\237\357\274\232", nullptr));
+        tabWidget->setTabText(tabWidget->indexOf(tab_6), QCoreApplication::translate("MainWindow", "Wobble_Degauss", nullptr));
         label_FirmVersion->setText(QCoreApplication::translate("MainWindow", "Firmware:", nullptr));
         label_DeviceInfo->setText(QCoreApplication::translate("MainWindow", "DeviceInfo:", nullptr));
         label_BoardCommunicateID->setText(QCoreApplication::translate("MainWindow", "\346\235\277\345\215\241ID:", nullptr));
