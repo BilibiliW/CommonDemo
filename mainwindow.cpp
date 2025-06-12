@@ -253,12 +253,12 @@ void MainWindow::on_pushButton_SerialConnect_clicked()
 
             ui->lineEdit_BoardCommunicateID->setDisabled(true);
             uint8_t boardID = ui->lineEdit_BoardCommunicateID->text().toUInt();
-            if(boardID < 10){
+            if(boardID < 9){
                 this->targetID = boardID;
             }
             else{
-                this->targetID = 9;
-                ui->lineEdit_BoardCommunicateID->setText("09");
+                this->targetID = 8;
+                ui->lineEdit_BoardCommunicateID->setText("08");
             }
 
             qDebug("try connect successful");

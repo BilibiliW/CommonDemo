@@ -21,7 +21,7 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-#define SOFTWARE_VERSION " v1.0.2"
+#define SOFTWARE_VERSION " v1.0.3"
 
 // QQueue<uint8_t> RecvQueue;
 typedef union{
