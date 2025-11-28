@@ -1,0 +1,14 @@
+debug/FlexibleQDoubleSpinBox.o
+debug/comm_net.o
+debug/comm_serialport.o
+debug/hardwareinterface.o
+debug/MyFlexibleQDoubleSpinBox.o
+debug/data_check.o
+debug/protocol.o
+debug/main.o
+debug/mainwindow.o
+debug/moc_FlexibleQDoubleSpinBox.o
+debug/moc_hardwareinterface.o
+debug/moc_MyFlexibleQDoubleSpinBox.o
+debug/moc_protocol.o
+debug/moc_mainwindow.o

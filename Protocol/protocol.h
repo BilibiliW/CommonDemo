@@ -126,7 +126,8 @@ signals:
     void BoardTempRead(A0_CMD_t*);
     void BoardID_Read(A0_CMD_t*);
 
-    void CoilCurrentCoefRead(A0_CMD_t*);
+    void CoilCurrentGetCoefRead(A0_CMD_t*);
+    void CoilCurrentSetCoefRead(A0_CMD_t*);
     void CoilVolCoefRead(A0_CMD_t*);
 
     void DialSwRead(A0_CMD_t*);

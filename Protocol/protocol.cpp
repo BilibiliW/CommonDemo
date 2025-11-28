@@ -140,9 +140,12 @@
          else if(frame_A0->mainCmdID == 0x03 && frame_A0->cmd_RW_Type == 0x54){
              switch(frame_A0->subCmdID){
              case 0x04:
-                 emit CoilCurrentCoefRead(frame_A0);
+                 emit CoilCurrentGetCoefRead(frame_A0);
                  break;
              case 0x05:
+                 emit CoilCurrentSetCoefRead(frame_A0);
+                 break;
+             case 0x06:
                  emit CoilVolCoefRead(frame_A0);
                  break;
              default:

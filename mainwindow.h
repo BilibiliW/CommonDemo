@@ -21,7 +21,7 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-#define SOFTWARE_VERSION " v1.0.3"
+#define SOFTWARE_VERSION " v1.0.4"
 
 // QQueue<uint8_t> RecvQueue;
 typedef union{
@@ -88,7 +88,8 @@ public slots:
     void UpdateBoardTempRead(A0_CMD_t*);
     void UpdateBoardID_Read(A0_CMD_t*);
 
-    void UpdateCoilCurrentCoefRead(A0_CMD_t*);
+    void UpdateCoilCurrentGetCoefRead(A0_CMD_t*);
+    void UpdateCoilCurrentSetCoefRead(A0_CMD_t*);
     void UpdateCoilVolCoefRead(A0_CMD_t*);
 
     void UpdateDialSwVol(A0_CMD_t*);
@@ -153,9 +154,9 @@ private slots:
 
     void on_pushButton_OutputCurrentSet_clicked();
 
-    void on_pushButton_CoilCurrentCoefSet_clicked();
+    void on_pushButton_CoilCurrentGetCoefWrite_clicked();
 
-    void on_pushButton_CoilCurrentCoefGet_clicked();
+    void on_pushButton_CoilCurrentGetCoefRead_clicked();
 
     void on_pushButton_CoilVolCoefSet_clicked();
 
@@ -214,6 +215,12 @@ private slots:
     void on_pushButton_DegaussStart_clicked();
 
     void on_pushButton_DegaussAbort_clicked();
+
+    void on_checkBox_BoardEnable_clicked();
+
+    void on_pushButton_CoilCurrentSetCoefWrite_clicked();
+
+    void on_pushButton_CoilCurrentSetCoefRead_clicked();
 
 private:
     Ui::MainWindow *ui;
