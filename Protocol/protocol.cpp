@@ -2,6 +2,7 @@
 #include "protocol.h"
 
  QQueue<uint8_t> RecvQueue;
+ // QQueue<uint8_t> SentQueue;
 // Protocol::Protocol(QWidget *parent)
 //     : QWidget{parent}
 // {
@@ -13,8 +14,7 @@
      // connect(this, SIGNAL(DialSwRead(A0_CMD_t*)), this, SLOT(UpdateAds8326Vol(A0_CMD_t*)));
  }
 
-
- void Protocol::SubThreadRun()
+ void Protocol::subRecvThreadRun()
  {
      while(1){
          if(!RecvQueue.isEmpty()){
@@ -79,6 +79,11 @@
          frame_A0->subCmdID    = frame_arr->at(6);
          frame_A0->data        = frame_arr->data() + 7;
 
+         if(frame_A0->cmd_RW_Type == 0xFF){
+             emit GetErrACK(frame_A0);
+             return -1;
+         }
+
          // QDateTime current_date_time =QDateTime::currentDateTime();
          // QString current_date =current_date_time.toString("hh:mm:ss.zzz");
          if(frame_A0->mainCmdID == 0x01  && (frame_A0->cmd_RW_Type == 0x54 || frame_A0->cmd_RW_Type == 0x50)){
@@ -93,7 +98,7 @@
                  emit DeviceInfoRead(frame_A0);
                  break;
              case 0x05:
-                 emit BoardStatusRead(frame_A0);
+                 // emit BoardStatusRead(frame_A0);
                  break;
              case 0x06:
                  emit BoardSelfCheckResult(frame_A0);
@@ -131,6 +136,9 @@
                  break;
              case 0x0A:
                  emit BoardID_Read(frame_A0);
+                 break;
+             case 0x0D:
+                 emit MultParamRead(frame_A0);
                  break;
              default:
                  free(frame_A0);

@@ -8,6 +8,7 @@ release/protocol.o
 release/main.o
 release/mainwindow.o
 release/moc_FlexibleQDoubleSpinBox.o
+release/moc_comm_serialport.o
 release/moc_hardwareinterface.o
 release/moc_MyFlexibleQDoubleSpinBox.o
 release/moc_protocol.o

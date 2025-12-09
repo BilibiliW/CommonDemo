@@ -21,7 +21,7 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-#define SOFTWARE_VERSION " v1.0.4"
+#define SOFTWARE_VERSION " v1.0.5"
 
 // QQueue<uint8_t> RecvQueue;
 typedef union{
@@ -29,8 +29,8 @@ typedef union{
     uint32_t data_uint;
     uint8_t data_arr[4];
 }data_convert_u;
-class MainWindow : public QMainWindow
 
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
@@ -71,7 +71,13 @@ public:
     void SetWobble(uint8_t sw);
     void SetDegauss(uint8_t sw);
 
+    void SendData(QByteArray);
+
+    void AutoRefreshMultParamRead(void);
+
+
 public slots:
+    void ErrorAckHandle(A0_CMD_t*);
     void UpdateHandShakeAck(A0_CMD_t*);
     void UpdateFirmwareVersion(A0_CMD_t*);
     void UpdateDeviceInfoRead(A0_CMD_t*);
@@ -87,6 +93,7 @@ public slots:
     void UpdateOutputCurrentRead(A0_CMD_t*);
     void UpdateBoardTempRead(A0_CMD_t*);
     void UpdateBoardID_Read(A0_CMD_t*);
+    void UpdateMultParam_Read(A0_CMD_t*);
 
     void UpdateCoilCurrentGetCoefRead(A0_CMD_t*);
     void UpdateCoilCurrentSetCoefRead(A0_CMD_t*);
@@ -96,6 +103,9 @@ public slots:
     void UpdateAds8326Vol(A0_CMD_t*);
 
 private slots:
+
+
+
     void CommTypeUpdate(QString);
 
     void on_Communication_currentChanged(int index);
@@ -195,6 +205,8 @@ private slots:
     void on_verticalSlider_ConstCurrent_valueChanged(int value);
 
     void UpdateSysClock();
+    void RefreshParam();
+
     void ExcitateCurrentCmdDelaySend();
     void CoilCurrentCmdDelaySend();
 
@@ -222,13 +234,23 @@ private slots:
 
     void on_pushButton_CoilCurrentSetCoefRead_clicked();
 
+    void on_checkBox_CalibrateModeEn_clicked();
+
+    void on_pushButton_ErrorClear_clicked();
+
+    void on_checkBox_RefreshInterval_clicked();
+
 private:
     Ui::MainWindow *ui;
     HardwareInterface hard_interface;
     Protocol* protocol;
-    QThread* subThread;
+
+    QThread* subRecvThread;
+    // QThread* subSendThread;
+
     QMap<QString, QTableWidget*> tableMap;
     QTimer* sysClockTimer;
+    QTimer* autoRefreshTimer;
     // QTimer* cmdDelayTimer;
     qint64 preSliderExcitateCurrentValueSetTime;
     qint64 preSliderCoilCurrentValueSetTime;

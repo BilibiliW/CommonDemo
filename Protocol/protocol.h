@@ -10,6 +10,7 @@
 #include "./Protocol/Check/data_check.h"
 
 extern  QQueue<uint8_t> RecvQueue;
+
 typedef struct{
     QString cmdName;
     QString cmdType;
@@ -107,7 +108,7 @@ public:
     int32_t ProtocolAnalyse(void);
 
 public slots:
-    void SubThreadRun();
+    void subRecvThreadRun();
 
 signals:
     void HandShakeAck(A0_CMD_t*);
@@ -125,6 +126,7 @@ signals:
     void OutputCurrentRead(A0_CMD_t*);
     void BoardTempRead(A0_CMD_t*);
     void BoardID_Read(A0_CMD_t*);
+    void MultParamRead(A0_CMD_t*);
 
     void CoilCurrentGetCoefRead(A0_CMD_t*);
     void CoilCurrentSetCoefRead(A0_CMD_t*);
@@ -133,6 +135,7 @@ signals:
     void DialSwRead(A0_CMD_t*);
     void Ads8326Read(A0_CMD_t*);
 
+    void GetErrACK(A0_CMD_t*);
 };
 
 #endif // PROTOCOL_H

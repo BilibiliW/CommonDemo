@@ -30,6 +30,9 @@ MainWindow::MainWindow(QWidget *parent)
     sysClockTimer->start(1000);
     UpdateSysClock();
 
+    autoRefreshTimer = new QTimer(this);
+    connect(this->autoRefreshTimer, &QTimer::timeout, this, &MainWindow::RefreshParam);
+
     ui->label_Version->setText(ui->label_Version->text() + SOFTWARE_VERSION);
     ui->radioButton_current_Close->setChecked(true);
     ui->comboBox_multi_sel->setCurrentText("ch_all");
@@ -59,17 +62,18 @@ MainWindow::MainWindow(QWidget *parent)
     ui->lineEdit_BoardCommunicateID->setValidator(new QRegularExpressionValidator(QRegularExpression("[0-9]+$")));
     ui->lineEdit_BoardCommunicateID->setText("00");
 
-    CommTypeUpdate(tab_text);
-
-    subThread =  new QThread;
+    subRecvThread =  new QThread;
+    // subSendThread =  new QThread;
     protocol = new Protocol;
+
+    CommTypeUpdate(tab_text);
 
     ui->lineEdit_ExcitateCurrent->hide();
     ui->lineEdit_OutputCurrentA->hide();
     ui->lineEdit_OutputCurrentB->hide();
-    ui->label_RefreshInterval->hide();
-    ui->lineEdit_RefreshInterval->hide();
-    ui->checkBox_RefreshInterval->hide();
+    // ui->label_RefreshInterval->hide();
+    // ui->lineEdit_RefreshInterval->hide();
+    // ui->checkBox_RefreshInterval->hide();
 
     preSliderExcitateCurrentValueSetTime = 0;
     preSliderCoilCurrentValueSetTime = 0;
@@ -82,7 +86,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->widget_MyQDoubleSpinBox_OutputCurrentA, SIGNAL(SignalFlexibleSpinBoxValueChange(double)), this, SLOT(flexibleQDoubleSpinBoxOutputCurrentA_ValueChange(double)));
     connect(ui->widget_MyQDoubleSpinBox_OutputCurrentB, SIGNAL(SignalFlexibleSpinBoxValueChange(double)), this, SLOT(flexibleQDoubleSpinBoxOutputCurrentB_ValueChange(double)));
 
-    connect(subThread, SIGNAL(started()), protocol, SLOT(SubThreadRun()), Qt::DirectConnection);
+    connect(subRecvThread, SIGNAL(started()), protocol, SLOT(subRecvThreadRun()), Qt::DirectConnection);
+    // connect(subSendThread, SIGNAL(started()), protocol, SLOT(subSendThreadRun()), Qt::DirectConnection);
+    // connect(subSendThread, SIGNAL(started()), this,     SLOT(subSendThreadRun()), Qt::DirectConnection);
 
     connect(protocol, SIGNAL(HandShakeAck(A0_CMD_t*)),              this, SLOT(UpdateHandShakeAck(A0_CMD_t*)));
     connect(protocol, SIGNAL(FirmwareVersion(A0_CMD_t*)),           this, SLOT(UpdateFirmwareVersion(A0_CMD_t*)));
@@ -99,6 +105,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(protocol, SIGNAL(OutputCurrentRead(A0_CMD_t*)),         this, SLOT(UpdateOutputCurrentRead(A0_CMD_t*)));
     connect(protocol, SIGNAL(BoardTempRead(A0_CMD_t*)),             this, SLOT(UpdateBoardTempRead(A0_CMD_t*)));
     connect(protocol, SIGNAL(BoardID_Read(A0_CMD_t*)),              this, SLOT(UpdateBoardID_Read(A0_CMD_t*)));
+    connect(protocol, SIGNAL(MultParamRead(A0_CMD_t*)),             this, SLOT(UpdateMultParam_Read(A0_CMD_t*)));
 
     connect(protocol, SIGNAL(CoilCurrentGetCoefRead(A0_CMD_t*)),    this, SLOT(UpdateCoilCurrentGetCoefRead(A0_CMD_t*)));
     connect(protocol, SIGNAL(CoilCurrentSetCoefRead(A0_CMD_t*)),    this, SLOT(UpdateCoilCurrentSetCoefRead(A0_CMD_t*)));
@@ -107,8 +114,17 @@ MainWindow::MainWindow(QWidget *parent)
     connect(protocol, SIGNAL(Ads8326Read(A0_CMD_t*)),               this, SLOT(UpdateAds8326Vol(A0_CMD_t*)));
     connect(protocol, SIGNAL(DialSwRead(A0_CMD_t*)),                this, SLOT(UpdateDialSwVol(A0_CMD_t*)));
 
-    protocol->moveToThread(subThread);
-    subThread->start();
+    connect(protocol, SIGNAL(GetErrACK(A0_CMD_t*)),                 this, SLOT(ErrorAckHandle(A0_CMD_t*)));
+
+
+
+    protocol->moveToThread(subRecvThread);
+    subRecvThread->start();
+
+    // this->moveToThread(subSendThread);
+    // subSendThread->start();
+
+
 }
 
 MainWindow::~MainWindow()
@@ -120,6 +136,11 @@ void MainWindow::UpdateSysClock()
     QDateTime dateTime = QDateTime::currentDateTime();
     this->ui->label_SystemTime->setText(dateTime.toString("yyyy/MM/dd  HH:mm:ss"));  // 显示为时:分:秒
 
+}
+
+void MainWindow::RefreshParam()
+{
+    AutoRefreshMultParamRead();
 }
 
 void MainWindow::ExcitateCurrentCmdDelaySend()
@@ -152,8 +173,10 @@ void MainWindow::CommTypeUpdate(QString tabName)
     if(QString::compare(tabName, "Serial") == 0){
 
         if(serial_comm == NULL){
-            serial_comm = new Comm_SerialPort();
+            serial_comm = new Comm_SerialPort(this);
             connect(serial_comm->serial_port, &QSerialPort::readyRead, this, &MainWindow::RecvData);
+
+
         }
         if(serial_comm == NULL){
             qDebug("new Comm_SerialPort ERR!!!");
@@ -204,11 +227,7 @@ void MainWindow::CommTypeUpdate(QString tabName)
     else if(QString::compare(tabName, "Net") == 0){
 
     }
-
-
 }
-
-
 
 void MainWindow::on_Communication_currentChanged(int index)
 {
@@ -217,9 +236,6 @@ void MainWindow::on_Communication_currentChanged(int index)
 
     if(QString::compare(hard_interface.comm_type, tab_text) != 0){
         hard_interface.comm_type = tab_text;
-
-
-
     }
 
 }
@@ -300,6 +316,8 @@ void MainWindow::on_pushButton_SerialConnect_clicked()
         qDebug("CurrentConnected\nDisconnect now");
     }
 }
+
+
 // int32_t MainWindow::ProtocolAnalyse(){
 //     int len = RecvQueue.size();
 //     int index = 0;
@@ -495,9 +513,9 @@ void MainWindow::SetExcitationCurrent(float excitate_current)
     frame_arr.append(char(0x00));
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -559,9 +577,9 @@ void MainWindow::SetCoilCurrent(void)
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -651,9 +669,9 @@ void MainWindow::SetWobble(uint8_t sw)
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -786,10 +804,17 @@ void MainWindow::SetDegauss(uint8_t sw)
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
+}
+
+void MainWindow::SendData(QByteArray sendFrame)
+{
+    QThread::msleep(100);
+    serial_comm->serial_port->write(sendFrame);
+    UpdateTextLine(sendFrame, false);
 }
 
 /***********************************************************************************
@@ -1255,6 +1280,23 @@ void MainWindow::on_listWidget_Device_doubleClicked(const QModelIndex &index)
     protocolTabWidget->show();
 }
 
+void MainWindow::ErrorAckHandle(A0_CMD_t* cmd)
+{
+    if(realtime_show_lock == true)
+        return;
+    uint8_t data = cmd->data[0];
+    QString str = "Error Code:" + QString::number(static_cast<unsigned int>(data));
+
+    QDateTime current_date_time =QDateTime::currentDateTime();
+    QString current_date =current_date_time.toString("hh:mm:ss.zzz");
+
+    QTextCursor cursor=ui->textEdit_RealTimeCommunicateData->textCursor();
+    cursor.movePosition(QTextCursor::End);
+    ui->textEdit_RealTimeCommunicateData->setTextCursor(cursor);
+    ui->textEdit_RealTimeCommunicateData->insertPlainText(current_date + str + '\n');
+    free(cmd);
+}
+
 void MainWindow::UpdateHandShakeAck(A0_CMD_t* cmd)
 {
 
@@ -1288,13 +1330,42 @@ void MainWindow::UpdateDeviceInfoRead(A0_CMD_t* cmd)
 
 void MainWindow::UpdateBoardStatusRead(A0_CMD_t* cmd)
 {
-    char dataStatus    = cmd->data[0];
-    char dataErrorCode = cmd->data[1];
+    char workMode    = cmd->data[0];
+    char errCode = cmd->data[1];
 
     this->ui->lineEdit_BoardState->clear();
     this->ui->lineEdit_BoardErrCode->clear();
-    this->ui->lineEdit_BoardState->setText(QString::number(dataStatus, 10));
-    this->ui->lineEdit_BoardErrCode->setText(QString::number(dataErrorCode, 10));
+
+    QString strWorkMode;
+    switch(workMode){
+    case 0:
+        strWorkMode = "Normal";
+        break;
+    case 1:
+        strWorkMode = "Wobble";
+        break;
+    case 2:
+        strWorkMode = "Degauss";
+        break;
+    default:
+        free(cmd);
+        return;
+    }
+    this->ui->lineEdit_BoardState->setText(strWorkMode);
+
+    QString strErrCode;
+    uint8_t index;
+    for (index = 0; index < 16; ++index) {
+        if (errCode & (1 << index)) {
+            break;
+        }
+    }
+    if(index >= 16){
+        strErrCode = "NoError";
+    }
+    else{
+        strErrCode = this->protocol->err_code.value(static_cast<sys_err_code_e>(index + 1));
+    }
 
     free(cmd);
 }
@@ -1456,6 +1527,73 @@ void MainWindow::UpdateBoardID_Read(A0_CMD_t* cmd)
     free(cmd);
 }
 
+void MainWindow::UpdateMultParam_Read(A0_CMD_t* cmd)
+{
+    float coilCurrentCHA;
+    float coilCurrentCHB;
+    float coilVoltageCHA;
+    float coilVoltageCHB;
+    float temperature;
+    uint16_t errCode;
+    uint8_t workMode;
+
+    memcpy(&coilCurrentCHA, cmd->data,      sizeof(float));
+    memcpy(&coilCurrentCHB, cmd->data + 4,  sizeof(float));
+    memcpy(&coilVoltageCHA, cmd->data + 8,  sizeof(float));
+    memcpy(&coilVoltageCHB, cmd->data + 12, sizeof(float));
+    memcpy(&temperature,    cmd->data + 16, sizeof(float));
+    memcpy(&errCode,        cmd->data + 20, sizeof(uint16_t));
+    memcpy(&workMode,       cmd->data + 22, sizeof(uint8_t));
+
+    QString strErrCode;
+    uint8_t index;
+    for (index = 0; index < 16; ++index) {
+        if (errCode & (1 << index)) {
+            break;
+        }
+    }
+    if(index >= 16){
+        strErrCode = "NoError";
+    }
+    else{
+        strErrCode = this->protocol->err_code.value(static_cast<sys_err_code_e>(index + 1));
+    }
+
+
+    this->ui->lineEdit_CoilCurrentA->clear();
+    this->ui->lineEdit_CoilCurrentB->clear();
+    this->ui->lineEdit_CoilVolA->clear();
+    this->ui->lineEdit_CoilVolB->clear();
+    this->ui->lineEdit_BoardTemp->clear();
+    this->ui->lineEdit_BoardErrCode->clear();
+    this->ui->lineEdit_CoilCurrentA->setText(QString::number(coilCurrentCHA, 'f', 6));
+    this->ui->lineEdit_CoilCurrentB->setText(QString::number(coilCurrentCHB, 'f', 6));
+    this->ui->lineEdit_CoilVolA->setText(QString::number(coilVoltageCHA, 'f', 6));
+    this->ui->lineEdit_CoilVolB->setText(QString::number(coilVoltageCHB, 'f', 6));
+    this->ui->lineEdit_BoardTemp->setText(QString::number(temperature, 'f', 6));
+    this->ui->lineEdit_BoardErrCode->setText(strErrCode);
+
+    QString strWorkMode;
+    switch(workMode){
+        case 0:
+            strWorkMode = "Normal";
+            break;
+        case 1:
+            strWorkMode = "Wobble";
+            break;
+        case 2:
+            strWorkMode = "Degauss";
+            break;
+        default:
+            free(cmd);
+            return;
+    }
+    this->ui->lineEdit_BoardState->setText(strWorkMode);
+    free(cmd);
+}
+
+
+
 void MainWindow::UpdateCoilCurrentGetCoefRead(A0_CMD_t* cmd)
 {
     float coilkCHA;
@@ -1473,9 +1611,9 @@ void MainWindow::UpdateCoilCurrentGetCoefRead(A0_CMD_t* cmd)
     this->ui->lineEdit_CoilCurrentGetCoefkB->clear();
     this->ui->lineEdit_CoilCurrentGetCoefbB->clear();
     this->ui->lineEdit_CoilCurrentGetCoefkA->setText(QString::number(coilkCHA, 'f', 6));
-    this->ui->lineEdit_CoilCurrentGetCoefkB->setText(QString::number(coilbCHA, 'f', 6));
-    this->ui->lineEdit_CoilCurrentGetCoefkA->setText(QString::number(coilkCHB, 'f', 6));
-    this->ui->lineEdit_CoilCurrentGetCoefkB->setText(QString::number(coilbCHB, 'f', 6));
+    this->ui->lineEdit_CoilCurrentGetCoefbA->setText(QString::number(coilbCHA, 'f', 6));
+    this->ui->lineEdit_CoilCurrentGetCoefkB->setText(QString::number(coilkCHB, 'f', 6));
+    this->ui->lineEdit_CoilCurrentGetCoefbB->setText(QString::number(coilbCHB, 'f', 6));
     free(cmd);
 }
 
@@ -1496,9 +1634,9 @@ void MainWindow::UpdateCoilCurrentSetCoefRead(A0_CMD_t* cmd)
     this->ui->lineEdit_CoilCurrentSetCoefkB->clear();
     this->ui->lineEdit_CoilCurrentSetCoefbB->clear();
     this->ui->lineEdit_CoilCurrentSetCoefkA->setText(QString::number(coilkCHA, 'f', 6));
-    this->ui->lineEdit_CoilCurrentSetCoefkB->setText(QString::number(coilbCHA, 'f', 6));
-    this->ui->lineEdit_CoilCurrentSetCoefkA->setText(QString::number(coilkCHB, 'f', 6));
-    this->ui->lineEdit_CoilCurrentSetCoefkB->setText(QString::number(coilbCHB, 'f', 6));
+    this->ui->lineEdit_CoilCurrentSetCoefbA->setText(QString::number(coilbCHA, 'f', 6));
+    this->ui->lineEdit_CoilCurrentSetCoefkB->setText(QString::number(coilkCHB, 'f', 6));
+    this->ui->lineEdit_CoilCurrentSetCoefbB->setText(QString::number(coilbCHB, 'f', 6));
     free(cmd);
 }
 
@@ -1670,9 +1808,9 @@ void MainWindow::on_pushButton_dial_sw_get_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -1728,9 +1866,9 @@ void MainWindow::on_pushButton_DAC8571_Set_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -1780,9 +1918,9 @@ void MainWindow::on_pushButton_MAX5719_Set_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -1839,9 +1977,9 @@ void MainWindow::on_pushButton_current_Set_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -1878,9 +2016,9 @@ void MainWindow::on_pushButton_multi_Set_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 /****************************************************************************************
@@ -1926,9 +2064,9 @@ void MainWindow::on_pushButton_CoilCurrentGet_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -1962,9 +2100,9 @@ void MainWindow::on_pushButton_CoilVolGet_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -1998,9 +2136,9 @@ void MainWindow::on_pushButton_CoilResistGet_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -2049,9 +2187,9 @@ void MainWindow::on_pushButton_CoilResistSet_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -2084,9 +2222,9 @@ void MainWindow::on_pushButton_PowerVolGet_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -2120,9 +2258,9 @@ void MainWindow::on_pushButton_InputVolGet_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -2170,9 +2308,9 @@ void MainWindow::on_pushButton_InputVolSet_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -2205,9 +2343,9 @@ void MainWindow::on_pushButton_InputCurrentGet_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -2245,9 +2383,9 @@ void MainWindow::on_pushButton_OutputCurrentGet_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -2280,9 +2418,9 @@ void MainWindow::on_pushButton_BoardTempGet_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -2315,9 +2453,9 @@ void MainWindow::on_pushButton_BoardID_Get_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -2381,9 +2519,9 @@ void MainWindow::on_pushButton_CoilCurrentGetCoefWrite_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -2399,10 +2537,10 @@ void MainWindow::on_pushButton_CoilCurrentSetCoefWrite_clicked()
     data_convert_u coilkCHB;
     data_convert_u coilbCHB;
 
-    QString coilkCHA_Str = ui->lineEdit_CoilCurrentGetCoefkA->text();
-    QString coilbCHA_Str = ui->lineEdit_CoilCurrentGetCoefbA->text();
-    QString coilkCHB_Str = ui->lineEdit_CoilCurrentGetCoefkB->text();
-    QString coilbCHB_Str = ui->lineEdit_CoilCurrentGetCoefbB->text();
+    QString coilkCHA_Str = ui->lineEdit_CoilCurrentSetCoefkA->text();
+    QString coilbCHA_Str = ui->lineEdit_CoilCurrentSetCoefbA->text();
+    QString coilkCHB_Str = ui->lineEdit_CoilCurrentSetCoefkB->text();
+    QString coilbCHB_Str = ui->lineEdit_CoilCurrentSetCoefbB->text();
 
     coilkCHA.data_float = coilkCHA_Str.toFloat();
     coilbCHA.data_float = coilbCHA_Str.toFloat();
@@ -2447,9 +2585,9 @@ void MainWindow::on_pushButton_CoilCurrentSetCoefWrite_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -2482,9 +2620,9 @@ void MainWindow::on_pushButton_CoilCurrentGetCoefRead_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -2517,9 +2655,9 @@ void MainWindow::on_pushButton_CoilCurrentSetCoefRead_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -2583,9 +2721,9 @@ void MainWindow::on_pushButton_CoilVolCoefSet_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -2619,9 +2757,9 @@ void MainWindow::on_pushButton_CoilVolCoefGet_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -2654,9 +2792,9 @@ void MainWindow::on_pushButton_FirmVersion_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -2689,9 +2827,9 @@ void MainWindow::on_pushButton_DeviceInfo_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -2724,46 +2862,11 @@ void MainWindow::on_pushButton_RebootSet_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 
-}
-
-void MainWindow::on_pushButton_SelfCheck_clicked()
-{
-    A0_CMD_t* frame_A0 = (A0_CMD_t*)malloc(sizeof(A0_CMD_t));
-    if(frame_A0 == NULL){
-        return;
-    }
-
-    frame_A0->head        = 0xA0;
-    frame_A0->len         = 7 + 0;
-    frame_A0->originAddr  = 0x01;
-    frame_A0->targetAddr  = this->targetID;
-    frame_A0->cmd_RW_Type = 0x53;
-    frame_A0->mainCmdID   = 0x01;
-    frame_A0->subCmdID    = 0x06;
-
-    QByteArray frame_arr;
-
-    frame_arr.append(frame_A0->head);
-    frame_arr.append(frame_A0->len);
-    frame_arr.append(frame_A0->originAddr);
-    frame_arr.append(frame_A0->targetAddr);
-    frame_arr.append(frame_A0->cmd_RW_Type);
-    frame_arr.append(frame_A0->mainCmdID);
-    frame_arr.append(frame_A0->subCmdID);
-    frame_arr.append(char(0x00));
-    frame_arr.append(char(0x00));
-
-    this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
-
-    serial_comm->serial_port->write(frame_arr);
-
-    UpdateTextLine(frame_arr, false);
-    free(frame_A0);
 }
 
 void MainWindow::on_pushButton_ParaSaveSet_clicked()
@@ -2795,9 +2898,9 @@ void MainWindow::on_pushButton_ParaSaveSet_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -2831,9 +2934,9 @@ void MainWindow::on_pushButton_ParaReadGet_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -2867,9 +2970,124 @@ void MainWindow::on_pushButton_ParaRestoreSet_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
+    free(frame_A0);
+}
+
+void MainWindow::on_pushButton_SelfCheck_clicked()
+{
+    A0_CMD_t* frame_A0 = (A0_CMD_t*)malloc(sizeof(A0_CMD_t));
+    if(frame_A0 == NULL){
+        return;
+    }
+
+    frame_A0->head        = 0xA0;
+    frame_A0->len         = 7 + 0;
+    frame_A0->originAddr  = 0x01;
+    frame_A0->targetAddr  = this->targetID;
+    frame_A0->cmd_RW_Type = 0x53;
+    frame_A0->mainCmdID   = 0x01;
+    frame_A0->subCmdID    = 0x06;
+
+    QByteArray frame_arr;
+
+    frame_arr.append(frame_A0->head);
+    frame_arr.append(frame_A0->len);
+    frame_arr.append(frame_A0->originAddr);
+    frame_arr.append(frame_A0->targetAddr);
+    frame_arr.append(frame_A0->cmd_RW_Type);
+    frame_arr.append(frame_A0->mainCmdID);
+    frame_arr.append(frame_A0->subCmdID);
+    frame_arr.append(char(0x00));
+    frame_arr.append(char(0x00));
+
+    this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
+
+    SendData(frame_arr);
+
+    //UpdateTextLine(frame_arr, false);
+    free(frame_A0);
+}
+
+void MainWindow::on_pushButton_ErrorClear_clicked()
+{
+    A0_CMD_t* frame_A0 = (A0_CMD_t*)malloc(sizeof(A0_CMD_t));
+    if(frame_A0 == NULL){
+        return;
+    }
+
+    frame_A0->head        = 0xA0;
+    frame_A0->len         = 7 + 0;
+    frame_A0->originAddr  = 0x01;
+    frame_A0->targetAddr  = this->targetID;
+    frame_A0->cmd_RW_Type = 0x53;
+    frame_A0->mainCmdID   = 0x01;
+    frame_A0->subCmdID    = 0x05;
+
+    QByteArray frame_arr;
+
+    frame_arr.append(frame_A0->head);
+    frame_arr.append(frame_A0->len);
+    frame_arr.append(frame_A0->originAddr);
+    frame_arr.append(frame_A0->targetAddr);
+    frame_arr.append(frame_A0->cmd_RW_Type);
+    frame_arr.append(frame_A0->mainCmdID);
+    frame_arr.append(frame_A0->subCmdID);
+    frame_arr.append(char(0x00));
+    frame_arr.append(char(0x00));
+
+    this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
+
+    SendData(frame_arr);
+
+    //UpdateTextLine(frame_arr, false);
+    free(frame_A0);
+}
+
+
+void MainWindow::on_checkBox_CalibrateModeEn_clicked()
+{
+    A0_CMD_t* frame_A0 = (A0_CMD_t*)malloc(sizeof(A0_CMD_t));
+    if(frame_A0 == NULL){
+        return;
+    }
+
+    data_convert_u dataCHA;
+    if(ui->checkBox_BoardEnable->checkState() == Qt::Checked){
+        dataCHA.data_arr[0] = 0x01;
+    }
+    else{
+        dataCHA.data_arr[0] = 0x00;
+    }
+
+    frame_A0->head        = 0xA0;
+    frame_A0->len         = 7 + 1;
+    frame_A0->originAddr  = 0x01;
+    frame_A0->targetAddr  = this->targetID;
+    frame_A0->cmd_RW_Type = 0x53;
+    frame_A0->mainCmdID   = 0x03;
+    frame_A0->subCmdID    = 0x09;
+
+    QByteArray frame_arr;
+
+    frame_arr.append(frame_A0->head);
+    frame_arr.append(frame_A0->len);
+    frame_arr.append(frame_A0->originAddr);
+    frame_arr.append(frame_A0->targetAddr);
+    frame_arr.append(frame_A0->cmd_RW_Type);
+    frame_arr.append(frame_A0->mainCmdID);
+    frame_arr.append(frame_A0->subCmdID);
+    frame_arr.append(dataCHA.data_arr[0]);
+    frame_arr.append(char(0x00));
+    frame_arr.append(char(0x00));
+
+    this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
+
+    SendData(frame_arr);
+
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -2931,9 +3149,9 @@ void MainWindow::on_pushButton__PowerCtrlHexSet_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -2994,9 +3212,9 @@ void MainWindow::on_pushButton_CoilCurrentHexSet_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
@@ -3204,15 +3422,61 @@ void MainWindow::on_checkBox_BoardEnable_clicked()
 
     this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
 
-    serial_comm->serial_port->write(frame_arr);
+    SendData(frame_arr);
 
-    UpdateTextLine(frame_arr, false);
+    //UpdateTextLine(frame_arr, false);
     free(frame_A0);
 }
 
+void MainWindow::AutoRefreshMultParamRead()
+{
+    A0_CMD_t* frame_A0 = (A0_CMD_t*)malloc(sizeof(A0_CMD_t));
+    if(frame_A0 == NULL){
+        return;
+    }
+
+    frame_A0->head        = 0xA0;
+    frame_A0->len         = 7 + 0;
+    frame_A0->originAddr  = 0x01;
+    frame_A0->targetAddr  = this->targetID;
+    frame_A0->cmd_RW_Type = 0x51;
+    frame_A0->mainCmdID   = 0x02;
+    frame_A0->subCmdID    = 0x0D;
+
+    QByteArray frame_arr;
+
+    frame_arr.append(frame_A0->head);
+    frame_arr.append(frame_A0->len);
+    frame_arr.append(frame_A0->originAddr);
+    frame_arr.append(frame_A0->targetAddr);
+    frame_arr.append(frame_A0->cmd_RW_Type);
+    frame_arr.append(frame_A0->mainCmdID);
+    frame_arr.append(frame_A0->subCmdID);
+    frame_arr.append(char(0x00));
+    frame_arr.append(char(0x00));
+
+    this->check.Crc16_Rtu_Create((unsigned char*)frame_arr.data(), frame_A0->len + 2, 0);
+
+    SendData(frame_arr);
+
+    //UpdateTextLine(frame_arr, false);
+    free(frame_A0);
+}
+
+void MainWindow::on_checkBox_RefreshInterval_clicked()
+{
+    uint32_t refreshTimeMs = ui->lineEdit_RefreshInterval->text().toUInt();
+    if(refreshTimeMs < 200){
+        refreshTimeMs = 200;
+    }
+
+    if(ui->checkBox_RefreshInterval->checkState() == Qt::Checked){
+        autoRefreshTimer->start(refreshTimeMs);
+    }
+    else{
+        autoRefreshTimer->stop();
+    }
 
 
-
-
-
+}
 

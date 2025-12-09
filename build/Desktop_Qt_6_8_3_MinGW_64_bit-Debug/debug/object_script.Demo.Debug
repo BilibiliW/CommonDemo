@@ -8,6 +8,7 @@ debug/protocol.o
 debug/main.o
 debug/mainwindow.o
 debug/moc_FlexibleQDoubleSpinBox.o
+debug/moc_comm_serialport.o
 debug/moc_hardwareinterface.o
 debug/moc_MyFlexibleQDoubleSpinBox.o
 debug/moc_protocol.o
