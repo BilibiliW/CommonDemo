@@ -10,13 +10,17 @@
 #include <QLineEdit>
 #include <QMouseEvent>
 #include <QDebug>
+
+#define COILI_UPLIMIT     5
+#define COILI_DOWNLIMIT   -5
+
 class MyFlexibleQDoubleSpinBox : public QDoubleSpinBox
 {
     Q_OBJECT
 public:
     MyFlexibleQDoubleSpinBox(QWidget *parent = nullptr) : QDoubleSpinBox(parent){
         setLocale(QLocale::English);
-        setRange(-3.000000, 3.000000);
+        setRange(COILI_DOWNLIMIT, COILI_UPLIMIT);
         setDecimals(6);
         setSingleStep(1);
         setValue(0.000000);

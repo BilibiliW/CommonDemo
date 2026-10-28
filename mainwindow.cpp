@@ -45,14 +45,14 @@ MainWindow::MainWindow(QWidget *parent)
     qDebug()<<tab_text;
     hard_interface.comm_type = tab_text;
 
-    ui->verticalSlider_ConstCurrent->setMinimum(-3*QSLIDER_VALUE_CONVERT);
-    ui->verticalSlider_ConstCurrent->setMaximum(3*QSLIDER_VALUE_CONVERT);
+    ui->verticalSlider_ConstCurrent->setMinimum(COILI_DOWNLIMIT*QSLIDER_VALUE_CONVERT);
+    ui->verticalSlider_ConstCurrent->setMaximum(COILI_UPLIMIT*QSLIDER_VALUE_CONVERT);
     ui->verticalSlider_ConstCurrent->setValue(0*QSLIDER_VALUE_CONVERT);
-    ui->verticalSlider_OutputCurrentA->setMinimum(-3*QSLIDER_VALUE_CONVERT);
-    ui->verticalSlider_OutputCurrentA->setMaximum(3*QSLIDER_VALUE_CONVERT);
+    ui->verticalSlider_OutputCurrentA->setMinimum(COILI_DOWNLIMIT*QSLIDER_VALUE_CONVERT);
+    ui->verticalSlider_OutputCurrentA->setMaximum(COILI_UPLIMIT*QSLIDER_VALUE_CONVERT);
     ui->verticalSlider_OutputCurrentA->setValue(0*QSLIDER_VALUE_CONVERT);
-    ui->verticalSlider_OutputCurrentB->setMinimum(-3*QSLIDER_VALUE_CONVERT);
-    ui->verticalSlider_OutputCurrentB->setMaximum(3*QSLIDER_VALUE_CONVERT);
+    ui->verticalSlider_OutputCurrentB->setMinimum(COILI_DOWNLIMIT*QSLIDER_VALUE_CONVERT);
+    ui->verticalSlider_OutputCurrentB->setMaximum(COILI_UPLIMIT*QSLIDER_VALUE_CONVERT);
     ui->verticalSlider_OutputCurrentB->setValue(0*QSLIDER_VALUE_CONVERT);
 
     ui->lineEdit_PowerCtrlHexCH1->setValidator(new QRegularExpressionValidator(QRegularExpression("[A-F0-9]+$")));
@@ -175,8 +175,6 @@ void MainWindow::CommTypeUpdate(QString tabName)
         if(serial_comm == NULL){
             serial_comm = new Comm_SerialPort(this);
             connect(serial_comm->serial_port, &QSerialPort::readyRead, this, &MainWindow::RecvData);
-
-
         }
         if(serial_comm == NULL){
             qDebug("new Comm_SerialPort ERR!!!");
@@ -480,11 +478,11 @@ void MainWindow::SetExcitationCurrent(float excitate_current)
 
     current.data_float       = excitate_current;
 
-    if(current.data_float > 3){
-        current.data_float = 3;
+    if(current.data_float > COILI_UPLIMIT){
+        current.data_float = COILI_UPLIMIT;
     }
-    else if(current.data_float < -3){
-        current.data_float = -3;
+    else if(current.data_float < -COILI_DOWNLIMIT){
+        current.data_float = -COILI_DOWNLIMIT;
     }
 
     frame_A0->head        = 0xA0;
@@ -533,18 +531,18 @@ void MainWindow::SetCoilCurrent(void)
     dataCHA.data_float       = valueCHA/QSLIDER_VALUE_CONVERT;
     dataCHB.data_float       = valueCHB/QSLIDER_VALUE_CONVERT;
 
-    if(dataCHA.data_float > 3){
-        dataCHA.data_float = 3;
+    if(dataCHA.data_float > COILI_UPLIMIT){
+        dataCHA.data_float = COILI_UPLIMIT;
     }
-    else if(dataCHA.data_float < -3){
-        dataCHA.data_float = -3;
+    else if(dataCHA.data_float < COILI_DOWNLIMIT){
+        dataCHA.data_float = COILI_DOWNLIMIT;
     }
 
-    if(dataCHB.data_float > 3){
-        dataCHB.data_float = 3;
+    if(dataCHB.data_float > COILI_UPLIMIT){
+        dataCHB.data_float = COILI_UPLIMIT;
     }
-    else if(dataCHB.data_float < -3){
-        dataCHB.data_float = -3;
+    else if(dataCHB.data_float < COILI_DOWNLIMIT){
+        dataCHB.data_float = COILI_DOWNLIMIT;
     }
 
     frame_A0->head        = 0xA0;
@@ -3055,7 +3053,7 @@ void MainWindow::on_checkBox_CalibrateModeEn_clicked()
     }
 
     data_convert_u dataCHA;
-    if(ui->checkBox_BoardEnable->checkState() == Qt::Checked){
+    if(ui->checkBox_CalibrateModeEn->checkState() == Qt::Checked){
         dataCHA.data_arr[0] = 0x01;
     }
     else{
